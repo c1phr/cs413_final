@@ -44,6 +44,7 @@ class TowerGrid extends Sprite{
 		
 		// Populate the tower grid()
 		populateGrid();
+		this.towerTouch(0,0);
 		
 		this.addEventListener(TouchEvent.TOUCH, onTouch);
 	}
@@ -67,26 +68,26 @@ class TowerGrid extends Sprite{
 			tower.baseImage.color = 0xFFFFFF;
 				
 		// Hacky for now, but these are start / end points (for now)
-		if(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1){
-			var a_Traverse = pathFind(0,0,numWidth-1,numHeight-1);
-			
-			if(a_Traverse != null){
-				// Debug show path by color...
-				for(tower in a_Traverse)
-					tower.baseImage.color = 0x00FF00;
+		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){
+			if(!tower.isActive()){
+				tower.setTexture(T_ACTIVE_BLOCK);
+				tower.setActive();
 			} else {
-				trace("No path.");
+				tower.setTexture(T_BLOCK);
+				tower.setActive(false);
 			}
-			return;
 		}
 		
-		if(!tower.isActive()){
-			tower.setTexture(T_ACTIVE_BLOCK);
-			tower.setActive();
+		var a_Traverse = pathFind(0,0,numWidth-1,numHeight-1);
+			
+		if(a_Traverse != null){
+			for(tower in a_Traverse){
+				tower.baseImage.color = 0x00FF00;
+			}
 		} else {
-			tower.setTexture(T_BLOCK);
-			tower.setActive(false);
+			// trace("No path.");
 		}
+			
 	}
 	
 	public function validLocation(x:Int,y:Int):Bool{
@@ -148,14 +149,20 @@ class TowerGrid extends Sprite{
 		}
 	}
 	
+	
+	var prevX = -1;
+	var prevY = -1;
 	public function onTouch( event:TouchEvent ){
 		var touch:Touch = event.touches[0];
-		if(touch.phase == "ended"){
+		if(touch.phase == "began" || touch.phase == "moved" || touch.phase == "ended"){
 			var towerX = Math.floor((touch.globalX - this.x)/tileSize);
 			var towerY = Math.floor((touch.globalY - this.y)/tileSize);
 			
-			if(validLocation(towerX,towerY))
+			if(!(towerX == prevX && towerY == prevY && touch.phase != "began") && validLocation(towerX,towerY)){
+				prevX = towerX;
+				prevY = towerY;
 				towerTouch(towerX, towerY);
+			}
 		}
 	}
 	
