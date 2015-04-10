@@ -29,7 +29,9 @@ class Root extends Sprite {
 	
 	function populateAssetManager(){
 		assets = new AssetManager();
-		//assets.enqueue("dickbutt.png");
+		assets.enqueue("assets/block.png");
+		assets.enqueue("assets/block_active.png");
+		
 
 		assets.loadQueue(function onProgress(ratio:Float) {
 			if (ratio == 1) {

@@ -5,17 +5,22 @@ import starling.events.EnterFrameEvent;
 import starling.events.KeyboardEvent;
 import starling.events.TouchEvent;
 import starling.events.Event;
+import starling.display.Sprite;
 import flash.system.System;
 
 import com.defense.haxe.Root;
+import com.defense.haxe.tower.TowerGrid;
 
-class GameDriver extends starling.display.Sprite {
+class GameDriver extends Sprite {
 	/* The 'perfect' update time, used to modify velocities in case
 	   the game is not quite running at frameRate */
-	static var perfectDeltaTime : Float = 1/60;
+	public static var perfectDeltaTime : Float = 1/60;
 	
-	// Whether or not the game is running (paused)
-	var running = true;
+	/* Whether or not the game is running (paused) */
+	private var running:Bool = true;
+	
+	/* Keep track of game assets */
+	private var towerGrid:TowerGrid;
 	
 	// Simple constructor
     public function new() {
@@ -25,18 +30,22 @@ class GameDriver extends starling.display.Sprite {
 	
 	// Called when added to the stage, ready to start everything
 	public function start(){
-		
+		startGame();
 	}
 	
 	/** Do stuff with the menu screen */
 	private function startScreen(){
-		startGame();
 	}
 	
 	/** Function to be called when we are ready to start the game */
 	private function startGame() {
-		this.addEventListener(EnterFrameEvent.ENTER_FRAME, onEnterFrame);	
+		this.addEventListener(EnterFrameEvent.ENTER_FRAME, onEnterFrame);
 		Root.globalStage.addEventListener(TouchEvent.TOUCH, onTouch);
+		
+		towerGrid = new TowerGrid(32,2,10,15);
+		towerGrid.x = this.stage.stageWidth/2 - towerGrid.width/2;
+		towerGrid.y = this.stage.stageHeight/2 - towerGrid.height/2;
+		addChild(towerGrid);
 	}
 	
 	/** The game is over! */
