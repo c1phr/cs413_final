@@ -35,6 +35,7 @@ class Root extends Sprite {
 
 		assets.loadQueue(function onProgress(ratio:Float) {
 			if (ratio == 1) {
+				// Loading Screen Management here...
 				this.removeChildren(0,-1,true);
 				this.addChild( new GameDriver() );
 			}

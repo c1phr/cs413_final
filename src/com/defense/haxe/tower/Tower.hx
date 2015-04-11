@@ -18,7 +18,7 @@ class Tower extends Sprite{
 	public var prevTower:Tower;
 	public var distance:Int;
 	
-	public function new(texture:Texture, size:Int, gridX, gridY, gridIndex){
+	public function new(texture:Texture, size:Int, gridX:Int, gridY:Int, gridIndex:Int){
 		super();
 		
 		this.gridX = gridX;
@@ -26,10 +26,14 @@ class Tower extends Sprite{
 		this.gridIndex = gridIndex;
 		
 		baseImage = new Image(texture);
-		this.width = this.height = baseImage.width = baseImage.height = size;
-		baseImage.pivotX = size/2;
-		baseImage.pivotY = size/2;
+		baseImage.width = baseImage.height = size;
 		addChild(baseImage);
+		
+		this.pivotX = this.pivotY = size / 2;
+		
+		baseImage.pivotX = baseImage.pivotY = texture.width / 2; // TIL pivots are about the texture's size, not the image's
+		baseImage.x = baseImage.y = size / 2;
+		
 	}
 	
 	public function getGridX():Int		{ return gridX; }
@@ -46,6 +50,7 @@ class Tower extends Sprite{
 	
 	public function setTexture(texture:Texture = null){
 		baseImage.texture = texture;
+		baseImage.rotation += Math.PI/2;
 	}
 	
 	public function click(){		

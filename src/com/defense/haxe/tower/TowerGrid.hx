@@ -109,6 +109,7 @@ class TowerGrid extends Sprite{
 		startTower.distance = 0;
 		a_Traverse.add(startTower);
 		
+		var counter = 0;
 		while(a_Traverse.length > 0){
 			var tower = a_Traverse.first();
 			var towerX = tower.getGridX();
@@ -119,6 +120,7 @@ class TowerGrid extends Sprite{
 			pathFindCheckTower(tower, towerX-1, towerY, a_Traverse); // Left
 			pathFindCheckTower(tower, towerX, towerY-1, a_Traverse); // Up
 			a_Traverse.pop();
+			counter++;
 		}
 		
 		// Check to see if there is no path available
@@ -134,6 +136,7 @@ class TowerGrid extends Sprite{
 			a_Traverse.push( a_Traverse.first().prevTower );
 		}
 		
+		//trace(counter, a_Traverse.length);
 		return a_Traverse;
 	}
 	
