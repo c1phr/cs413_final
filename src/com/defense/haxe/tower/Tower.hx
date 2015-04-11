@@ -1,5 +1,6 @@
 package com.defense.haxe.tower;
 
+import com.cykon.haxe.movable.Point;
 import starling.textures.Texture;
 import starling.display.Sprite;
 import starling.display.Image;
@@ -54,5 +55,13 @@ class Tower extends Sprite{
 	}
 	
 	public function click(){		
+	}
+
+	public static function towerListToPoint(t_List:List<Tower>):List<Point>{
+		var p_List = new List<Point>();
+		for(tower in t_List){
+			p_List.add( new Point(tower.x, tower.y) );
+		}
+		return p_List;
 	}
 }
