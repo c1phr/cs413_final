@@ -77,6 +77,7 @@ class TowerGrid extends Sprite{
 		// Hacky for now, but these are start / end points (for now)
 		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){
 			if(!tower.isActive()){
+				checkArea(x, y);
 				tower.setTexture(T_B0);
 				tower.setActive();
 			} else {
@@ -93,6 +94,20 @@ class TowerGrid extends Sprite{
 			}
 		} else {
 			// trace("No path.");
+		}
+	}
+
+	public function checkArea(x:Int , y:Int){
+		//Store the 3x3 grid in two arrays (probably could be done with a 2d array)
+		var xArray: Array<Int> = [(x-1), x, (x+1)];
+		var yArray: Array<Int> = [(y-1), y , (y+1)];
+		//Iterate over the coordinates to find if any of them are towers as well.
+		for(xPos in xArray){
+			for(yPos in yArray){
+				if(towerAt(xPos, yPos).isActive()){
+					// This is a tower
+				}
+			}
 		}
 	}
 	
