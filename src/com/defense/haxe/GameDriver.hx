@@ -43,8 +43,8 @@ class GameDriver extends Sprite {
 		Root.globalStage.addEventListener(TouchEvent.TOUCH, onTouch);
 		
 		towerGrid = new TowerGrid(32,2,11,15);
-		towerGrid.x = this.stage.stageWidth/2 - towerGrid.width/2;
-		towerGrid.y = this.stage.stageHeight/2 - towerGrid.height/2;
+		towerGrid.x = Math.round(this.stage.stageWidth/2 - towerGrid.width/2);
+		towerGrid.y = Math.round(this.stage.stageHeight/2 - towerGrid.height/2);
 		addChild(towerGrid);
 	}
 	

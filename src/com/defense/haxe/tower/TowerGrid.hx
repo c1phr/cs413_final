@@ -12,6 +12,12 @@ class TowerGrid extends Sprite{
 	/* Tower textures */
 	private var T_BLOCK:Texture = Root.assets.getTexture("block");
 	private var T_ACTIVE_BLOCK:Texture = Root.assets.getTexture("block_active");
+
+	private var T_B0:Texture  = Root.assets.getTexture("border_0");
+	private var T_B1:Texture  = Root.assets.getTexture("border_1");
+	private var T_B2:Texture  = Root.assets.getTexture("border_2");
+	private var T_B2P:Texture = Root.assets.getTexture("border_2p");
+	private var T_B3:Texture  = Root.assets.getTexture("border_3");
 	
 	/* Keep track of tile sizing */
 	private var tileSize:Int;			// How big the tiles will be (excluding border)
@@ -50,11 +56,12 @@ class TowerGrid extends Sprite{
 	}
 	
 	private function populateGrid(){
+		var halfSize = Math.ceil(actualTileSize/2);
 		for(x in 0...numWidth)
 			for(y in 0...numHeight){
 				var tower = new Tower(T_BLOCK, actualTileSize, x, y, x+y*numWidth);
-				tower.x = x*tileSize + actualTileSize/2;
-				tower.y = y*tileSize + actualTileSize/2;
+				tower.x = x*(tileSize + tileBorder) + halfSize;
+				tower.y = y*(tileSize + tileBorder) + halfSize;
 				a_Tower[x + y*numWidth] = tower;
 				addChild(tower);
 			}
@@ -70,7 +77,7 @@ class TowerGrid extends Sprite{
 		// Hacky for now, but these are start / end points (for now)
 		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){
 			if(!tower.isActive()){
-				tower.setTexture(T_ACTIVE_BLOCK);
+				tower.setTexture(T_B0);
 				tower.setActive();
 			} else {
 				tower.setTexture(T_BLOCK);
@@ -87,7 +94,6 @@ class TowerGrid extends Sprite{
 		} else {
 			// trace("No path.");
 		}
-			
 	}
 	
 	public function validLocation(x:Int,y:Int):Bool{
@@ -158,8 +164,8 @@ class TowerGrid extends Sprite{
 	public function onTouch( event:TouchEvent ){
 		var touch:Touch = event.touches[0];
 		if(touch.phase == "began" || touch.phase == "moved" || touch.phase == "ended"){
-			var towerX = Math.floor((touch.globalX - this.x)/tileSize);
-			var towerY = Math.floor((touch.globalY - this.y)/tileSize);
+			var towerX = Math.floor((touch.globalX - this.x)/(tileSize+tileBorder));
+			var towerY = Math.floor((touch.globalY - this.y)/(tileSize+tileBorder));
 			
 			if(!(towerX == prevX && towerY == prevY && touch.phase != "began") && validLocation(towerX,towerY)){
 				prevX = towerX;
