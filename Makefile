@@ -4,7 +4,7 @@ all:
 	-swf-header 1280:720:120:FFFFFF \
 	-swf-version 11.3 \
 	-swf bin/TowerDefense.swf \
-	-swf-lib lib/starling.swc \
+	-swf-lib lib/Starling.swc \
 	-swf-lib lib/Starling-Extension-Graphics.swc \
 	--macro "patchTypes('lib/starling.patch')" \
 	-main com.defense.haxe.Root

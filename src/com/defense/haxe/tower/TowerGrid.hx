@@ -10,15 +10,18 @@ import com.defense.haxe.tower.Tower;
 
 class TowerGrid extends Sprite{
 	/* Tower textures */
-	private var T_BLOCK:Texture = Root.assets.getTexture("block");
-	private var T_ACTIVE_BLOCK:Texture = Root.assets.getTexture("block_active");
-
-	private var T_B0:Texture  = Root.assets.getTexture("border_0");
-	private var T_B1:Texture  = Root.assets.getTexture("border_1");
-	private var T_B2:Texture  = Root.assets.getTexture("border_2");
-	private var T_B2P:Texture = Root.assets.getTexture("border_2p");
-	private var T_B3:Texture  = Root.assets.getTexture("border_3");
+	public var T_BLOCK:Texture = Root.assets.getTexture("block");
+	public var T_ACTIVE_BLOCK:Texture = Root.assets.getTexture("block_active");
 	
+	// Four bit number: right << bottom << left << top
+	
+	public var T_B0:Texture  = Root.assets.getTexture("border_0");
+	public var T_B1:Texture  = Root.assets.getTexture("border_1");
+	public var T_B2:Texture  = Root.assets.getTexture("border_2");
+	public var T_B2P:Texture = Root.assets.getTexture("border_2p");
+	public var T_B3:Texture  = Root.assets.getTexture("border_3");
+	public var T_B4:Texture  = Root.assets.getTexture("border_4");
+
 	/* Keep track of tile sizing */
 	private var tileSize:Int;			// How big the tiles will be (excluding border)
 	private var halfTileSize:Float;		// Half of the tile's true size, because screw division
@@ -77,11 +80,13 @@ class TowerGrid extends Sprite{
 		// Hacky for now, but these are start / end points (for now)
 		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){
 			if(!tower.isActive()){
-				tower.setTexture(T_B0);
 				tower.setActive();
+				//tower.setTexture(T_B0);
+				fixTexture(x,y, true);
 			} else {
 				tower.setTexture(T_BLOCK);
 				tower.setActive(false);
+				fixTexture(x,y, true);
 			}
 		}
 		
@@ -175,7 +180,27 @@ class TowerGrid extends Sprite{
 		}
 	}
 	
+	public function fixTexture(x:Int, y:Int, fixOthers:Bool=false){
+		var thisTower = towerAt(x,y);
+		if(thisTower != null && thisTower.isActive()){
+			var t0 = (!validLocation(x+1,y) || !towerAt(x+1,y).isActive()) ? 1 : 0;
+			var t1 = (!validLocation(x,y-1) || !towerAt(x,y-1).isActive()) ? 1 : 0;
+			var t2 = (!validLocation(x-1,y) || !towerAt(x-1,y).isActive()) ? 1 : 0;
+			var t3 = (!validLocation(x,y+1) || !towerAt(x,y+1).isActive()) ? 1 : 0;
+			
+			var towerMask = (t0 << 3) + (t1 << 2) + (t2 << 1) + t3;
+			thisTower.fixTexture(towerMask, this);
+		}
+		
+		if(fixOthers) {
+			fixTexture(x+1,y);
+			fixTexture(x,y-1);
+			fixTexture(x-1,y);
+			fixTexture(x,y+1);
+		}
+	}
+	
 	public function towerAt(x:Int,y:Int):Tower{
-		return a_Tower[x + y*numWidth];
+		return validLocation(x,y) ? a_Tower[x + y*numWidth] : null;
 	}
 }

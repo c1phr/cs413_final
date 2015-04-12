@@ -51,10 +51,61 @@ class Tower extends Sprite{
 	
 	public function setTexture(texture:Texture = null){
 		baseImage.texture = texture;
-		baseImage.rotation += Math.PI/2;
 	}
 	
-	public function click(){		
+	// Four bit number: right << bottom << left << top
+	public function fixTexture(towerMask:Int, towerGrid:TowerGrid){
+		trace(towerMask);
+	
+		switch(towerMask){
+			case 0: //
+				baseImage.texture = towerGrid.T_B4;
+			case 1: //
+				baseImage.texture = towerGrid.T_B1;
+				baseImage.rotation = Math.PI/2;
+			case 2: //
+				baseImage.texture = towerGrid.T_B1;
+				baseImage.rotation = Math.PI;
+			case 3: //
+				baseImage.texture = towerGrid.T_B2;
+				baseImage.rotation = Math.PI/2;
+			case 4: //
+				baseImage.texture = towerGrid.T_B1;
+				baseImage.rotation = -Math.PI/2;
+			case 5: //
+				baseImage.texture = towerGrid.T_B2P;
+				baseImage.rotation = 0;
+			case 6: //
+				baseImage.texture = towerGrid.T_B2;
+				baseImage.rotation = Math.PI;
+			case 7: //
+				baseImage.texture = towerGrid.T_B3;
+				baseImage.rotation = Math.PI;
+			case 8: //
+				baseImage.texture = towerGrid.T_B1;
+				baseImage.rotation = 0;
+			case 9: //
+				baseImage.texture = towerGrid.T_B2;
+				baseImage.rotation = 0;
+			case 10: //
+				baseImage.texture = towerGrid.T_B2P;
+				baseImage.rotation = Math.PI/2;
+			case 11: //
+				baseImage.texture = towerGrid.T_B3;
+				baseImage.rotation = Math.PI/2;
+			case 12: //
+				 baseImage.texture = towerGrid.T_B2;
+				 baseImage.rotation = -Math.PI/2;
+			case 13: //
+				baseImage.texture = towerGrid.T_B3;
+				baseImage.rotation = 0;
+			case 14: //
+				baseImage.texture = towerGrid.T_B3;
+				baseImage.rotation = -Math.PI/2;
+			case 15: //
+				baseImage.texture = towerGrid.T_B0;
+				baseImage.rotation = 0;
+		}
 	}
 
 	public static function towerListToPoint(t_List:List<Tower>):List<Point>{
