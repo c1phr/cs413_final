@@ -1,3 +1,5 @@
+UNAME := $(shell uname)
+
 all:
 	mkdir -p bin
 	haxe -cp src \
@@ -11,10 +13,26 @@ all:
 
 run:
 	make
+ifeq ($(UNAME),Darwin)
+	open bin/TowerDefense.swf
+endif
+ifeq ($(UNAME),Cygwin)
 	cygstart bin/TowerDefense.swf
+endif
+ifneq ($(UNAME),Darwin)
+ifneq ($(UNAME),Cygwin)
+	@echo "$(UNAME) environment not supported!"
+endif
+endif
+
 
 runkill:
+ifeq ($(UNAME),Darwin)
+	killall Flash\ Player
+endif
+ifeq ($(UNAME),Cygwin)
 	taskkill /f /IM FlashPlayer16Debug.exe /fi "memusage gt 2"
+endif
 	make run
 	
 clean:
