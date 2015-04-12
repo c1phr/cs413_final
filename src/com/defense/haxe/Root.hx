@@ -37,7 +37,6 @@ class Root extends Sprite {
 		assets.enqueue("assets/32px/border_2.png");
 		assets.enqueue("assets/32px/border_2p.png");
 		assets.enqueue("assets/32px/border_3.png");
-		assets.enqueue("assets/32px/border_4.png");
 
 		assets.loadQueue(function onProgress(ratio:Float) {
 			if (ratio == 1) {
