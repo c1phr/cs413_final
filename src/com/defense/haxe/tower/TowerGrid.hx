@@ -71,6 +71,7 @@ class TowerGrid extends Sprite{
 	}
 	
 	public function towerTouch(x:Int,y:Int){
+		this.unflatten();
 		var tower = towerAt(x,y);
 		
 		// Debug reset path color...
@@ -83,10 +84,13 @@ class TowerGrid extends Sprite{
 				tower.setActive();
 				//tower.setTexture(T_B0);
 				fixTexture(x,y, true);
+				
+				setChildIndex(tower,0);
 			} else {
 				tower.setTexture(T_BLOCK);
 				tower.setActive(false);
 				fixTexture(x,y, true);
+				setChildIndex(tower,numChildren-1);
 			}
 		}
 		
@@ -94,11 +98,13 @@ class TowerGrid extends Sprite{
 			
 		if(a_Traverse != null){
 			for(tower in a_Traverse){
-				tower.baseImage.color = 0x00FF00;
+				tower.baseImage.color = 0xEEFFEE;
 			}
 		} else {
 			// trace("No path.");
 		}
+		
+		this.flatten();
 	}
 	
 	public function validLocation(x:Int,y:Int):Bool{

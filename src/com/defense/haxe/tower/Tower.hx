@@ -55,8 +55,7 @@ class Tower extends Sprite{
 	
 	// Four bit number: right << bottom << left << top
 	public function fixTexture(towerMask:Int, towerGrid:TowerGrid){
-		trace(towerMask); 
-	
+
 		switch(towerMask){
 			case 0: //
 				baseImage.texture = towerGrid.T_B0;
@@ -94,8 +93,8 @@ class Tower extends Sprite{
 				baseImage.texture = towerGrid.T_B3;
 				baseImage.rotation = Math.PI/2;
 			case 12: //
-				 baseImage.texture = towerGrid.T_B2;
-				 baseImage.rotation = -Math.PI/2;
+				baseImage.texture = towerGrid.T_B2;
+				baseImage.rotation = -Math.PI/2;
 			case 13: //
 				baseImage.texture = towerGrid.T_B3;
 				baseImage.rotation = 0;
