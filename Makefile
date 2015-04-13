@@ -1,5 +1,4 @@
 UNAME := $(shell uname)
-CYGWIN := CYGWIN_NT-10.0-WOW
 
 all:
 	mkdir -p bin
@@ -17,20 +16,21 @@ run:
 ifeq ($(UNAME),Darwin)
 	open bin/TowerDefense.swf
 endif
-ifeq ($(UNAME),$(CYGWIN))
+ifeq (CYGWIN,$(findstring CYGWIN,$(UNAME)))
 	cygstart bin/TowerDefense.swf
 endif
 ifneq ($(UNAME),Darwin)
-ifneq ($(UNAME),$(CYGWIN))
+ifneq ($(UNAME),Cygwin)
 	@echo "$(UNAME) environment not supported!"
 endif
 endif
+
 
 runkill:
 ifeq ($(UNAME),Darwin)
 	killall Flash\ Player
 endif
-ifeq ($(UNAME),$(CYGWIN))
+ifeq (CYGWIN,$(findstring CYGWIN,$(UNAME)))
 	taskkill /f /IM FlashPlayer16Debug.exe /fi "memusage gt 2"
 endif
 	make run
