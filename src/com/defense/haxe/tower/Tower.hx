@@ -110,7 +110,7 @@ class Tower extends Sprite{
 	public static function towerListToPoint(t_List:List<Tower>):Array<Point>{
 		var p_List = new Array<Point>();
 		for(tower in t_List){
-			p_List.insert(0, new Point(tower.x, tower.y) );
+			p_List.push(new Point(tower.x, tower.y));
 		}
 		return p_List;
 	}

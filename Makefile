@@ -38,3 +38,4 @@ endif
 clean:
 	rm bin/TowerDefense.swf
 	mkdir -p bin
+	mkdir -p bin

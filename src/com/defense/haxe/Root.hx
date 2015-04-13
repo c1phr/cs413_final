@@ -30,7 +30,6 @@ class Root extends Sprite {
 	function populateAssetManager(){
 		assets = new AssetManager();
 		assets.enqueue("assets/block.png");
-		assets.enqueue("assets/block_active.png");
 		
 		assets.enqueue("assets/32px/border_0.png");
 		assets.enqueue("assets/32px/border_1.png");
@@ -55,7 +54,7 @@ class Root extends Sprite {
         try {
 			// Attempt to start the game logic 
 			var starling = new starling.core.Starling(Root, flash.Lib.current.stage);
-			//starling.showStats = true;
+			starling.showStats = true;
             globalStage = starling.stage; 
 			starling.start();  
         } catch(e:Dynamic){

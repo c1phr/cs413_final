@@ -44,20 +44,19 @@ class GameDriver extends Sprite {
 	private function startGame() {
 		this.addEventListener(EnterFrameEvent.ENTER_FRAME, onEnterFrame);
 		Root.globalStage.addEventListener(TouchEvent.TOUCH, onTouch);
-		Root.globalStage.addEventListener(KeyboardEvent.KEY_UP, function(){
-				enemy = new Enemy(Root.assets.getTexture("enemy"), 0,0, 16);
-				enemy.setPoints(Tower.towerListToPoint(towerGrid.pathFind(0,0,10,14)));
-				towerGrid.addChild(enemy);
-			});
 		
 		towerGrid = new TowerGrid(32,2,15,11);
 		towerGrid.x = Math.round(this.stage.stageWidth/2 - towerGrid.width/2);
 		towerGrid.y = Math.round(this.stage.stageHeight/2 - towerGrid.height/2);
 		addChild(towerGrid);
+		
+		Root.globalStage.addEventListener(KeyboardEvent.KEY_UP, function(){			
+				enemy.setPoints(Tower.towerListToPoint(towerGrid.pathFind(0,0,14,10)));
+			});
 
 		enemy = new Enemy(Root.assets.getTexture("enemy"), 0,0, 16);
-		enemy.setPoints(Tower.towerListToPoint(towerGrid.pathFind(0,0,10,14)));
-		towerGrid.addChild(enemy);
+		enemy.setPoints(Tower.towerListToPoint(towerGrid.pathFind(0,0,14,10)));
+		towerGrid.enemyLayer.addChild(enemy);
 	}
 	
 	/** The game is over! */

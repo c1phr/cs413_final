@@ -19,7 +19,8 @@ class Enemy extends Circle{
 	public override function applyVelocity(modifier:Float):Bool{
 		super.applyVelocity(modifier);
 		
-
+		this.rotation += Math.PI/30;
+		
 		var pointx = currentPoint.x;
 		var pointy = currentPoint.y;
 
@@ -28,7 +29,8 @@ class Enemy extends Circle{
 
 		if (velocityVector.dot(pointVector) < 0){
 			if(pList.length >= 1){
-				currentPoint = pList.pop();
+				currentPoint = pList[0];
+				pList.remove(currentPoint);
 			}
 			x = pointx;
 			y = pointy;
@@ -48,7 +50,8 @@ class Enemy extends Circle{
 
 	public function setPoints(pointList:Array<Point>){
 		pList = pointList;
-		currentPoint = pList.pop();
+		currentPoint = pList[0];
+		pList.remove(currentPoint);
 		x = currentPoint.x;
 		y = currentPoint.y;
 		var nextPoint = pList[0];
