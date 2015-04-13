@@ -6,11 +6,14 @@ import com.cykon.haxe.movable.Point;
 import starling.textures.Texture;
 
 class Enemy extends Circle{
-	private var pList:List<Point>;
+	private var pList:Array<Point>;
 	private var currentPoint:Point;
+	private var speed:Int = 5;
 
 	public function new(texture:Texture, x:Float, y:Float, radius:Float){
 		super(texture,x,y,radius);
+		this.pivotX = texture.width / 2;
+		this.pivotY = texture.height / 2;
 	}
 
 	public override function applyVelocity(modifier:Float):Bool{
@@ -24,11 +27,14 @@ class Enemy extends Circle{
 		var pointVector = Vector.getVector(x,y,pointx,pointy);
 
 		if (velocityVector.dot(pointVector) < 0){
-			if(pList.length > 1){
+			if(pList.length >= 1){
 				currentPoint = pList.pop();
 			}
 			x = pointx;
 			y = pointy;
+			var speedVector = Vector.getVector(x,y,currentPoint.x,currentPoint.y).normalize().multiply(speed);
+			this.vx = speedVector.vx;
+			this.vy = speedVector.vy;
 
 			
 			pointx = currentPoint.x;
@@ -40,10 +46,15 @@ class Enemy extends Circle{
 
 	}
 
-	public function setPoints(pointList:List<Point>){
+	public function setPoints(pointList:Array<Point>){
 		pList = pointList;
 		currentPoint = pList.pop();
-		vx = 4;
+		x = currentPoint.x;
+		y = currentPoint.y;
+		var nextPoint = pList[0];
+		var speedVector = Vector.getVector(x,y,nextPoint.x,nextPoint.y).normalize().multiply(speed);
+		this.vx = speedVector.vx;
+	    this.vy = speedVector.vy;
 	}
 
 }
