@@ -7,6 +7,7 @@ import starling.events.Touch;
 
 import com.defense.haxe.Root;
 import com.defense.haxe.tower.Tower;
+import com.defense.haxe.tower.PathViewer;
 
 class TowerGrid extends Sprite{
 	/* Tower textures */
@@ -33,6 +34,11 @@ class TowerGrid extends Sprite{
 	private var numHeight:Int;
 	private var a_Tower:Array<Tower>;
 	
+	/* Layers of operation */
+	public var baseLayer:Sprite = new Sprite();
+	public var pathLayer:PathViewer;
+	public var enemyLayer:Sprite = new Sprite();
+	
 	public function new(tileSize:Int, tileBorder:Int, numWidth:Int, numHeight:Int){
 		super();
 		
@@ -46,6 +52,12 @@ class TowerGrid extends Sprite{
 		this.width = numWidth*tileSize;
 		this.height = numHeight*tileSize;
 		
+		// Add the different layers
+		pathLayer = new PathViewer(50, 0.2, 0.05,T_BLOCK);
+		addChild(baseLayer);
+		addChild(pathLayer);
+		addChild(enemyLayer);
+		
 		// Initiate the tower array;
 		a_Tower = new Array<Tower>();
 		for(i in 0...numWidth*numHeight)
@@ -56,6 +68,7 @@ class TowerGrid extends Sprite{
 		this.towerTouch(0,0);
 		
 		this.addEventListener(TouchEvent.TOUCH, onTouch);
+
 	}
 	
 	private function populateGrid(){
@@ -66,45 +79,40 @@ class TowerGrid extends Sprite{
 				tower.x = x*(tileSize + tileBorder) + halfSize;
 				tower.y = y*(tileSize + tileBorder) + halfSize;
 				a_Tower[x + y*numWidth] = tower;
-				addChild(tower);
+				baseLayer.addChild(tower);
 			}
 	}
 	
 	public function towerTouch(x:Int,y:Int){
-		this.unflatten();
+		baseLayer.unflatten();
 		var tower = towerAt(x,y);
 		
 		// Debug reset path color...
-		for(tower in a_Tower)
-			tower.baseImage.color = 0xFFFFFF; 
+		//for(tower in a_Tower)
+		//	tower.baseImage.color = 0xFFFFFF; 
 				
 		// Hacky for now, but these are start / end points (for now)
-		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){
+		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){			
 			if(!tower.isActive()){
 				tower.setActive();
-				//tower.setTexture(T_B0);
 				fixTexture(x,y, true);
-				
-				setChildIndex(tower,0);
 			} else {
-				tower.setTexture(T_BLOCK);
 				tower.setActive(false);
+				tower.setTexture(T_BLOCK);
 				fixTexture(x,y, true);
-				setChildIndex(tower,numChildren-1);
 			}
 		}
 		
 		var a_Traverse = pathFind(0,0,numWidth-1,numHeight-1);
-			
+		
 		if(a_Traverse != null){
-			for(tower in a_Traverse){
-				tower.baseImage.color = 0xEEFFEE;
-			}
+			pathLayer.showPath(Tower.towerListToPoint(a_Traverse));
 		} else {
 			// trace("No path.");
+			pathLayer.stopShowingPath();
 		}
 		
-		this.flatten();
+		baseLayer.flatten();
 	}
 	
 	public function validLocation(x:Int,y:Int):Bool{
@@ -112,6 +120,11 @@ class TowerGrid extends Sprite{
 	}
 	
 	public function pathFind(startX:Int, startY:Int, endX:Int, endY:Int):List<Tower>{
+		if(!validLocation(startX,startY) || !validLocation(endX, endY)){
+			trace("ERROR: INVALID START / END POINTS.");
+			return null;
+		}
+		
 		// Create the iterative list
 		var a_Traverse:List<Tower> = new List<Tower>();
 		
