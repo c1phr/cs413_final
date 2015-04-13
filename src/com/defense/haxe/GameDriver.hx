@@ -10,6 +10,8 @@ import flash.system.System;
 
 import com.defense.haxe.Root;
 import com.defense.haxe.tower.TowerGrid;
+import com.defense.haxe.enemy.Enemy;
+import com.defense.haxe.tower.Tower;
 
 class GameDriver extends Sprite {
 	/* The 'perfect' update time, used to modify velocities in case
@@ -21,6 +23,7 @@ class GameDriver extends Sprite {
 	
 	/* Keep track of game assets */
 	private var towerGrid:TowerGrid;
+	private var enemy:Enemy;
 	
 	// Simple constructor
     public function new() {
@@ -46,6 +49,10 @@ class GameDriver extends Sprite {
 		towerGrid.x = Math.round(this.stage.stageWidth/2 - towerGrid.width/2);
 		towerGrid.y = Math.round(this.stage.stageHeight/2 - towerGrid.height/2);
 		addChild(towerGrid);
+
+		enemy = new Enemy(Root.assets.getTexture("enemy"), 0,0, 16);
+		enemy.setPoints(Tower.towerListToPoint(towerGrid.pathFind(0,0,10,14)));
+		towerGrid.addChild(enemy);
 	}
 	
 	/** The game is over! */
@@ -65,6 +72,8 @@ class GameDriver extends Sprite {
 			
 		// Create a modifier based on time passed / expected time
 		var modifier = event.passedTime / perfectDeltaTime;
+		enemy.applyVelocity(modifier);
+
 	}
 	
 	/** Used to detect clicks */
