@@ -8,6 +8,8 @@ import starling.display.Image;
 
 class Tower extends Sprite{
 	public var baseImage:Image;
+	public var bgImage:Image; // This will be attached to a different sprite.
+	private var bgLayer:Sprite;
 	private var active:Bool = false;
 	
 	// Used to keep track of where this tower exists in the TowerGrid array
@@ -19,15 +21,17 @@ class Tower extends Sprite{
 	public var prevTower:Tower;
 	public var distance:Int;
 	
-	public function new(texture:Texture, size:Int, gridX:Int, gridY:Int, gridIndex:Int){
+	public function new(texture:Texture, bgLayer:Sprite, size:Int, gridX:Int, gridY:Int, gridIndex:Int){
 		super();
 		
 		this.gridX = gridX;
 		this.gridY = gridY;
 		this.gridIndex = gridIndex;
+		this.bgLayer = bgLayer;
 		
 		baseImage = new Image(texture);
 		baseImage.width = baseImage.height = size;
+		baseImage.pivotX = baseImage.pivotY = size / 2;
 		addChild(baseImage);
 		
 		this.pivotX = this.pivotY = size / 2;
@@ -47,6 +51,25 @@ class Tower extends Sprite{
 	
 	public function setActive(active = true){
 		this.active = active;
+		
+		if(active){
+			baseImage.color = 0x00CCFF;
+		} else {
+			baseImage.color = 0xFFFFFF;
+		}
+	}
+	
+	public function setBGTexture(texture:Texture = null){
+		if(bgImage == null){
+			bgImage = new Image(texture);
+			bgImage.width = bgImage.height = this.width;
+			bgImage.pivotX = bgImage.pivotY = this.pivotX;
+			bgImage.x = this.x;
+			bgImage.y = this.y;
+			bgLayer.addChild(bgImage);
+		} else {
+			bgImage.texture = texture;
+		}
 	}
 	
 	public function setTexture(texture:Texture = null){

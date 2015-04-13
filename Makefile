@@ -3,7 +3,7 @@ UNAME := $(shell uname)
 all:
 	mkdir -p bin
 	haxe -cp src \
-	-swf-header 550:400:60:FFFFFF \
+	-swf-header 550:400:60:0 \
 	-swf-version 11.3 \
 	-swf bin/TowerDefense.swf \
 	-swf-lib lib/starling.swc \

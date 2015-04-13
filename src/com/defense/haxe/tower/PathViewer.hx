@@ -63,7 +63,6 @@ class PathViewer extends Sprite{
 		
 		for(point in a_Point){
 			var flashImage = new Image(texture);
-				flashImage.color = 0x00FF00;
 				flashImage.pivotX = flashImage.pivotY = texture.width/2;
 				flashImage.x = point.x;
 				flashImage.y = point.y;

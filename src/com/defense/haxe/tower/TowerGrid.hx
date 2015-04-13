@@ -22,6 +22,7 @@ class TowerGrid extends Sprite{
 	public var T_B2P:Texture = Root.assets.getTexture("border_2p");
 	public var T_B3:Texture  = Root.assets.getTexture("border_3");
 	public var T_B4:Texture  = Root.assets.getTexture("border_4");
+	public var T_BG:Texture = Root.assets.getTexture("border_background");
 
 	/* Keep track of tile sizing */
 	private var tileSize:Int;			// How big the tiles will be (excluding border)
@@ -35,6 +36,7 @@ class TowerGrid extends Sprite{
 	private var a_Tower:Array<Tower>;
 	
 	/* Layers of operation */
+	public var bgLayer:Sprite = new Sprite();
 	public var baseLayer:Sprite = new Sprite();
 	public var pathLayer:PathViewer;
 	public var enemyLayer:Sprite = new Sprite();
@@ -53,7 +55,8 @@ class TowerGrid extends Sprite{
 		this.height = numHeight*tileSize;
 		
 		// Add the different layers
-		pathLayer = new PathViewer(50, 0.2, 0.05,T_BLOCK);
+		pathLayer = new PathViewer(50, 0.35, 0.05, Root.assets.getTexture("path"));
+		addChild(bgLayer);
 		addChild(baseLayer);
 		addChild(pathLayer);
 		addChild(enemyLayer);
@@ -65,25 +68,55 @@ class TowerGrid extends Sprite{
 		
 		// Populate the tower grid()
 		populateGrid();
+		borderGlow();
 		this.towerTouch(0,0);
 		
 		this.addEventListener(TouchEvent.TOUCH, onTouch);
-
+	}
+	
+	private var br = 0x00;
+	private var bg = 0xAA;
+	private var bb = 0xFF;
+	private var direction = 1;
+	public function borderGlow(){
+		var timer = new haxe.Timer(25);
+		timer.run = function(){
+			
+			bg += direction;
+			if(bg > 0xEE){
+				bg = 0xEE;
+				direction = -1;
+			} else if(bg < 0xAA){
+				bg = 0xAA;
+				direction = 1;
+			}
+			
+			var color = (br << 16) + (bg << 8) + bb;
+			baseLayer.unflatten();
+			for(tower in a_Tower){
+				tower.baseImage.color  = color;
+			}
+			baseLayer.flatten();
+		}
 	}
 	
 	private function populateGrid(){
+		var bgTexture = Root.assets.getTexture("border_background");
 		var halfSize = Math.ceil(actualTileSize/2);
 		for(x in 0...numWidth)
 			for(y in 0...numHeight){
-				var tower = new Tower(T_BLOCK, actualTileSize, x, y, x+y*numWidth);
+				var tower = new Tower(T_B0, bgLayer, actualTileSize, x, y, x+y*numWidth);
 				tower.x = x*(tileSize + tileBorder) + halfSize;
 				tower.y = y*(tileSize + tileBorder) + halfSize;
+				tower.setBGTexture(T_BLOCK);
+				
 				a_Tower[x + y*numWidth] = tower;
 				baseLayer.addChild(tower);
 			}
 	}
 	
 	public function towerTouch(x:Int,y:Int){
+		bgLayer.unflatten();
 		baseLayer.unflatten();
 		var tower = towerAt(x,y);
 		
@@ -95,11 +128,13 @@ class TowerGrid extends Sprite{
 		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){			
 			if(!tower.isActive()){
 				tower.setActive();
+				tower.setBGTexture(T_BG);
 				fixTexture(x,y, true);
 			} else {
 				tower.setActive(false);
-				tower.setTexture(T_BLOCK);
 				fixTexture(x,y, true);
+				tower.setBGTexture(T_BLOCK);
+				tower.setTexture(T_B0);
 			}
 		}
 		
@@ -112,6 +147,7 @@ class TowerGrid extends Sprite{
 			pathLayer.stopShowingPath();
 		}
 		
+		bgLayer.flatten();
 		baseLayer.flatten();
 	}
 	

@@ -29,8 +29,9 @@ class Root extends Sprite {
 	
 	function populateAssetManager(){
 		assets = new AssetManager();
-		assets.enqueue("assets/block.png");
-		
+		assets.enqueue("assets/32px/path.png");
+		assets.enqueue("assets/32px/block.png");
+		assets.enqueue("assets/32px/border_background.png");
 		assets.enqueue("assets/32px/border_0.png");
 		assets.enqueue("assets/32px/border_1.png");
 		assets.enqueue("assets/32px/border_2.png");
