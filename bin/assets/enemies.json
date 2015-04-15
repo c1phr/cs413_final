@@ -1,0 +1,14 @@
+{
+	"enemy_1": 
+		{
+			"type": "fast",
+			"texture": "fast.texture",			
+			"speed": 100			
+		},
+	"enemy_2": 
+		{
+			"type": "slow",
+			"texture": "slow.texture",			
+			"speed": 10
+		}
+}
