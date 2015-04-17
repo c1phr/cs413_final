@@ -10,6 +10,7 @@ import flash.system.System;
 
 import com.defense.haxe.Root;
 import com.defense.haxe.tower.TowerGrid;
+import com.defense.haxe.GameLoader;
 import com.defense.haxe.enemy.Enemy;
 import com.defense.haxe.tower.Tower;
 import com.defense.haxe.tower.TowerType;
@@ -47,6 +48,7 @@ class GameDriver extends Sprite {
 	// Called when added to the stage, ready to start everything
 	public function start(){
 		startGame();
+
 	}
 	
 	/** Do stuff with the menu screen */
