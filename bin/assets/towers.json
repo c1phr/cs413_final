@@ -1,0 +1,20 @@
+{
+	"tower_1": 
+		{
+			"type": "laser",
+			"texture": "laser.texture",
+			"damage": 100,
+			"bullet_name": "bullet.texture",
+			"speed": 100,
+			"range": 2
+		},
+		"tower_2": 
+		{
+			"type": "laser",
+			"texture": "laser.texture",
+			"damage": 100,
+			"bullet_name": "bullet.texture",
+			"speed": 100,
+			"range": 1
+		}
+}

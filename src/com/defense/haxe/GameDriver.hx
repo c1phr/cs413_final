@@ -11,7 +11,11 @@ import flash.system.System;
 import com.defense.haxe.Root;
 import com.defense.haxe.tower.TowerGrid;
 import com.defense.haxe.enemy.EnemyGenerator;
+import com.defense.haxe.GameLoader;
+import com.defense.haxe.enemy.Enemy;
 import com.defense.haxe.tower.Tower;
+import com.defense.haxe.tower.TowerType;
+import com.defense.haxe.enemy.EnemyType;
 
 class GameDriver extends Sprite {
 	/* The 'perfect' update time, used to modify velocities in case
@@ -25,15 +29,27 @@ class GameDriver extends Sprite {
 	private var towerGrid:TowerGrid;
 	private var enemyGen:EnemyGenerator;
 	
+	private var towers:List<TowerType>;
+	private var enemies:List<EnemyType>;
+
 	// Simple constructor
     public function new() {
         super();
-		this.addEventListener(Event.ADDED_TO_STAGE, start);
+		this.addEventListener(Event.ADDED_TO_STAGE, start);		
+		var objectParser = new ObjectParser();
+		// Events because Flash IO is async
+		objectParser.dispatcher.addEventListener("TowerJsonReady", function(e:Event){
+				this.towers = e.data.value;							
+			});
+		objectParser.dispatcher.addEventListener("EnemyJsonReady", function(e:Event){
+				this.enemies = e.data.value;				
+			});
 	}
 	
 	// Called when added to the stage, ready to start everything
 	public function start(){
 		startGame();
+
 	}
 	
 	/** Do stuff with the menu screen */

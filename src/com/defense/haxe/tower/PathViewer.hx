@@ -74,6 +74,14 @@ class PathViewer extends Sprite{
 		timer.run = showNext;
 	}
 	
+	public function setColor(color:Int){
+		for(i in 0...this.numChildren){
+			var image:Dynamic = this.getChildAt(i);
+			cast(image,Image);
+			image.color = color;
+		}
+	}
+	
 	public function showNext(){
 		var point = a_Point[pointIndex];
 		var dispObject = getChildAt(pointIndex);
@@ -84,5 +92,15 @@ class PathViewer extends Sprite{
 		});
 		
 		pointIndex = ++pointIndex % a_Point.length;
+		
+		if(pointIndex == 0){
+			timer.stop();
+			timer = new Timer(850);
+			timer.run = function(){
+				timer.stop();
+				timer = new Timer(moveTime);
+				timer.run = showNext;
+			};
+		}
 	}
 }

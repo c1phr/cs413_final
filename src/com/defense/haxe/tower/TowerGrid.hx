@@ -7,6 +7,7 @@ import starling.events.Touch;
 
 import com.defense.haxe.Root;
 import com.defense.haxe.tower.Tower;
+import com.defense.haxe.GameLoader;
 import com.defense.haxe.tower.PathViewer;
 
 class TowerGrid extends Sprite{
@@ -70,6 +71,10 @@ class TowerGrid extends Sprite{
 		populateGrid();
 		borderGlow();
 		this.towerTouch(0,0);
+		var menu = new GameLoader();
+		addChild(menu.start());
+		addChild(menu.text());
+		addChild(menu.button());
 		
 		this.addEventListener(TouchEvent.TOUCH, onTouch);
 	}
@@ -83,11 +88,11 @@ class TowerGrid extends Sprite{
 		timer.run = function(){
 			
 			bg += direction;
-			if(bg > 0xEE){
-				bg = 0xEE;
+			if(bg > 0xFF){
+				bg = 0xFF;
 				direction = -1;
-			} else if(bg < 0xAA){
-				bg = 0xAA;
+			} else if(bg < 0x99){
+				bg = 0x99;
 				direction = 1;
 			}
 			
@@ -96,6 +101,7 @@ class TowerGrid extends Sprite{
 			for(tower in a_Tower){
 				tower.baseImage.color  = color;
 			}
+			pathLayer.setColor(color);
 			baseLayer.flatten();
 		}
 	}
