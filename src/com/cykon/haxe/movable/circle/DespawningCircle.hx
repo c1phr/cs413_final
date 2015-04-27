@@ -15,7 +15,7 @@ class DespawningCircle extends Circle {
 	var stageWidth:Float;
 	var stageHeight:Float;
 	var prevDist:Float = Math.POSITIVE_INFINITY;
-	var despawnMe:Bool = false;
+	public var despawnMe:Bool = false;
 	
 	public function new(texture:Texture, x:Float, y:Float, radius:Float, stageWidth:Float, stageHeight:Float){
 		super(texture,x,y,radius);

@@ -24,7 +24,7 @@ class Enemy extends Circle{
 		if(currentIndex == pList.length){
 			//is.dispose();
 			//Done = true;
-		}else{
+		} else {
 			
 			this.rotation += Math.PI/30;
 			
@@ -51,8 +51,8 @@ class Enemy extends Circle{
 				}
 			}
 		}
+		
 		return true;
-
 	}
 
 	public function setPoints(pointList:Array<Point>){

@@ -8,46 +8,38 @@ import com.defense.haxe.tower.TowerGrid;
 import com.defense.haxe.tower.Tower;
 import com.cykon.haxe.movable.Point;
 
-class EnemyGenerator extends Sprite{
+class EnemyGenerator extends Sprite {
 	private var enemy:Enemy;
 	private var currentPath:Array<Point>;
-	private var enemyArray:Array<Enemy> = new Array();
-	private var enemyCount:Int = 0;
+	public var a_Enemy:List<Enemy> = new List();
 
-	public function new(path:Array<Point>){
+	public function new(){
 		super();
-		currentPath = path;
-		Root.globalStage.addEventListener(KeyboardEvent.KEY_UP, generate);
-		this.addEventListener(EnterFrameEvent.ENTER_FRAME, onEnterFrame);
-		
+		Root.globalStage.addEventListener(KeyboardEvent.KEY_DOWN, generate);		
 	}
 
 	public function generate(){
-		var enemy = new Enemy(Root.assets.getTexture("enemy"), 0,0, 16);
-		enemyArray.push(enemy);
-		enemyArray[enemyCount].setPoints(currentPath);
-		this.addChild(enemyArray[enemyCount]);
-		enemyCount += 1;
+		if(currentPath != null){
+			var enemy = new Enemy(Root.assets.getTexture("enemy"), 0,0, 16);
+			enemy.setPoints(currentPath);
+			
+			this.addChild(enemy);
+			a_Enemy.push(enemy);
+		}
 	}
 
 	public function applyVelocity(modifier:Float){
-		if(enemyCount > 0){
-			for(i in 0...enemyCount){
-				enemyArray[i].applyVelocity(modifier);
+		for(enemy in a_Enemy){
+			enemy.applyVelocity(modifier);
+			
+			if(enemy.isComplete()){
+				enemy.removeFromParent(true);
+				a_Enemy.remove(enemy);
 			}
 		}
 	}
 
 	public function setPath(path:Array<Point>){
 		currentPath = path;
-	}
-
-	public function onEnterFrame(event:EnterFrameEvent){
-		for (i in 0...enemyCount){
-			if(enemyArray[i].isComplete()){
-				enemyArray[i].removeFromParent(true);
-				//trace(enemyArray.length);
-			}
-		}
 	}
 }

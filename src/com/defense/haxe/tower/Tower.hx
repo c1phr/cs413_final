@@ -1,5 +1,6 @@
 package com.defense.haxe.tower;
 
+import com.cykon.haxe.cmath.Vector;
 import com.cykon.haxe.movable.Point;
 import starling.textures.Texture;
 import starling.display.Sprite;
@@ -7,6 +8,8 @@ import starling.display.Image;
 
 
 class Tower extends Sprite{
+	private static var TWO_PI:Float = 6.283185;
+	
 	public var baseImage:Image;
 	public var bgImage:Image; // This will be attached to a different sprite.
 	private var bgLayer:Sprite;
@@ -20,6 +23,11 @@ class Tower extends Sprite{
 	// Public variables used in pathfinding
 	public var prevTower:Tower;
 	public var distance:Int;
+	
+	// Variables handling the firing of projectiles
+	private var cooldown:Float = 1000;
+	private var firingDistance:Float = 300;
+	private var lastFireTime:Float = -9999;
 	
 	public function new(texture:Texture, bgLayer:Sprite, size:Int, gridX:Int, gridY:Int, gridIndex:Int){
 		super();
@@ -49,6 +57,13 @@ class Tower extends Sprite{
 		return active;
 	}
 	
+	/** Maximum firing distance */
+	public function setFiringDistance(firingDistance:Float){
+		if(firingDistance > 0){
+			this.firingDistance = firingDistance;
+		}
+	}
+	
 	public function setActive(active = true){
 		this.active = active;
 		
@@ -74,6 +89,25 @@ class Tower extends Sprite{
 	
 	public function setTexture(texture:Texture = null){
 		baseImage.texture = texture;
+	}
+
+	/** Attempts to fire at a point if it is within the dist & angle */
+	public function fireAtPoint(time:Float, x:Float, y:Float):Float{
+		if(time - lastFireTime >= cooldown){
+						
+			// Translate (0,0) from the cannon's space to the world's space
+			var worldPos = getTransformationMatrix(this.parent.parent).transformPoint(new flash.geom.Point());
+			// Get the direct vector of the cannon to the target point
+			var directVector = Vector.getVector(x, y, worldPos.x, worldPos.y);	
+			
+			// If we're in range...
+			if(directVector.getMag() <= firingDistance){
+				lastFireTime = time;
+				return directVector.getMag();
+			}
+		}
+		
+		return -1;
 	}
 	
 	// Four bit number: right << bottom << left << top

@@ -32,6 +32,8 @@ class TrackingCircle extends DespawningCircle {
 		var returnVal = super.applyVelocity(modifier);
 		
 		var thisVector = new Vector(vx,vy);
+		
+		
 		var directVector = Vector.getVector(getX(),getY(),trackCircle.getX(),trackCircle.getY());
 		var angle = directVector.getVectorAngle( thisVector );
 		
@@ -45,7 +47,8 @@ class TrackingCircle extends DespawningCircle {
 			angle = angle/Math.abs(angle) * maxAngle;
 		}
 		
-		thisVector = thisVector.rotate(angle).normalize().multiply(thisVector.getMag()+0.01);
+		var magnitude = thisVector.getMag();
+		thisVector = thisVector.normalize().rotate(angle).multiply(magnitude);
 		
 		vx = thisVector.vx;
 		vy = thisVector.vy;

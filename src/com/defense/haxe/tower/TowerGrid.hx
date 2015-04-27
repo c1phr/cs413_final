@@ -2,14 +2,24 @@ package com.defense.haxe.tower;
 
 import starling.textures.Texture;
 import starling.display.Sprite;
+import starling.events.EnterFrameEvent;
 import starling.events.TouchEvent;
 import starling.events.Touch;
 
+import com.cykon.haxe.cmath.Vector;
 import com.cykon.haxe.movable.Point;
+import com.cykon.haxe.movable.circle.DespawningCircle;
+import com.cykon.haxe.movable.circle.TrackingCircle;
+import com.cykon.haxe.movable.circle.Circle;
+
 import com.defense.haxe.Root;
 import com.defense.haxe.tower.Tower;
 import com.defense.haxe.GameLoader;
 import com.defense.haxe.tower.PathViewer;
+import com.defense.haxe.enemy.EnemyGenerator;
+import com.defense.haxe.enemy.Enemy;
+
+
 
 class TowerGrid extends Sprite{
 	/* Tower textures */
@@ -38,11 +48,18 @@ class TowerGrid extends Sprite{
 	private var a_Tower:Array<Tower>;
 	public var lastPath:Array<Point>;
 	
+	/* Keep track of the enemies */
+	private var enemyGen:EnemyGenerator;
+	
+	/* Keep track of projectiles */
+	private var a_Projectile:List<DespawningCircle> = new List<DespawningCircle>();
+	
 	/* Layers of operation */
 	public var bgLayer:Sprite = new Sprite();
 	public var baseLayer:Sprite = new Sprite();
 	public var pathLayer:PathViewer;
-	public var enemyLayer:Sprite = new Sprite();
+	public var enemyLayer:EnemyGenerator = new EnemyGenerator();
+	public var projectileLayer:Sprite = new Sprite();
 	
 	public function new(tileSize:Int, tileBorder:Int, numWidth:Int, numHeight:Int){
 		super();
@@ -63,6 +80,7 @@ class TowerGrid extends Sprite{
 		addChild(baseLayer);
 		addChild(pathLayer);
 		addChild(enemyLayer);
+		addChild(projectileLayer);
 		
 		// Initiate the tower array;
 		a_Tower = new Array<Tower>();
@@ -73,10 +91,11 @@ class TowerGrid extends Sprite{
 		populateGrid();
 		borderGlow();
 		this.towerTouch(0,0);
-		var menu = new GameLoader();
+		
+		/* var menu = new GameLoader();
 		addChild(menu.start());
 		addChild(menu.text());
-		addChild(menu.button());
+		addChild(menu.button()); */
 		
 		this.addEventListener(TouchEvent.TOUCH, onTouch);
 	}
@@ -150,6 +169,7 @@ class TowerGrid extends Sprite{
 		
 		if(a_Traverse != null){
 			lastPath = Tower.towerListToPoint(a_Traverse);
+			enemyLayer.setPath(lastPath);
 			pathLayer.showPath(lastPath);
 		} else {
 			lastPath = null;
@@ -266,5 +286,79 @@ class TowerGrid extends Sprite{
 	
 	public function towerAt(x:Int,y:Int):Tower{
 		return validLocation(x,y) ? a_Tower[x + y*numWidth] : null;
+	}
+	
+	public function tryFireCannons(time:Float){
+		
+		for(tower in a_Tower){
+			if(tower.isActive()){
+				var cannonMag = 10;
+				var closestVector = null;
+				var closestEnemy = null;
+				var closestDistance = 9999999999;
+				
+				for(enemy in enemyLayer.a_Enemy){
+					var distFromTarget = Vector.getVector(tower.x, tower.y, enemy.x, enemy.y).getMag();
+					var targetVector = new Vector(enemy.getVX(), enemy.getVY());
+					var targetMag = targetVector.getMag();
+					
+					// The value forming a right triangle, which must be multiplied by the cannon and enemy magnitudes
+					//	 |\
+					// d | \ cannonMag*s
+					//	 |__\
+					//    shipMag*s
+					var modValue = Math.sqrt( (distFromTarget*distFromTarget) / (cannonMag*cannonMag - targetMag*targetMag) );
+					
+					targetVector.multiply(modValue);
+					targetVector.vx += enemy.x;
+					targetVector.vy += enemy.y;
+					
+					var distance = tower.fireAtPoint(time, targetVector.vx, targetVector.vy);
+					
+					if(distance != -1 && distance < closestDistance){
+						closestDistance = distance;
+						closestVector = targetVector;
+						closestEnemy = enemy;
+					}
+				}
+			
+				if(closestVector != null){
+					// texture:Texture, x:Float, y:Float, radius:Float, stageWidth:Float, stageHeight:Float
+					var directVector = Vector.getVector(tower.x, tower.y, closestVector.vx, closestVector.vy).normalize().multiply(cannonMag);
+					
+					var testProjectile = new TrackingCircle(T_BG, tower.x,  tower.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, closestEnemy);
+					testProjectile.setVelocity(directVector.vx, directVector.vy);
+					projectileLayer.addChild(testProjectile);
+					a_Projectile.push(testProjectile);
+				}
+			}
+		}
+	}
+	
+	/** Function called every frame update, main game logic loop */
+	public function onEnterFrame( event:EnterFrameEvent ) {
+		// Create a modifier based on time passed / expected time
+		var modifier = event.passedTime / GameDriver.perfectDeltaTime;
+		var time = flash.Lib.getTimer();
+		
+		enemyLayer.applyVelocity(modifier);
+		
+		
+		for(projectile in a_Projectile){
+			projectile.applyVelocity(modifier);
+			
+			for(enemy in enemyLayer.a_Enemy){
+				if(projectile.circleHit(enemy, modifier)){
+					projectile.removeFromParent();
+					projectile.despawnMe = true;
+				}
+			}
+			
+			if(projectile.hasDespawned()){
+				a_Projectile.remove(projectile);
+			}
+		}
+		
+		tryFireCannons(time);
 	}
 }

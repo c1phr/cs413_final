@@ -27,7 +27,6 @@ class GameDriver extends Sprite {
 	
 	/* Keep track of game assets */
 	private var towerGrid:TowerGrid;
-	private var enemyGen:EnemyGenerator;
 	
 	private var towers:List<TowerType>;
 	private var enemies:List<EnemyType>;
@@ -65,11 +64,6 @@ class GameDriver extends Sprite {
 		towerGrid.x = Math.round(this.stage.stageWidth/2 - towerGrid.width/2);
 		towerGrid.y = Math.round(this.stage.stageHeight/2 - towerGrid.height/2);
 		addChild(towerGrid);
-
-		enemyGen = new EnemyGenerator(Tower.towerListToPoint(towerGrid.pathFind(0,0,14,10)));
-		
-		this.addChild(enemyGen);
-		towerGrid.enemyLayer.addChild(enemyGen);
 	}
 	
 	/** The game is over! */
@@ -87,11 +81,7 @@ class GameDriver extends Sprite {
 		if(!running)
 			return;
 			
-		// Create a modifier based on time passed / expected time
-		var modifier = event.passedTime / perfectDeltaTime;
-		enemyGen.applyVelocity(modifier);
-		enemyGen.setPath(towerGrid.lastPath);
-
+		towerGrid.onEnterFrame(event);
 	}
 	
 	/** Used to detect clicks */
