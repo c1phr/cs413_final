@@ -348,7 +348,7 @@ class TowerGrid extends Sprite{
 			projectile.applyVelocity(modifier);
 			
 			for(enemy in enemyLayer.a_Enemy){
-				if(projectile.circleHit(enemy, modifier)){
+				if(projectile.dumbCircleHit(enemy)){
 					projectile.removeFromParent();
 					projectile.despawnMe = true;
 				}

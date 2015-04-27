@@ -265,6 +265,11 @@ class Circle extends starling.display.Image {
 		return null;
 	}
 	
+	public function dumbCircleHit(other:Circle):Bool{
+		var directVector = Vector.getVector(this.getX(), this.getY(), other.getX(), other.getY());
+		return (directVector.getMag() <= this.getRadius() + other.getRadius());
+	}
+	
 	/** Test if this circle has collided with another circle */
 	public function circleHit( other : Circle, modifier : Float = 1.0 ) : Bool{
 		//if(boundingVectorHit(other,modifier))
