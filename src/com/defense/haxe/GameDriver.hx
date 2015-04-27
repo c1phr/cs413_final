@@ -90,7 +90,7 @@ class GameDriver extends Sprite {
 		// Create a modifier based on time passed / expected time
 		var modifier = event.passedTime / perfectDeltaTime;
 		enemyGen.applyVelocity(modifier);
-		enemyGen.setPath(Tower.towerListToPoint(towerGrid.pathFind(0,0,14,10)));
+		enemyGen.setPath(towerGrid.lastPath);
 
 	}
 	

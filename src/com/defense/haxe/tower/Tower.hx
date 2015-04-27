@@ -36,7 +36,7 @@ class Tower extends Sprite{
 		
 		this.pivotX = this.pivotY = size / 2;
 		
-		baseImage.pivotX = baseImage.pivotY = texture.width / 2; // TIL pivots are about the texture's size, not the image's
+		baseImage.pivotX = baseImage.pivotY = size / 2; // TIL pivots are about the texture's size, not the image's
 		baseImage.x = baseImage.y = size / 2;
 		
 	}

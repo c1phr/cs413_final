@@ -5,6 +5,7 @@ import starling.display.Sprite;
 import starling.events.TouchEvent;
 import starling.events.Touch;
 
+import com.cykon.haxe.movable.Point;
 import com.defense.haxe.Root;
 import com.defense.haxe.tower.Tower;
 import com.defense.haxe.GameLoader;
@@ -35,6 +36,7 @@ class TowerGrid extends Sprite{
 	private var numWidth:Int;
 	private var numHeight:Int;
 	private var a_Tower:Array<Tower>;
+	public var lastPath:Array<Point>;
 	
 	/* Layers of operation */
 	public var bgLayer:Sprite = new Sprite();
@@ -147,9 +149,10 @@ class TowerGrid extends Sprite{
 		var a_Traverse = pathFind(0,0,numWidth-1,numHeight-1);
 		
 		if(a_Traverse != null){
-			pathLayer.showPath(Tower.towerListToPoint(a_Traverse));
+			lastPath = Tower.towerListToPoint(a_Traverse);
+			pathLayer.showPath(lastPath);
 		} else {
-			// trace("No path.");
+			lastPath = null;
 			pathLayer.stopShowingPath();
 		}
 		

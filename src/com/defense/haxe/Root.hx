@@ -29,7 +29,7 @@ class Root extends Sprite {
 	
 	function populateAssetManager(){
 		assets = new AssetManager();
-		assets.enqueue("assets/32px/path.png");
+		/*assets.enqueue("assets/32px/path.png");
 		assets.enqueue("assets/32px/block.png");
 		assets.enqueue("assets/32px/border_background.png");
 		assets.enqueue("assets/32px/border_0.png");
@@ -37,7 +37,11 @@ class Root extends Sprite {
 		assets.enqueue("assets/32px/border_2.png");
 		assets.enqueue("assets/32px/border_2p.png");
 		assets.enqueue("assets/32px/border_3.png");
-		assets.enqueue("assets/32px/border_4.png");
+		assets.enqueue("assets/32px/border_4.png");*/
+		
+		assets.enqueue("assets/32px/tile.xml");
+		assets.enqueue("assets/32px/tile.png");
+		
 		assets.enqueue("assets/enemy.png");
 		assets.enqueue("assets/startBtn.png");
 
