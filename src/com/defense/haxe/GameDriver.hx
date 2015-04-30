@@ -11,7 +11,7 @@ import flash.system.System;
 import com.defense.haxe.Root;
 import com.defense.haxe.tower.TowerGrid;
 import com.defense.haxe.enemy.EnemyGenerator;
-import com.defense.haxe.GameLoader;
+import com.defense.haxe.GameMenu;
 import com.defense.haxe.enemy.Enemy;
 import com.defense.haxe.tower.Tower;
 import com.defense.haxe.tower.TowerType;

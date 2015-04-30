@@ -15,12 +15,16 @@ import com.cykon.haxe.movable.circle.Circle;
 
 import com.defense.haxe.Root;
 import com.defense.haxe.tower.Tower;
-import com.defense.haxe.GameLoader;
+import com.defense.haxe.GameMenu;
 import com.defense.haxe.tower.PathViewer;
 import com.defense.haxe.enemy.EnemyGenerator;
 import com.defense.haxe.enemy.Enemy;
+<<<<<<< Updated upstream
 import com.defense.haxe.projectile.*;
 
+=======
+import com.defense.haxe.BuildMenu;
+>>>>>>> Stashed changes
 
 
 class TowerGrid extends Sprite{
@@ -38,6 +42,8 @@ class TowerGrid extends Sprite{
 	public var T_B4:Texture  = Root.assets.getTexture("border_4");
 	public var T_BG:Texture = Root.assets.getTexture("border_background");
 
+	// public var sideMenu:Texture = Root.assets.getTexture("thumb");
+
 	/* Keep track of tile sizing */
 	private var tileSize:Int;			// How big the tiles will be (excluding border)
 	private var halfTileSize:Float;		// Half of the tile's true size, because screw division
@@ -49,6 +55,8 @@ class TowerGrid extends Sprite{
 	private var numHeight:Int;
 	private var a_Tower:Array<Tower>;
 	public var lastPath:Array<Point>;
+
+	private var money:Int;
 	
 	/* Keep track of the enemies */
 	private var enemyGen:EnemyGenerator;
@@ -62,7 +70,9 @@ class TowerGrid extends Sprite{
 	public var pathLayer:PathViewer;
 	public var enemyLayer:EnemyGenerator = new EnemyGenerator();
 	public var projectileLayer:Sprite = new Sprite();
-	
+
+	public var sideMenu:BuildMenu = new BuildMenu();
+
 	public function new(tileSize:Int, tileBorder:Int, numWidth:Int, numHeight:Int){
 		super();
 		
@@ -94,10 +104,13 @@ class TowerGrid extends Sprite{
 		borderGlow();
 		this.towerTouch(0,0);
 		
+		// sideMenu = new BuildMenu();
+
 		/* var menu = new GameLoader();
 		addChild(menu.start());
 		addChild(menu.text());
 		addChild(menu.button()); */
+
 		
 		this.addEventListener(TouchEvent.TOUCH, onTouch);
 		this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
@@ -177,7 +190,17 @@ class TowerGrid extends Sprite{
 				
 		// Hacky for now, but these are start / end points (for now)
 		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){			
+<<<<<<< Updated upstream
 			toggleTowerActive(tower);
+=======
+			if(!tower.isActive()){
+				tower.setActive();
+				tower.setBGTexture(T_BG);
+				fixTexture(x,y, true);
+			} else {
+				addChild(sideMenu.getMenu());
+			}
+>>>>>>> Stashed changes
 		}
 		
 		var a_Traverse = pathFind(0,0,numWidth-1,numHeight-1);
@@ -286,7 +309,7 @@ class TowerGrid extends Sprite{
 	var prevY = -1;
 	public function onTouch( event:TouchEvent ){
 		var touch:Touch = event.touches[0];
-		if(touch.phase == "began" || touch.phase == "moved" || touch.phase == "ended"){
+		if(touch.phase == "began"){
 			var towerX = Math.floor((touch.globalX - this.x)/(tileSize+tileBorder));
 			var towerY = Math.floor((touch.globalY - this.y)/(tileSize+tileBorder));
 			
