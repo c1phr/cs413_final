@@ -395,18 +395,15 @@ class TowerGrid extends Sprite{
 		
 		for(projectile in a_Projectile){
 			projectile.applyVelocity(modifier);
+			projectile.trackingEnemyUpdate();
 			
 			for(enemy in enemyLayer.a_Enemy){
 				if(projectile.enemyHitCheck(enemy)){
 					projectile.removeFromParent();
 					projectile.despawnMe = true;
+					break;
 				}
-			} 
-			
-			/* if(projectile.enemyHitCheck()){
-				projectile.removeFromParent();
-				projectile.despawnMe = true;
-			} */
+			}
 			
 			if(projectile.hasDespawned()){
 				a_Projectile.remove(projectile);

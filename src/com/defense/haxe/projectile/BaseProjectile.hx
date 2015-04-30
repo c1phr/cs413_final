@@ -14,22 +14,25 @@ class BaseProjectile extends TrackingCircle{
 		trackEnemy = enemy;
 	}
 	
+	public function trackingEnemyUpdate(){
+		if(trackEnemy.isComplete()){
+			stopTracking = true;
+		}
+	}
+	
 	public function enemyHitCheck(enemy:Enemy=null):Bool{
 		if(enemy == null)
 			enemy = this.trackEnemy;
 		
-		if(enemy.isComplete()){
-			stopTracking = true;
-		} else if(dumbCircleHit(enemy)) {
-			onEnemyHit();
-			stopTracking = true;
+		if(dumbCircleHit(enemy)) {
+			onEnemyHit(enemy);
 			return true;
 		}
 		
 		return false;
 	}
 
-	public function onEnemyHit(){
-		trackEnemy.dealDamage(damage);
+	public function onEnemyHit(enemy:Enemy){
+		enemy.dealDamage(damage);
 	}
 }

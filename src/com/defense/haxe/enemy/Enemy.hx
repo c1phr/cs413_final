@@ -11,7 +11,7 @@ class Enemy extends Circle{
 	private var speed:Int;
 	private var currentIndex:Int = 0;
 	private var isDone:Bool = false;
-	private var health = 5;
+	private var health:Float = 5;
 
 	public function new(texture:Texture, x:Float, y:Float, radius:Float, speed:Int){
 		super(texture,x,y,radius);
@@ -20,7 +20,7 @@ class Enemy extends Circle{
 		this.pivotY = texture.height / 2;
 	}
 	
-	public function dealDamage(damage:Int){
+	public function dealDamage(damage:Float){
 		health -= damage;
 		
 		if(health <= 0){
