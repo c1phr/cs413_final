@@ -8,13 +8,14 @@ import starling.textures.Texture;
 class Enemy extends Circle{
 	private var pList:Array<Point>;
 	private var currentPoint:Point;
-	private var speed:Int = 5;
+	private var speed:Int;
 	private var currentIndex:Int = 0;
 	private var isDone:Bool = false;
 	private var health = 5;
 
-	public function new(texture:Texture, x:Float, y:Float, radius:Float){
+	public function new(texture:Texture, x:Float, y:Float, radius:Float, speed:Int){
 		super(texture,x,y,radius);
+		this.speed = speed;
 		this.pivotX = texture.width / 2;
 		this.pivotY = texture.height / 2;
 	}

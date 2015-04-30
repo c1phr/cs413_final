@@ -11,6 +11,8 @@ import com.cykon.haxe.movable.Point;
 class EnemyGenerator extends Sprite {
 	private var enemy:Enemy;
 	private var currentPath:Array<Point>;
+	private var enemiesToCome:Array<EnemyType>;
+	private var currentEnemy:Int;
 	public var a_Enemy:List<Enemy> = new List();
 
 	public function new(){
@@ -20,7 +22,8 @@ class EnemyGenerator extends Sprite {
 
 	public function generate(){
 		if(currentPath != null){
-			var enemy = new Enemy(Root.assets.getTexture("enemy"), 0,0, 16);
+			var enemy = new Enemy(Root.assets.getTexture("enemy"), 0,0, 16, 5);
+			// var enemy = new Enemy(enemiesToCome[currentEnemy].texture, 0, 0, 16, enemiesToCome[currentEnemy].speed);
 			enemy.setPoints(currentPath);
 			
 			this.addChild(enemy);
