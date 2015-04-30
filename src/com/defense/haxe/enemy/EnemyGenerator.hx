@@ -37,7 +37,7 @@ class EnemyGenerator extends Sprite {
 	public function generate(){
 		if(currentPath != null){
 			for (currentEnemy in enemies){
-				if(currentEnemy.time = time){
+				if(currentEnemy.time == time){
 					var enemyTexture = Root.assets.getTexture(currentEnemy.texture);
 					var enemy = new Enemy(enemyTexture, 0, 0, 16, currentEnemy.speed);
 					enemy.setPoints(currentPath);
