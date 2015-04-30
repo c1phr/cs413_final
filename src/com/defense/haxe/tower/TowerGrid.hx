@@ -102,7 +102,6 @@ class TowerGrid extends Sprite{
 		borderGlow();
 		this.towerTouch(0,0);
 		
-		// sideMenu = new BuildMenu();
 
 		/* var menu = new GameLoader();
 		addChild(menu.start());
@@ -170,6 +169,10 @@ class TowerGrid extends Sprite{
 	
 	public function toggleTowerActive(tower:Tower){
 		if(!tower.isActive()){
+			//Use the following to grab the appropriate tower:
+			// sideMenu.getTower()
+			//trace(sideMenu.getTower());
+			//The above trace shows the output
 			setTowerActive(tower);
 		} else {
 			setTowerInactive(tower);

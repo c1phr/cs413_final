@@ -26,13 +26,15 @@ class BuildMenu extends Sprite {
 	private var sell:Button;
 
 	private var background = new Quad(550, 400, 0x000000);
+
+	private var selectedTower:String;
 	
 	private var rTexture:Texture = Root.assets.getTexture("redtower");
 	private var bTexture:Texture = Root.assets.getTexture("bluetower");
 	private var gTexture:Texture = Root.assets.getTexture("greentower");
 	private var pTexture:Texture = Root.assets.getTexture("purpletower");
 	private var wTexture:Texture = Root.assets.getTexture("wall_button");
-	private var sTexture:Texture = Root.assets.getTexture("block");
+	private var sTexture:Texture = Root.assets.getTexture("money");
 
 	public function new(){
 		super();
@@ -84,6 +86,23 @@ class BuildMenu extends Sprite {
 		sell.visible = true;
 		sell.enabled = true;
 		sell.alphaWhenDisabled = .5;
+
+		redtower.addEventListener(Event.TRIGGERED, function(){addTower("red");});
+		bluetower.addEventListener(Event.TRIGGERED, function(){addTower("blue");});
+		greentower.addEventListener(Event.TRIGGERED, function(){addTower("green");});
+		purpletower.addEventListener(Event.TRIGGERED, function(){addTower("purple");});
+		wall.addEventListener(Event.TRIGGERED, function(){addTower("wall");});
+		sell.addEventListener(Event.TRIGGERED, function(){addTower("sell");});
+
+
+	}
+
+	public function addTower(tower){
+		selectedTower = tower;
+	}
+
+	public function getTower():String{
+		return selectedTower;
 	}
 
 	public function showMenu(towerX:Int, towerY:Int, money:Int, occupied:Bool, grid:TowerGrid){
