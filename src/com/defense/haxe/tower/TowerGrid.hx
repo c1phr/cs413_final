@@ -19,12 +19,8 @@ import com.defense.haxe.GameMenu;
 import com.defense.haxe.tower.PathViewer;
 import com.defense.haxe.enemy.EnemyGenerator;
 import com.defense.haxe.enemy.Enemy;
-<<<<<<< Updated upstream
 import com.defense.haxe.projectile.*;
-
-=======
 import com.defense.haxe.BuildMenu;
->>>>>>> Stashed changes
 
 
 class TowerGrid extends Sprite{
@@ -175,7 +171,9 @@ class TowerGrid extends Sprite{
 		if(!tower.isActive()){
 			setTowerActive(tower);
 		} else {
-			setTowerInactive(tower);
+			//setTowerInactive(tower);
+			addChild(sideMenu.getMenu());
+
 		}
 	}
 	
@@ -190,17 +188,7 @@ class TowerGrid extends Sprite{
 				
 		// Hacky for now, but these are start / end points (for now)
 		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){			
-<<<<<<< Updated upstream
 			toggleTowerActive(tower);
-=======
-			if(!tower.isActive()){
-				tower.setActive();
-				tower.setBGTexture(T_BG);
-				fixTexture(x,y, true);
-			} else {
-				addChild(sideMenu.getMenu());
-			}
->>>>>>> Stashed changes
 		}
 		
 		var a_Traverse = pathFind(0,0,numWidth-1,numHeight-1);
