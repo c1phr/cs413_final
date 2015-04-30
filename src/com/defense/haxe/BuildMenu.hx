@@ -22,6 +22,8 @@ class BuildMenu extends Sprite {
 	private var bluetower:Button;
 	private var greentower:Button;
 	private var purpletower:Button;
+	private var wall:Button;
+	private var sell:Button;
 
 	private var background = new Quad(550, 400, 0x000000);
 	
@@ -29,48 +31,59 @@ class BuildMenu extends Sprite {
 	private var bTexture:Texture = Root.assets.getTexture("bluetower");
 	private var gTexture:Texture = Root.assets.getTexture("greentower");
 	private var pTexture:Texture = Root.assets.getTexture("purpletower");
+	private var wTexture:Texture = Root.assets.getTexture("wall_button");
+	private var sTexture:Texture = Root.assets.getTexture("block");
 
 	public function new(){
 		super();
 		//postion towers
-		redtower = new Button(rTexture, "red");
-		addChild(redtower);
-		redtower.x = 0;
-		redtower.y = 0;
-		redtower.visible = false;
-		redtower.enabled = false;
+		redtower = new Button(rTexture);
+		addChild(redtower);	
+		redtower.x = -50;
+		redtower.y = 40;
+		redtower.visible = true;
+		redtower.enabled = true;
 		redtower.alphaWhenDisabled = .5;
 
-		bluetower = new Button(bTexture, "blue");
+		bluetower = new Button(bTexture);
 		addChild(bluetower);
-		bluetower.x = 0;
-		bluetower.y = 0;
-		bluetower.visible = false;
-		bluetower.enabled = false;
+		bluetower.x = -50;
+		bluetower.y = 80;
+		bluetower.visible = true;
+		bluetower.enabled = true;
 		bluetower.alphaWhenDisabled = .5;
 
-		greentower = new Button(gTexture, "green");
+		greentower = new Button(gTexture);
 		addChild(greentower);
-		greentower.x = 0;
-		greentower.y = 0;
-		greentower.visible = false;
-		greentower.enabled = false;
+		greentower.x = -50;
+		greentower.y = 120;
+		greentower.visible = true;
+		greentower.enabled = true;
 		greentower.alphaWhenDisabled = .5;
 
-		purpletower = new Button(pTexture, "purple");
+		purpletower = new Button(pTexture);
 		addChild(purpletower);
-		purpletower.x = 0;
-		purpletower.y = 0;
-		purpletower.visible = false;
-		purpletower.enabled = false;
+		purpletower.x = -50;
+		purpletower.y = 160;
+		purpletower.visible = true;
+		purpletower.enabled = true;
 		purpletower.alphaWhenDisabled = .5;
-	}
 
-	public function getMenu():Quad{
-		background.x = 0;
-		background.y = 0;
-		background.alpha = 0.5;
-		return background;
+		wall = new Button(wTexture);
+		addChild(wall);	
+		wall.x = -50;
+		wall.y = 0;
+		wall.visible = true;
+		wall.enabled = true;
+		wall.alphaWhenDisabled = .5;
+
+		sell = new Button(sTexture);
+		addChild(sell);	
+		sell.x = -50;
+		sell.y = 200;
+		sell.visible = true;
+		sell.enabled = true;
+		sell.alphaWhenDisabled = .5;
 	}
 
 	public function showMenu(towerX:Int, towerY:Int, money:Int, occupied:Bool, grid:TowerGrid){

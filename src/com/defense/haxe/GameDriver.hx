@@ -64,6 +64,7 @@ class GameDriver extends Sprite {
 		towerGrid.x = Math.round(this.stage.stageWidth/2 - towerGrid.width/2);
 		towerGrid.y = Math.round(this.stage.stageHeight/2 - towerGrid.height/2);
 		addChild(towerGrid);
+		towerGrid.initializeMenu();
 	}
 	
 	/** The game is over! */

@@ -50,6 +50,7 @@ class Root extends Sprite {
 		assets.enqueue("assets/32px/bluetower.png");
 		assets.enqueue("assets/32px/greentower.png");
 		assets.enqueue("assets/32px/purpletower.png");
+		assets.enqueue("assets/wall_button.png");
 
 		assets.loadQueue(function onProgress(ratio:Float) {
 			if (ratio == 1) {

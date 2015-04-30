@@ -89,6 +89,8 @@ class TowerGrid extends Sprite{
 		addChild(pathLayer);
 		addChild(enemyLayer);
 		addChild(projectileLayer);
+
+
 		
 		// Initiate the tower array;
 		a_Tower = new Array<Tower>();
@@ -106,7 +108,6 @@ class TowerGrid extends Sprite{
 		addChild(menu.start());
 		addChild(menu.text());
 		addChild(menu.button()); */
-
 		
 		this.addEventListener(TouchEvent.TOUCH, onTouch);
 		this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
@@ -288,6 +289,7 @@ class TowerGrid extends Sprite{
 		switch(event.keyCode){
 			case 8: // Backspace
 				clearTowers();
+
 		}
 	}
 	
@@ -380,6 +382,9 @@ class TowerGrid extends Sprite{
 				}
 			}
 		}
+	}
+	public function initializeMenu(){
+		addChild(sideMenu);
 	}
 	
 	/** Function called every frame update, main game logic loop */
