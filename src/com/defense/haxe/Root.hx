@@ -46,6 +46,11 @@ class Root extends Sprite {
 		assets.enqueue("assets/startBtn.png");
 		assets.enqueue("assets/thumb.png");
 
+		assets.enqueue("assets/32px/redtower.png");
+		assets.enqueue("assets/32px/bluetower.png");
+		assets.enqueue("assets/32px/greentower.png");
+		assets.enqueue("assets/32px/purpletower.png");
+
 		assets.loadQueue(function onProgress(ratio:Float) {
 			if (ratio == 1) {
 				// Loading Screen Management here...
