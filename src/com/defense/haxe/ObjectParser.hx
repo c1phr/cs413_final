@@ -60,7 +60,8 @@ class ObjectParser
 					var enemyToAdd = new EnemyType();
 					enemyToAdd.type = anonEnemy.type;
 					enemyToAdd.texture = anonEnemy.texture;
-					enemyToAdd.speed = anonEnemy.speed;					
+					enemyToAdd.speed = anonEnemy.speed;
+					enemyToAdd.time = anonEnemy.time;			
 					this.enemies.add(enemyToAdd);
 				}						
 				dispatcher.dispatchEventWith("EnemyJsonReady", true, {value: this.enemies});

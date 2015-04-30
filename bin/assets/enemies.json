@@ -2,13 +2,36 @@
 	"enemy_1": 
 		{
 			"type": "fast",
+			"time": 1,
 			"texture": "fast.texture",			
 			"speed": 100			
 		},
 	"enemy_2": 
 		{
 			"type": "slow",
+			"time": 1,
 			"texture": "slow.texture",			
 			"speed": 10
+		},
+	"enemy_3": 
+		{
+			"type": "fast",
+			"time": 1,
+			"texture": "fast.texture",			
+			"speed": 100			
+		},
+	"enemy_4": 
+		{
+			"type": "fast",
+			"time": 1,
+			"texture": "fast.texture",			
+			"speed": 100			
+		},
+	"enemy_5": 
+		{
+			"type": "fast",
+			"time": 1,
+			"texture": "fast.texture",			
+			"speed": 100			
 		}
 }
