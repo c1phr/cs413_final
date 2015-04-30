@@ -31,36 +31,34 @@ class Enemy extends Circle{
 	public override function applyVelocity(modifier:Float):Bool{
 		super.applyVelocity(modifier);
 
-		if(currentIndex == pList.length){
-			//is.dispose();
-			//Done = true;
-		} else {
-			
-			this.rotation += Math.PI/30;
-			
-			var pointx = currentPoint.x;
-			var pointy = currentPoint.y;
+		this.rotation += Math.PI/30;
+		
+		var pointx = currentPoint.x;
+		var pointy = currentPoint.y;
 
-			var velocityVector = new Vector(vx, vy);
-			var pointVector = Vector.getVector(x,y,pointx,pointy);
-			
-			// Tests enemy see if the enemy has passed the current point
-			if (velocityVector.dot(pointVector) < 0){
-				currentPoint = pList[currentIndex];
+		var velocityVector = new Vector(vx, vy);
+		var pointVector = Vector.getVector(x,y,pointx,pointy);
+
+		
+		// Tests enemy see if the enemy has passed the current point
+		if (velocityVector.dot(pointVector) < 0 && currentIndex < pList.length){
+			currentPoint = pList[currentIndex];
+			if(currentIndex < pList.length){
 				currentIndex += 1;
-				x = pointx;
-				y = pointy;
-				var speedVector = Vector.getVector(x,y,currentPoint.x,currentPoint.y).normalize().multiply(speed);
-				this.vx = speedVector.vx;
-				this.vy = speedVector.vy;
-				
-				pointx = currentPoint.x;
-				pointy = currentPoint.y;
-				if(currentIndex == pList.length){
-					isDone = true;
-				}
 			}
+			x = pointx;
+			y = pointy;
+			var speedVector = Vector.getVector(x,y,currentPoint.x,currentPoint.y).normalize().multiply(speed);
+			this.vx = speedVector.vx;
+			this.vy = speedVector.vy;
+			
+			pointx = currentPoint.x;
+			pointy = currentPoint.y;
 		}
+		if(currentIndex == pList.length && this.x >= currentPoint.x && this.y >= currentPoint.y){
+			isDone = true;
+		}
+		// }
 		
 		return true;
 	}
