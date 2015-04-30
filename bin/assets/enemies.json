@@ -3,35 +3,35 @@
 		{
 			"type": "fast",
 			"time": 1,
-			"texture": "fast.texture",			
-			"speed": 100			
+			"texture": "enemy",
+			"speed": 4			
 		},
 	"enemy_2": 
 		{
 			"type": "slow",
-			"time": 1,
-			"texture": "slow.texture",			
-			"speed": 10
+			"time": 2,
+			"texture": "enemy",			
+			"speed": 6
 		},
 	"enemy_3": 
 		{
 			"type": "fast",
-			"time": 1,
-			"texture": "fast.texture",			
-			"speed": 100			
+			"time": 3,
+			"texture": "enemy",			
+			"speed": 8			
 		},
 	"enemy_4": 
 		{
 			"type": "fast",
-			"time": 1,
-			"texture": "fast.texture",			
-			"speed": 100			
+			"time": 4,
+			"texture": "enemy",			
+			"speed": 10			
 		},
 	"enemy_5": 
 		{
 			"type": "fast",
-			"time": 1,
-			"texture": "fast.texture",			
-			"speed": 100			
+			"time": 5,
+			"texture": "enemy",			
+			"speed": 20			
 		}
 }
