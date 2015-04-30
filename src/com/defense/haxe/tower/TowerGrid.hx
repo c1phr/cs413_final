@@ -171,9 +171,7 @@ class TowerGrid extends Sprite{
 		if(!tower.isActive()){
 			setTowerActive(tower);
 		} else {
-			//setTowerInactive(tower);
-			addChild(sideMenu.getMenu());
-
+			setTowerInactive(tower);
 		}
 	}
 	
