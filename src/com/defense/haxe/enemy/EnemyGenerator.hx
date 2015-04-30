@@ -7,27 +7,45 @@ import com.defense.haxe.enemy.Enemy;
 import com.defense.haxe.tower.TowerGrid;
 import com.defense.haxe.tower.Tower;
 import com.cykon.haxe.movable.Point;
+import com.defense.haxe.tower.TowerType;
+import starling.events.Event;
 
 class EnemyGenerator extends Sprite {
 	private var enemy:Enemy;
 	private var currentPath:Array<Point>;
-	private var enemiesToCome:Array<EnemyType>;
-	private var currentEnemy:Int;
+	private var currentEnemy:EnemyType;
 	public var a_Enemy:List<Enemy> = new List();
+
+	private var towers:List<TowerType>;
+	private var enemies:List<EnemyType>;
+
+	private var time:Float;
 
 	public function new(){
 		super();
-		Root.globalStage.addEventListener(KeyboardEvent.KEY_DOWN, generate);		
+		var objectParser = new ObjectParser();
+		// Events because Flash IO is async
+		objectParser.dispatcher.addEventListener("TowerJsonReady", function(e:Event){
+				this.towers = e.data.value;							
+			});
+		objectParser.dispatcher.addEventListener("EnemyJsonReady", function(e:Event){
+				this.enemies = e.data.value;				
+			});
+		generate();
 	}
 
 	public function generate(){
 		if(currentPath != null){
-			var enemy = new Enemy(Root.assets.getTexture("enemy"), 0,0, 16, 5);
-			// var enemy = new Enemy(enemiesToCome[currentEnemy].texture, 0, 0, 16, enemiesToCome[currentEnemy].speed);
-			enemy.setPoints(currentPath);
-			
-			this.addChild(enemy);
-			a_Enemy.push(enemy);
+			for (currentEnemy in enemies){
+				if(currentEnemy.time = time){
+					var enemyTexture = Root.assets.getTexture(currentEnemy.texture);
+					var enemy = new Enemy(enemyTexture, 0, 0, 16, currentEnemy.speed);
+					enemy.setPoints(currentPath);
+					
+					this.addChild(enemy);
+					a_Enemy.push(enemy);
+				}
+			}
 		}
 	}
 
@@ -44,5 +62,9 @@ class EnemyGenerator extends Sprite {
 
 	public function setPath(path:Array<Point>){
 		currentPath = path;
+	}
+
+	public function timeUpdate(time:Float){
+		this.time = time;
 	}
 }

@@ -35,14 +35,7 @@ class GameDriver extends Sprite {
     public function new() {
         super();
 		this.addEventListener(Event.ADDED_TO_STAGE, start);		
-		var objectParser = new ObjectParser();
-		// Events because Flash IO is async
-		objectParser.dispatcher.addEventListener("TowerJsonReady", function(e:Event){
-				this.towers = e.data.value;							
-			});
-		objectParser.dispatcher.addEventListener("EnemyJsonReady", function(e:Event){
-				this.enemies = e.data.value;				
-			});
+		
 	}
 	
 	// Called when added to the stage, ready to start everything
