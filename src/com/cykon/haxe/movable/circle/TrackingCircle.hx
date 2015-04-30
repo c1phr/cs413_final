@@ -16,6 +16,7 @@ class TrackingCircle extends DespawningCircle {
 
 	private var trackCircle : Circle;
 	private var maxAngle : Float = Math.PI*2;
+	private var stopTracking:Bool = false;
 	
 	public function new(texture:Texture, x:Float, y:Float, radius:Float, stageWidth:Float, stageHeight:Float, trackCircle : Circle){
 		super(texture, x, y, radius, stageWidth, stageHeight);
@@ -31,6 +32,9 @@ class TrackingCircle extends DespawningCircle {
 	public override function applyVelocity(modifier:Float):Bool{	
 		var returnVal = super.applyVelocity(modifier);
 		
+		if(stopTracking)
+			return true;
+			
 		var thisVector = new Vector(vx,vy);
 		
 		

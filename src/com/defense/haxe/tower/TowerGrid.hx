@@ -4,6 +4,7 @@ import starling.textures.Texture;
 import starling.display.Sprite;
 import starling.events.EnterFrameEvent;
 import starling.events.TouchEvent;
+import starling.events.KeyboardEvent;
 import starling.events.Touch;
 
 import com.cykon.haxe.cmath.Vector;
@@ -18,6 +19,7 @@ import com.defense.haxe.GameLoader;
 import com.defense.haxe.tower.PathViewer;
 import com.defense.haxe.enemy.EnemyGenerator;
 import com.defense.haxe.enemy.Enemy;
+import com.defense.haxe.projectile.*;
 
 
 
@@ -52,7 +54,7 @@ class TowerGrid extends Sprite{
 	private var enemyGen:EnemyGenerator;
 	
 	/* Keep track of projectiles */
-	private var a_Projectile:List<DespawningCircle> = new List<DespawningCircle>();
+	private var a_Projectile:List<BaseProjectile> = new List<BaseProjectile>();
 	
 	/* Layers of operation */
 	public var bgLayer:Sprite = new Sprite();
@@ -98,6 +100,7 @@ class TowerGrid extends Sprite{
 		addChild(menu.button()); */
 		
 		this.addEventListener(TouchEvent.TOUCH, onTouch);
+		this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 	}
 	
 	private var br = 0x00;
@@ -142,6 +145,27 @@ class TowerGrid extends Sprite{
 			}
 	}
 	
+	public function setTowerActive(tower:Tower){
+		tower.setActive();
+		tower.setBGTexture(T_BG);
+		fixTexture(tower.getGridX(), tower.getGridY(), true);
+	}
+	
+	public function setTowerInactive(tower:Tower){
+		tower.setActive(false);
+		fixTexture(tower.getGridX(), tower.getGridY(), true);
+		tower.setBGTexture(T_BLOCK);
+		tower.setTexture(T_B0);
+	}
+	
+	public function toggleTowerActive(tower:Tower){
+		if(!tower.isActive()){
+			setTowerActive(tower);
+		} else {
+			setTowerInactive(tower);
+		}
+	}
+	
 	public function towerTouch(x:Int,y:Int){
 		bgLayer.unflatten();
 		baseLayer.unflatten();
@@ -153,16 +177,7 @@ class TowerGrid extends Sprite{
 				
 		// Hacky for now, but these are start / end points (for now)
 		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){			
-			if(!tower.isActive()){
-				tower.setActive();
-				tower.setBGTexture(T_BG);
-				fixTexture(x,y, true);
-			} else {
-				tower.setActive(false);
-				fixTexture(x,y, true);
-				tower.setBGTexture(T_BLOCK);
-				tower.setTexture(T_B0);
-			}
+			toggleTowerActive(tower);
 		}
 		
 		var a_Traverse = pathFind(0,0,numWidth-1,numHeight-1);
@@ -247,6 +262,25 @@ class TowerGrid extends Sprite{
 		}
 	}
 	
+	public function clearTowers(){
+		bgLayer.unflatten();
+		baseLayer.unflatten();
+		
+		for(tower in a_Tower){
+			setTowerInactive(tower);
+		}
+		
+		bgLayer.flatten();
+		baseLayer.flatten();
+	}
+	
+	
+	public function onKeyUp( event:KeyboardEvent ){
+		switch(event.keyCode){
+			case 8: // Backspace
+				clearTowers();
+		}
+	}
 	
 	var prevX = -1;
 	var prevY = -1;
@@ -298,7 +332,7 @@ class TowerGrid extends Sprite{
 				var closestDistance = 9999999999;
 				
 				for(enemy in enemyLayer.a_Enemy){
-					var distFromTarget = Vector.getVector(tower.x, tower.y, enemy.x, enemy.y).getMag();
+					/* var distFromTarget = Vector.getVector(tower.x, tower.y, enemy.x, enemy.y).getMag();
 					var targetVector = new Vector(enemy.getVX(), enemy.getVY());
 					var targetMag = targetVector.getMag();
 					
@@ -313,10 +347,13 @@ class TowerGrid extends Sprite{
 					targetVector.vx += enemy.x;
 					targetVector.vy += enemy.y;
 					
-					var distance = tower.fireAtPoint(time, targetVector.vx, targetVector.vy);
+					var distance = tower.fireAtPoint(time, targetVector.vx, targetVector.vy); */
 					
-					if(distance != -1 && distance < closestDistance){
-						closestDistance = distance;
+					var targetVector = Vector.getVector(tower.x, tower.y, enemy.x, enemy.y);
+					var targetDistance = tower.fireAtPoint(time, targetVector.vx, targetVector.vy);
+					
+					if(targetDistance != -1 && targetDistance < closestDistance){
+						closestDistance = targetDistance;
 						closestVector = targetVector;
 						closestEnemy = enemy;
 					}
@@ -326,8 +363,9 @@ class TowerGrid extends Sprite{
 					// texture:Texture, x:Float, y:Float, radius:Float, stageWidth:Float, stageHeight:Float
 					var directVector = Vector.getVector(tower.x, tower.y, closestVector.vx, closestVector.vy).normalize().multiply(cannonMag);
 					
-					var testProjectile = new TrackingCircle(T_BG, tower.x,  tower.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, closestEnemy);
+					var testProjectile = new BaseProjectile(T_BG, tower.x,  tower.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, closestEnemy);
 					testProjectile.setVelocity(directVector.vx, directVector.vy);
+					testProjectile.color = 0x00FF00;
 					projectileLayer.addChild(testProjectile);
 					a_Projectile.push(testProjectile);
 				}
@@ -348,11 +386,16 @@ class TowerGrid extends Sprite{
 			projectile.applyVelocity(modifier);
 			
 			for(enemy in enemyLayer.a_Enemy){
-				if(projectile.dumbCircleHit(enemy)){
+				if(projectile.enemyHitCheck(enemy)){
 					projectile.removeFromParent();
 					projectile.despawnMe = true;
 				}
-			}
+			} 
+			
+			/* if(projectile.enemyHitCheck()){
+				projectile.removeFromParent();
+				projectile.despawnMe = true;
+			} */
 			
 			if(projectile.hasDespawned()){
 				a_Projectile.remove(projectile);

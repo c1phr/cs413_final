@@ -11,11 +11,21 @@ class Enemy extends Circle{
 	private var speed:Int = 5;
 	private var currentIndex:Int = 0;
 	private var isDone:Bool = false;
+	private var health = 5;
 
 	public function new(texture:Texture, x:Float, y:Float, radius:Float){
 		super(texture,x,y,radius);
 		this.pivotX = texture.width / 2;
 		this.pivotY = texture.height / 2;
+	}
+	
+	public function dealDamage(damage:Int){
+		health -= damage;
+		
+		if(health <= 0){
+			health = 0;
+			isDone = true;
+		}
 	}
 
 	public override function applyVelocity(modifier:Float):Bool{
