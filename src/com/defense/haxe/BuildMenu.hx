@@ -103,6 +103,25 @@ class BuildMenu extends Sprite {
 		
 		return false;
 	}
+
+	public function gainSwagLevelMoney(level:Int){
+		switch(level){
+			case 1:
+				gainSwagMoney(200);
+
+			case 2:
+				gainSwagMoney(400);
+
+			case 3:
+				gainSwagMoney(600);
+
+			case 4:
+				gainSwagMoney(800);
+
+			case 5:
+				gainSwagMoney(1000);
+		}
+	}
 	
 	public function gainSwagMoney(price:Int){
 		buy(-price);
