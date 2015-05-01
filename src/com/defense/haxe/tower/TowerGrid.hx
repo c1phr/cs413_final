@@ -157,6 +157,7 @@ class TowerGrid extends Sprite{
 		tower.setActive();
 		tower.setBGTexture(T_BG);
 		fixTexture(tower.getGridX(), tower.getGridY(), true);
+		tower.setTurretTexture(Root.assets.getTexture("bluetower"));
 	}
 	
 	public function setTowerInactive(tower:Tower){
@@ -164,6 +165,7 @@ class TowerGrid extends Sprite{
 		fixTexture(tower.getGridX(), tower.getGridY(), true);
 		tower.setBGTexture(T_BLOCK);
 		tower.setTexture(T_B0);
+		tower.setTurretTexture(null);
 	}
 	
 	public function toggleTowerActive(tower:Tower){
@@ -352,45 +354,38 @@ class TowerGrid extends Sprite{
 				var cannonMag = 10;
 				var closestVector = null;
 				var closestEnemy = null;
-				var closestDistance = 9999999999;
+				var closestDistance = {'canFire':false, 'distance':99999.99};
 				
 				for(enemy in enemyLayer.a_Enemy){
-					/* var distFromTarget = Vector.getVector(tower.x, tower.y, enemy.x, enemy.y).getMag();
-					var targetVector = new Vector(enemy.getVX(), enemy.getVY());
-					var targetMag = targetVector.getMag();
-					
-					// The value forming a right triangle, which must be multiplied by the cannon and enemy magnitudes
-					//	 |\
-					// d | \ cannonMag*s
-					//	 |__\
-					//    shipMag*s
-					var modValue = Math.sqrt( (distFromTarget*distFromTarget) / (cannonMag*cannonMag - targetMag*targetMag) );
-					
-					targetVector.multiply(modValue);
-					targetVector.vx += enemy.x;
-					targetVector.vy += enemy.y;
-					
-					var distance = tower.fireAtPoint(time, targetVector.vx, targetVector.vy); */
-					
 					var targetVector = Vector.getVector(tower.x, tower.y, enemy.x, enemy.y);
-					var targetDistance = tower.fireAtPoint(time, targetVector.vx, targetVector.vy);
-					
-					if(targetDistance != -1 && targetDistance < closestDistance){
-						closestDistance = targetDistance;
-						closestVector = targetVector;
-						closestEnemy = enemy;
+					var tObject = tower.fireAtPoint(time, targetVector.vx, targetVector.vy);
+						
+					if(!(closestDistance.canFire && !tObject.canFire)){
+						
+						if(tObject.distance != -1 && (tObject.canFire && !closestDistance.canFire) || tObject.distance < closestDistance.distance){
+							closestDistance.canFire = tObject.canFire;
+							closestDistance.distance = tObject.distance;
+							closestVector = targetVector;
+							closestEnemy = enemy;
+						}
 					}
 				}
 			
 				if(closestVector != null){
 					// texture:Texture, x:Float, y:Float, radius:Float, stageWidth:Float, stageHeight:Float
 					var directVector = Vector.getVector(tower.x, tower.y, closestVector.vx, closestVector.vy).normalize().multiply(cannonMag);
+						
+					if(closestDistance.canFire){
+						tower.setLastFireTime(time);
+
+						var testProjectile = new SlowProjectile(T_BG, tower.x,  tower.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, closestEnemy);
+						testProjectile.setVelocity(directVector.vx, directVector.vy);
+						testProjectile.color = 0x00FF00;
+						projectileLayer.addChild(testProjectile);
+						a_Projectile.push(testProjectile);
+					}
 					
-					var testProjectile = new SlowProjectile(T_BG, tower.x,  tower.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, closestEnemy);
-					testProjectile.setVelocity(directVector.vx, directVector.vy);
-					testProjectile.color = 0x00FF00;
-					projectileLayer.addChild(testProjectile);
-					a_Projectile.push(testProjectile);
+					tower.setTurretAngle(closestVector.getAngle());
 				}
 			}
 		}

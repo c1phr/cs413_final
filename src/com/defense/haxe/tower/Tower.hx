@@ -10,8 +10,10 @@ import starling.display.Image;
 class Tower extends Sprite{
 	private static var TWO_PI:Float = 6.283185;
 	
+	
 	public var baseImage:Image;
 	public var bgImage:Image; // This will be attached to a different sprite.
+	private var turretImage:Image;
 	private var bgLayer:Sprite;
 	private var active:Bool = false;
 	
@@ -57,6 +59,29 @@ class Tower extends Sprite{
 		return active;
 	}
 	
+	public function setTurretAngle(angle:Float){
+		if(turretImage != null){
+			turretImage.rotation = angle;
+		}
+	}
+	
+	public function setTurretTexture(texture:Texture){
+		if(texture == null){
+			removeChild(turretImage);
+			turretImage = null;
+		} else if(turretImage == null){
+			turretImage = new Image(texture);
+			turretImage.width = turretImage.height = 30;
+			turretImage.pivotX = texture.width / 2;
+			turretImage.pivotY = texture.height / 2;
+			turretImage.x = this.width/2;
+			turretImage.y = this.height/2;
+			addChild(turretImage);
+		} else {
+			turretImage.texture = texture;
+		}
+	}
+	
 	/** Maximum firing distance */
 	public function setFiringDistance(firingDistance:Float){
 		if(firingDistance > 0){
@@ -92,22 +117,27 @@ class Tower extends Sprite{
 	}
 
 	/** Attempts to fire at a point if it is within the dist & angle */
-	public function fireAtPoint(time:Float, x:Float, y:Float):Float{
-		if(time - lastFireTime >= cooldown){
-						
-			// Translate (0,0) from the cannon's space to the world's space
-			var worldPos = getTransformationMatrix(this.parent.parent).transformPoint(new flash.geom.Point());
-			// Get the direct vector of the cannon to the target point
-			var directVector = Vector.getVector(x, y, worldPos.x, worldPos.y);	
+	public function fireAtPoint(time:Float, x:Float, y:Float):Dynamic{			
+		// Translate (0,0) from the cannon's space to the world's space
+		var worldPos = getTransformationMatrix(this).transformPoint(new flash.geom.Point());
+		// Get the direct vector of the cannon to the target point
+		var directVector = Vector.getVector(x, y, worldPos.x, worldPos.y);	
+		
+		// If we're in range...
+		if(directVector.getMag() <= firingDistance){
 			
-			// If we're in range...
-			if(directVector.getMag() <= firingDistance){
-				lastFireTime = time;
-				return directVector.getMag();
+			if(time - lastFireTime >= cooldown){
+				return {'canFire':true, 'distance':directVector.getMag()};
 			}
+				
+			return {'canFire':false, 'distance':directVector.getMag()};
 		}
 		
-		return -1;
+		return {'canFire':false, 'distance':-1};
+	}
+	
+	public function setLastFireTime(time:Float){
+		lastFireTime = time;
 	}
 	
 	// Four bit number: right << bottom << left << top
