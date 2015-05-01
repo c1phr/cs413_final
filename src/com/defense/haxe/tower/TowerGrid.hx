@@ -378,7 +378,7 @@ class TowerGrid extends Sprite{
 					if(tower.hasTurret()){
 						tower.setTurretTexture(null);
 					} else if (tower.isActive()){
-						setTowerInactive(tower);
+						towerTouch(towerX,towerY,false);
 					}
 				
 				}

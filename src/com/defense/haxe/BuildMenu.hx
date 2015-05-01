@@ -39,8 +39,8 @@ class BuildMenu extends Sprite {
 		super();
 		this.towerGrid = towerGrid;
 		var redtower = 		new Button(Root.assets.getTexture("redtower"));
-		var greentower = 	new Button(Root.assets.getTexture("bluetower"));
-		var bluetower = 	new Button(Root.assets.getTexture("greentower"));
+		var bluetower = 	new Button(Root.assets.getTexture("bluetower"));
+		var greentower = 	new Button(Root.assets.getTexture("greentower"));
 		var purpletower = 	new Button(Root.assets.getTexture("purpletower"));
 		var wall = 			new Button(Root.assets.getTexture("wall_button"));
 		var cancel = 		new Button(Root.assets.getTexture("cancel"));
