@@ -513,7 +513,7 @@ class TowerGrid extends Sprite{
 		moneyField = new TextField(300, 100, "","Arial", 30, 0x00CCFF);
 		moneyField.text = "$" + money;
 		moneyField.y = -80;
-		moneyField.x = -100;
+		moneyField.x = -115;
 		addChild(moneyField);
 
 		addChild(lifeField);
@@ -521,6 +521,24 @@ class TowerGrid extends Sprite{
 		
 	}
 	
+	public function moneyAnimation(x:Float, y:Float, money:Int){
+		var textField = new TextField(100, 100, "$" + money, "Arial", 14, 0x00FF00);
+		textField.x = x;
+		textField.y = y;
+		textField.pivotX = textField.pivotY = 50;
+		
+		addChild(textField);
+		Starling.juggler.tween(textField, 1.0, {
+			transition: Transitions.LINEAR,
+			alpha: 0,
+			x: Math.random()*30 + x,
+			y: Math.random()*30 + y,
+			onComplete: function(){
+				textField.removeFromParent();
+			}
+		});
+	
+	}
 	/** Function called every frame update, main game logic loop */
 	public function onEnterFrame( event:EnterFrameEvent ) {
 		// Create a modifier based on time passed / expected time
@@ -533,6 +551,7 @@ class TowerGrid extends Sprite{
 		isPlaying = enemyLayer.getWaveStatus();
 		lives = enemyLayer.getLives();
 		lifeField.text = "Lives: " + lives;
+		moneyField.text = "$" + sideMenu.money;
 		
 		for(projectile in a_Projectile){
 			projectile.applyVelocity(modifier);
@@ -540,6 +559,10 @@ class TowerGrid extends Sprite{
 			
 			for(enemy in enemyLayer.a_Enemy){
 				if(projectile.enemyHitCheck(enemy)){
+					if(enemy.getDead()){
+						sideMenu.gainSwagMoney(20);
+						moneyAnimation(enemy.x, enemy.y, 20);
+					}
 					projectile.removeFromParent();
 					projectile.despawnMe = true;
 					break;

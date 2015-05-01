@@ -92,10 +92,8 @@ class BuildMenu extends Sprite {
 	public function buy(price:Int):Bool{
 		if(money - price >= 0){
 			money -= price;
-			trace(money);
 			return true;
 		}
-		trace(money);
 		
 		return false;
 	}
