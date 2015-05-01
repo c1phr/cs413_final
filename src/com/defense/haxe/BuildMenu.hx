@@ -122,10 +122,10 @@ class BuildMenu extends Sprite {
 
 		}
 		//add tower when clicked
-		redtower.addEventListener(Event.TRIGGERED, function(){
+		/* redtower.addEventListener(Event.TRIGGERED, function(){
 			grid.towerTouch(towerX,towerY);
 			hideMenu();
-		});
+		}); */
 		
 		bluetower.x = towerX + 50;
 		bluetower.y = towerY;
@@ -137,10 +137,10 @@ class BuildMenu extends Sprite {
 
 		}
 		//add tower when clicked
-		bluetower.addEventListener(Event.TRIGGERED, function(){
+		/* bluetower.addEventListener(Event.TRIGGERED, function(){
 			grid.towerTouch(towerX,towerY);
 			hideMenu();
-		});
+		}); */
 
 		greentower.x = towerX;
 		greentower.y = towerY - 50;
@@ -152,10 +152,10 @@ class BuildMenu extends Sprite {
 
 		}
 		//add tower when clicked
-		greentower.addEventListener(Event.TRIGGERED, function(){
+		/* greentower.addEventListener(Event.TRIGGERED, function(){
 			grid.towerTouch(towerX,towerY);
 			hideMenu();
-		});
+		}); */
 
 		purpletower.x = towerX - 50;
 		purpletower.y = towerY;
@@ -167,10 +167,10 @@ class BuildMenu extends Sprite {
 
 		}
 		//add tower when clicked
-		purpletower.addEventListener(Event.TRIGGERED, function(){
+		/* purpletower.addEventListener(Event.TRIGGERED, function(){
 			grid.towerTouch(towerX,towerY);
 			hideMenu();
-		});
+		}); */
 
 	}
 
