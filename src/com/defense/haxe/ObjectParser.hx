@@ -21,11 +21,12 @@ class ObjectParser
 		this.enemies = new Array<EnemyType>();
 		this.dispatcher = new EventDispatcher();
 		this.towerObject = Root.assets.getObject("towers");
-		this.enemyObject = Root.assets.getObject("enemies");
+		
 	}
 
-	public function parseTowerJson():Array<TowerType>
+	public function parseTowerJson(inputFile:String):Array<TowerType>
 	{
+		this.towerObject = Root.assets.getObject(inputFile);
 		for(i in 0...towerObject.length){
 	        var data = towerObject[i];
 	        var towerToAdd = new TowerType();
@@ -41,8 +42,9 @@ class ObjectParser
 						
 	}
 
-	public function parseEnemyJson():Array<EnemyType>
+	public function parseEnemyJson(inputFile:String):Array<EnemyType>
 	{
+		this.enemyObject = Root.assets.getObject(inputFile);
 		for(i in 0...enemyObject.length){
 	        var data = enemyObject[i];
 			var enemyToAdd = new EnemyType();

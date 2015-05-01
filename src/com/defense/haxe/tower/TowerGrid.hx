@@ -7,6 +7,7 @@ import starling.events.TouchEvent;
 import starling.events.KeyboardEvent;
 import starling.events.Touch;
 import starling.text.TextField;
+import starling.display.Button;
 
 import com.cykon.haxe.cmath.Vector;
 import com.cykon.haxe.movable.Point;
@@ -61,7 +62,7 @@ class TowerGrid extends Sprite{
 	private var a_Tower:Array<Tower>;
 	public var lastPath:Array<Point>;
 
-	private var lives:Int = 10;
+	public var lives:Int;
 	
 	/* Keep track of projectiles */
 	private var a_Projectile:List<BaseProjectile> = new List<BaseProjectile>();
@@ -113,7 +114,7 @@ class TowerGrid extends Sprite{
 		this.towerTouch(0,0,false);
 		
 		this.addEventListener(TouchEvent.TOUCH, onTouch);
-		this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+		this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);			
 	}
 	
 	private var br = 0x00;
@@ -325,6 +326,9 @@ class TowerGrid extends Sprite{
 				}
 			case 38:
 				enemyLayer.resetTime();
+			case 13:
+				enemyLayer.startWave();
+				enemyLayer.resetTime();
 		}
 	}
 	
@@ -445,7 +449,7 @@ class TowerGrid extends Sprite{
 		
 		enemyLayer.applyVelocity(modifier);
 		enemyLayer.timeUpdate(time);
-		
+		lives = enemyLayer.getLives();
 		
 		for(projectile in a_Projectile){
 			projectile.applyVelocity(modifier);

@@ -3,7 +3,7 @@
 		"type": "fast",
 		"time": 1000,
 		"texture": "enemy",
-		"speed": 2			
+		"speed": 10			
 	},
 
 	{

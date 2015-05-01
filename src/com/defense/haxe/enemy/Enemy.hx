@@ -11,6 +11,7 @@ class Enemy extends Circle{
 	private var speed:Float;
 	private var currentIndex:Int = 0;
 	private var isDone:Bool = false;
+	private var isDead:Bool = false;
 	private var health:Float = 5;
 
 	public function new(texture:Texture, x:Float, y:Float, radius:Float, speed:Float){
@@ -33,7 +34,7 @@ class Enemy extends Circle{
 		
 		if(health <= 0){
 			health = 0;
-			isDone = true;
+			isDead = true;
 		}
 	}
 
@@ -86,6 +87,10 @@ class Enemy extends Circle{
 
 	public function isComplete(){
 		return isDone;
+	}
+
+	public function getDead(){
+		return isDead;
 	}
 
 }

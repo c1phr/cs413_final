@@ -72,7 +72,7 @@ class GameDriver extends Sprite {
 
 
 		lifeField = new TextField(300, 100, "","font", 30, 0xFFFFFF);
-		lifeField.text = "Lives: " + lives;
+		lifeField.text = "Lives: " + towerGrid.lives;
 		lifeField.y = -25;
 		lifeField.x = 300;
 
@@ -93,7 +93,7 @@ class GameDriver extends Sprite {
 	private function onEnterFrame( event:EnterFrameEvent ) {
 		if(!running)
 			return;
-			
+		lifeField.text = "Lives: " + towerGrid.lives;
 		towerGrid.onEnterFrame(event);
 	}
 	
