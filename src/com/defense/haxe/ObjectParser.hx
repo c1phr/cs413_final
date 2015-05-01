@@ -44,6 +44,7 @@ class ObjectParser
 
 	public function parseEnemyJson(inputFile:String):Array<EnemyType>
 	{
+		this.enemies = new Array<EnemyType>();
 		this.enemyObject = Root.assets.getObject(inputFile);
 		for(i in 0...enemyObject.length){
 	        var data = enemyObject[i];
@@ -54,6 +55,7 @@ class ObjectParser
 			enemyToAdd.time = data.time;			
 			this.enemies.push(enemyToAdd);
 		}
+		
 		return enemies;
 	}	
 }
