@@ -46,67 +46,35 @@ class BuildMenu extends Sprite {
 	private var gTexture:Texture = Root.assets.getTexture("greentower");
 	private var pTexture:Texture = Root.assets.getTexture("purpletower");
 	private var wTexture:Texture = Root.assets.getTexture("wall_button");
-	private var sTexture:Texture = Root.assets.getTexture("money");
 
 	public var placing = false;
 
 
 	public function new(){
 		super();
-		//postion towers
 		redtower = new Button(rTexture);
-		addChild(redtower);	
-		redtower.x = -50;
-		redtower.y = 40;
-		redtower.visible = true;
-		redtower.enabled = true;
-		redtower.alphaWhenDisabled = .5;
-
-		bluetower = new Button(bTexture);
-		addChild(bluetower);
-		bluetower.x = -50;
-		bluetower.y = 80;
-		bluetower.visible = true;
-		bluetower.enabled = true;
-		bluetower.alphaWhenDisabled = .5;
-
 		greentower = new Button(gTexture);
-		addChild(greentower);
-		greentower.x = -50;
-		greentower.y = 120;
-		greentower.visible = true;
-		greentower.enabled = true;
-		greentower.alphaWhenDisabled = .5;
-
+		bluetower = new Button(bTexture);
 		purpletower = new Button(pTexture);
-		addChild(purpletower);
-		purpletower.x = -50;
-		purpletower.y = 160;
-		purpletower.visible = true;
-		purpletower.enabled = true;
-		purpletower.alphaWhenDisabled = .5;
-
 		wall = new Button(wTexture);
-		addChild(wall);	
-		wall.x = -50;
-		wall.y = 0;
-		wall.visible = true;
-		wall.enabled = true;
-		wall.alphaWhenDisabled = .5;
-
-		sell = new Button(sTexture);
-		addChild(sell);	
-		sell.x = -50;
-		sell.y = 200;
-		sell.visible = true;
-		sell.enabled = true;
-		sell.alphaWhenDisabled = .5;
+		var a_Button = [wall, redtower, greentower, bluetower, purpletower];
+		
+		for(i in 0...a_Button.length){
+			var button = a_Button[i];
+			button.x = -30;
+			button.y = 18 + 45*i;
+			button.pivotX = button.width/2;
+			button.pivotY = button.height/2;
+			button.visible = true;
+			button.enabled = true;
+			button.alphaWhenDisabled = .5;
+			addChild(button);	
+		}
 
 		towerDescr = new TextField(300, 100, "","Arial", 16, 0xFFFFFF);
 		towerDescr.text = "";
 		towerDescr.y = 350;
 		towerDescr.x = 0;
-
 		addChild(towerDescr);
 
 		moneyField = new TextField(300, 100, "","font", 30, 0xFFFFFF);
@@ -119,9 +87,6 @@ class BuildMenu extends Sprite {
 		greentower.addEventListener(Event.TRIGGERED, function(){addTower("green");});
 		purpletower.addEventListener(Event.TRIGGERED, function(){addTower("purple");});
 		wall.addEventListener(Event.TRIGGERED, function(){addTower("wall");});
-		sell.addEventListener(Event.TRIGGERED, function(){addTower("sell");});
-
-
 	}
 
 	public function addTower(tower){

@@ -27,12 +27,8 @@ endif
 
 
 runkill:
-ifeq ($(UNAME),Darwin)
-	killall Flash\ Player
-endif
-ifeq (CYGWIN,$(findstring CYGWIN,$(UNAME)))
 	taskkill /f /IM FlashPlayer16Debug.exe /fi "memusage gt 2"
-endif
+	taskkill /f /IM flashplayer18_debugsa_win_32.exe /fi "memusage gt 2"
 	make run
 	
 clean:
