@@ -252,13 +252,5 @@
 		"time": 19500,
 		"texture": "enemy",			
 		"speed": 4		
-	},
-
-	{
-		"type": "fast",
-		"time": 110000,
-		"texture": "enemy",			
-		"speed": 4		
 	}
-
 ]
