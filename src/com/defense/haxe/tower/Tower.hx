@@ -6,6 +6,9 @@ import starling.textures.Texture;
 import starling.display.Sprite;
 import starling.display.Image;
 
+import com.defense.haxe.projectile.*;
+import com.defense.haxe.enemy.Enemy;
+
 
 class Tower extends Sprite{
 	private static var TWO_PI:Float = 6.283185;
@@ -30,6 +33,7 @@ class Tower extends Sprite{
 	private var cooldown:Float = 1000;
 	private var firingDistance:Float = 300;
 	private var lastFireTime:Float = -9999;
+	private var projectileType:String;
 	
 	public function new(texture:Texture, bgLayer:Sprite, size:Int, gridX:Int, gridY:Int, gridIndex:Int){
 		super();
@@ -69,7 +73,9 @@ class Tower extends Sprite{
 		}
 	}
 	
-	public function setTurretTexture(texture:Texture){
+	public function setTurretTexture(texture:Texture, projectileType:String=null){
+		this.projectileType = projectileType;
+		
 		if(texture == null){
 			removeChild(turretImage);
 			turretImage = null;
@@ -84,6 +90,19 @@ class Tower extends Sprite{
 		} else {
 			turretImage.texture = texture;
 		}
+	}
+	
+	public function getProjectile(target:Enemy):BaseProjectile {
+		switch(projectileType){
+			case "SLOW":
+				return new SlowProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+			case "DOT":
+				return new DOTProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+			case "DAMAGE":
+				return new BaseProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+		}
+		
+		return null;
 	}
 	
 	/** Maximum firing distance */

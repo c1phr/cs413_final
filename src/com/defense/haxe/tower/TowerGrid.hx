@@ -163,13 +163,13 @@ class TowerGrid extends Sprite{
 
 		switch(check_tower){
 			case("red"):
-				tower.setTurretTexture(red_tower);
+				tower.setTurretTexture(red_tower, "DAMAGE");
 			case("green"):
-				tower.setTurretTexture(green_tower);
+				tower.setTurretTexture(green_tower, "DOT");
 			case("purple"):
-				tower.setTurretTexture(purple_tower);
+				tower.setTurretTexture(purple_tower, "DAMAGE");
 			case("blue"):
-				tower.setTurretTexture(blue_tower);
+				tower.setTurretTexture(blue_tower, "SLOW");
 		}
 		tower.setActive();	
 		fixTexture(tower.getGridX(), tower.getGridY(), true);	
@@ -420,11 +420,11 @@ class TowerGrid extends Sprite{
 					if(closestDistance.canFire){
 						tower.setLastFireTime(time);
 
-						var testProjectile = new SlowProjectile(T_BG, tower.x,  tower.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, closestEnemy);
-						testProjectile.setVelocity(directVector.vx, directVector.vy);
-						testProjectile.color = 0x00FF00;
-						projectileLayer.addChild(testProjectile);
-						a_Projectile.push(testProjectile);
+						var projectile = tower.getProjectile(closestEnemy);
+						projectile.setVelocity(directVector.vx, directVector.vy);
+						projectile.color = 0x00FF00;
+						projectileLayer.addChild(projectile);
+						a_Projectile.push(projectile);
 					}
 					
 					tower.setTurretAngle(closestVector.getAngle());
