@@ -310,9 +310,12 @@ class TowerGrid extends Sprite{
 	
 	
 	public function onKeyUp( event:KeyboardEvent ){
+		trace(event.keyCode);
 		switch(event.keyCode){
 			case 8: // Backspace
 				clearTowers();
+			case 27:
+				sideMenu.placing = false;
 			case 32:
 				if(lastPath != null){
 					var enemy = new Enemy(Root.assets.getTexture("enemy"), 0, 0, 16, 5);
@@ -351,7 +354,7 @@ class TowerGrid extends Sprite{
 		    }
 			
 		    if (touch.phase == "ended") {
-		        sideMenu.placing = false;
+		        // sideMenu.placing = false;
 		        prevX = -1;
 		        prevY = -1;
 				prevActive = false;
