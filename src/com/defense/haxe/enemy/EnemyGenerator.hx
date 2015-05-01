@@ -5,6 +5,11 @@ import starling.events.KeyboardEvent;
 import starling.events.EnterFrameEvent;
 import starling.events.Event;
 import starling.text.TextField;
+import starling.animation.Tween;
+import starling.animation.Juggler;
+import starling.core.Starling;
+import starling.animation.Transitions;
+import starling.display.Quad;
 
 import com.defense.haxe.enemy.Enemy;
 import com.defense.haxe.tower.TowerGrid;
@@ -88,11 +93,27 @@ class EnemyGenerator extends Sprite {
 
 			if(lives <= 0){
 				isPlaying = false;
-				trace("You lose");
 			}
 
-			if(remaining == 0 && currentWave < waves.length){
-				trace("Wave complete");
+			if(remaining == 0 && currentWave < waves.length - 1){
+				var backDropContainer = new Sprite();
+				var backDrop = new Quad(Root.globalStage.stageWidth - 50, Root.globalStage.stageHeight - 50, 0x0);
+				backDrop.alpha = .5;
+				backDropContainer.addChild(backDrop);
+				var waveBanner = new TextField(300,300,"", "Arial",40, 0x00CCFF);
+				waveBanner.text = "Wave " + (currentWave + 1) + " complete!";
+				waveBanner.x = 100;
+				waveBanner.y = 20;
+				backDropContainer.addChild(waveBanner);
+				addChild(backDropContainer);
+				
+				var tween = new Tween(backDropContainer, 3.0, Transitions.EASE_OUT);
+				tween.fadeTo(0);
+				Starling.juggler.add(tween);
+				tween.onComplete = function(){
+					removeChild(backDropContainer);
+					};
+
 				a_Enemy.clear();
 				currentEnemy = 0;
 				currentWave += 1;
