@@ -104,6 +104,19 @@ class Tower extends Sprite{
 		return null;
 	}
 	
+	public function getPrice():Int{
+		switch(projectileType){
+			case "SLOW":
+				return 150;
+			case "DOT":
+				return 150;
+			case "DAMAGE":
+				return 100;
+			default:
+				return 5;
+		}
+	}
+	
 	/** Maximum firing distance */
 	public function setFiringDistance(firingDistance:Float){
 		if(firingDistance > 0){

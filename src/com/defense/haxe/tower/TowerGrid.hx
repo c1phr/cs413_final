@@ -60,6 +60,7 @@ class TowerGrid extends Sprite{
 	public var lastPath:Array<Point>;
 
 	public var lives:Int;
+	private var money:Int;
 	
 	/* Keep track of projectiles */
 	private var a_Projectile:List<BaseProjectile> = new List<BaseProjectile>();
@@ -356,7 +357,7 @@ class TowerGrid extends Sprite{
 			if (sideMenu.placing) {
 		        
 				// Update the tower preview
-				if ((!tower.isActive() || (!tower.hasTurret()) && sideMenu.getTower() != "wall") && !(towerX == prevX && towerY == prevY) && sideMenu.canPurchase()) {
+				if ((!tower.isActive() || (!tower.hasTurret()) && sideMenu.getTower() != "wall") && !(towerX == prevX && towerY == prevY)) {
 		            removePreviewTower();
 		            prevX = towerX;
 		            prevY = towerY;
@@ -365,7 +366,7 @@ class TowerGrid extends Sprite{
 		        }
 				
 				// Finish the placing state on click
-				if(touch.phase == "ended" && lastPath != null){
+				if(touch.phase == "ended" && lastPath != null && sideMenu.buy(tower.getPrice())){
 					prevX = -1;
 					prevY = -1;
 					prevActive = false;
@@ -375,6 +376,8 @@ class TowerGrid extends Sprite{
 				// Detect a double click
 				var curTime = flash.Lib.getTimer();
 				if(curTime - lastClickTime < 250){
+					sideMenu.gainSwagMoney( tower.getPrice() );
+					
 					if(tower.hasTurret()){
 						tower.setTurretTexture(null);
 					} else if (tower.isActive()){
@@ -458,6 +461,7 @@ class TowerGrid extends Sprite{
 			}
 		}
 	}
+	
 	public function initializeMenu(){
 		addChild(sideMenu);
 	}

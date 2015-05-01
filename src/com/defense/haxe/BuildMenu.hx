@@ -23,17 +23,9 @@ class BuildMenu extends Sprite {
 
 	private var selectedTower:String = "";
 
-	public var money:Int = 500;
-
-	public var redCost:Int = 30;
-	public var blueCost:Int = 10;
-	public var greenCost:Int = 15;
-	public var purpleCost:Int = 10;
-	public var wallCost:Int = 5;
-
 	private var towerGrid:TowerGrid;
 	public var placing = false;
-
+	public var money = 500;
 
 	public function new(towerGrid:TowerGrid){
 		super();
@@ -46,6 +38,7 @@ class BuildMenu extends Sprite {
 		var cancel = 		new Button(Root.assets.getTexture("cancel"));
 				
 		var a_Button = [wall, redtower, greentower, bluetower, purpletower, cancel];
+		
 		
 		for(i in 0...a_Button.length){
 			var button = a_Button[i];
@@ -82,7 +75,7 @@ class BuildMenu extends Sprite {
 
 	public function addTower(tower){
 		selectedTower = tower;
-		switch(tower){
+		/*switch(tower){
 			case("red"):
 				(money < redCost) ? towerDescr.text = "Not Enough Money!": towerDescr.text = "Speed Tower";
 			case("blue"):
@@ -96,35 +89,27 @@ class BuildMenu extends Sprite {
 			case("sell"):
 				towerDescr.text = "Sell Tower";
 
-		}
+		}*/
+		
 		placing = true;
+	}
+	
+	public function buy(price:Int):Bool{
+		if(money - price >= 0){
+			money -= price;
+			trace(money);
+			return true;
+		}
+		trace(money);
+		
+		return false;
+	}
+	
+	public function gainSwagMoney(price:Int){
+		buy(-price);
 	}
 
 	public function getTower():String{
 		return selectedTower;
-	}
-
-	public function subtractMoney(tower:String){
-		money -= 30;
-		moneyField.text = "$" + money;
-	}
-
-	public function canPurchase():Bool{
-		var this_tower = getTower();
-
-		switch(this_tower){
-			case("red"):
-				(money < redCost) ? return false: return true;
-			case("blue"):
-				(money < blueCost) ? return false: return true;
-			case("green"):
-				(money < greenCost) ? return false: return true;
-			case("purple"):
-				(money < purpleCost) ? return false: return true;
-			case("wall"):
-				(money < wallCost) ? return false: return true;
-		}
-				return false;
-
 	}	
 }

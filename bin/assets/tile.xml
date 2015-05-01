@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:ba3c1e2ccd223d74536f4404f8e1697b:cad1529e0d319e2616cf0d828901620e:d390e6776e9478c8f7194c5237e3f0a9$ -->
+<!-- $TexturePacker:SmartUpdate:5c2e1f9ffe19359cf541649669ee175d:c86e1dfa49130ac990f591a0f7eb3b83:d390e6776e9478c8f7194c5237e3f0a9$ -->
 <TextureAtlas imagePath="tile.png">
-    <SubTexture name="block" x="46" y="2" width="36" height="36"/>
-    <SubTexture name="bluetower" x="84" y="2" width="36" height="36"/>
-    <SubTexture name="border_0" x="46" y="40" width="36" height="36"/>
-    <SubTexture name="border_1" x="2" y="47" width="36" height="36"/>
-    <SubTexture name="border_2" x="84" y="40" width="36" height="36"/>
-    <SubTexture name="border_2p" x="40" y="78" width="36" height="36"/>
-    <SubTexture name="border_3" x="2" y="85" width="36" height="36"/>
-    <SubTexture name="border_4" x="78" y="78" width="36" height="36"/>
-    <SubTexture name="border_background" x="40" y="116" width="36" height="36"/>
-    <SubTexture name="cancel" x="2" y="123" width="36" height="36"/>
-    <SubTexture name="greentower" x="78" y="116" width="36" height="36"/>
-    <SubTexture name="money" x="40" y="154" width="36" height="36"/>
-    <SubTexture name="path" x="2" y="161" width="36" height="36"/>
-    <SubTexture name="purpletower" x="78" y="154" width="36" height="36"/>
-    <SubTexture name="redtower" x="2" y="199" width="36" height="36"/>
-    <SubTexture name="wall_button" x="2" y="2" width="42" height="43"/>
+    <SubTexture name="block" x="176" y="2" width="36" height="36"/>
+    <SubTexture name="bluetower" x="214" y="2" width="36" height="36"/>
+    <SubTexture name="border_0" x="176" y="40" width="36" height="36"/>
+    <SubTexture name="border_1" x="214" y="40" width="36" height="36"/>
+    <SubTexture name="border_2" x="132" y="47" width="36" height="36"/>
+    <SubTexture name="border_2p" x="170" y="78" width="36" height="36"/>
+    <SubTexture name="border_3" x="132" y="85" width="36" height="36"/>
+    <SubTexture name="border_4" x="208" y="78" width="36" height="36"/>
+    <SubTexture name="border_background" x="170" y="116" width="36" height="36"/>
+    <SubTexture name="cancel" x="132" y="123" width="36" height="36"/>
+    <SubTexture name="greentower" x="208" y="116" width="36" height="36"/>
+    <SubTexture name="money" x="170" y="154" width="36" height="36"/>
+    <SubTexture name="path" x="132" y="161" width="36" height="36"/>
+    <SubTexture name="purpletower" x="208" y="154" width="36" height="36"/>
+    <SubTexture name="redtower" x="170" y="192" width="36" height="36"/>
+    <SubTexture name="tile" x="2" y="2" width="128" height="256"/>
+    <SubTexture name="wall_button" x="132" y="2" width="42" height="43"/>
 </TextureAtlas>

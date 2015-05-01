@@ -35,7 +35,6 @@ class GameDriver extends Sprite {
 	private var towers:List<TowerType>;
 	private var enemies:List<EnemyType>;
 
-	private var money:Int = 500;
 	private var lives:Int = 10;
 	private var moneyField:TextField;
 	private var lifeField:TextField;
