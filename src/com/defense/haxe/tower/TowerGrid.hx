@@ -9,6 +9,10 @@ import starling.events.Touch;
 import starling.text.TextField;
 import starling.display.Button;
 import starling.events.Event;
+import starling.animation.Tween;
+import starling.animation.Juggler;
+import starling.core.Starling;
+import starling.animation.Transitions;
 
 import com.cykon.haxe.cmath.Vector;
 import com.cykon.haxe.movable.Point;
@@ -475,11 +479,25 @@ class TowerGrid extends Sprite{
 
 		startWaveButton.addEventListener(Event.TRIGGERED, function(){
 			if(!(isPlaying)){
-				enemyLayer.startWave();
-				enemyLayer.resetTime();
+				var waveBanner = new TextField(300,300,"", "Arial",40, 0x00CCFF);
+				waveBanner.text = "Wave " + (enemyLayer.getWave() + 1) + " starting!";
+				waveBanner.x = 100;
+				waveBanner.y = 20;
+				addChild(waveBanner);
+				
+				var tween = new Tween(waveBanner, 3.0, Transitions.EASE_OUT);
+				tween.fadeTo(0);
+				Starling.juggler.add(tween);
+				tween.onComplete = function(){
+					enemyLayer.startWave();
+					enemyLayer.resetTime();
+					removeChild(waveBanner);
+					};
 			}
 			
 		});
+
+		
 	}
 	
 	/** Function called every frame update, main game logic loop */

@@ -124,7 +124,6 @@ class EnemyGenerator extends Sprite {
 	private function pullJson(){
 
 		enemies = objectParser.parseEnemyJson(waves[currentWave]);
-		trace(enemies.length);
 		remaining = enemies.length;
 	}
 
@@ -134,5 +133,9 @@ class EnemyGenerator extends Sprite {
 
 	public function getWaveStatus(){
 		return isPlaying;	
+	}
+
+	public function getWave():Int{
+		return currentWave;
 	}
 }
