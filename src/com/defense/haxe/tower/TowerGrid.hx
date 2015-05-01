@@ -372,7 +372,7 @@ class TowerGrid extends Sprite{
 	public function tryFireCannons(time:Float){
 		
 		for(tower in a_Tower){
-			if(tower.isActive()){
+			if(tower.hasTurret() && tower.isActive()){
 				var cannonMag = 10;
 				var closestVector = null;
 				var closestEnemy = null;
