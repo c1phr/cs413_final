@@ -8,6 +8,7 @@ import starling.events.Event;
 import starling.display.Sprite;
 import starling.display.Button;
 import flash.system.System;
+import starling.text.TextField;
 
 import starling.display.Image;
 import starling.display.Quad;
@@ -24,6 +25,8 @@ class BuildMenu extends Sprite {
 	private var purpletower:Button;
 	private var wall:Button;
 	private var sell:Button;
+
+	private var towerDescr:TextField;
 
 	private var background = new Quad(550, 400, 0x000000);
 
@@ -89,6 +92,14 @@ class BuildMenu extends Sprite {
 		sell.enabled = true;
 		sell.alphaWhenDisabled = .5;
 
+		towerDescr = new TextField(300, 100, "","Arial", 16, 0xFFFFFF);
+		towerDescr.text = "";
+		towerDescr.y = 350;
+		towerDescr.x = 0;
+
+		addChild(towerDescr);
+
+
 		redtower.addEventListener(Event.TRIGGERED, function(){addTower("red");});
 		bluetower.addEventListener(Event.TRIGGERED, function(){addTower("blue");});
 		greentower.addEventListener(Event.TRIGGERED, function(){addTower("green");});
@@ -101,6 +112,21 @@ class BuildMenu extends Sprite {
 
 	public function addTower(tower){
 		selectedTower = tower;
+		switch(tower){
+			case("red"):
+				towerDescr.text = "Speed Tower";
+			case("blue"):
+				towerDescr.text = "Ice Tower";
+			case("green"):
+				towerDescr.text = "Bio Tower";
+			case("purple"):
+				towerDescr.text = "Splash Tower";
+			case("wall"):
+				towerDescr.text = "Wall";	
+			case("sell"):
+				towerDescr.text = "Sell Tower";
+
+		}
 		placing = true;
 	}
 
