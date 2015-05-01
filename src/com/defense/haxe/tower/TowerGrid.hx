@@ -102,7 +102,6 @@ class TowerGrid extends Sprite{
 		borderGlow();
 		this.towerTouch(0,0);
 		
-		// sideMenu = new BuildMenu();
 
 		/* var menu = new GameLoader();
 		addChild(menu.start());
@@ -170,6 +169,10 @@ class TowerGrid extends Sprite{
 	
 	public function toggleTowerActive(tower:Tower){
 		if(!tower.isActive()){
+			//Use the following to grab the appropriate tower:
+			// sideMenu.getTower()
+			//trace(sideMenu.getTower());
+			//The above trace shows the output
 			setTowerActive(tower);
 		} else {
 			setTowerInactive(tower);
@@ -180,10 +183,6 @@ class TowerGrid extends Sprite{
 		bgLayer.unflatten();
 		baseLayer.unflatten();
 		var tower = towerAt(x,y);
-		
-		// Debug reset path color...
-		//for(tower in a_Tower)
-		//	tower.baseImage.color = 0xFFFFFF; 
 				
 		// Hacky for now, but these are start / end points (for now)
 		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){			
@@ -374,7 +373,7 @@ class TowerGrid extends Sprite{
 					// texture:Texture, x:Float, y:Float, radius:Float, stageWidth:Float, stageHeight:Float
 					var directVector = Vector.getVector(tower.x, tower.y, closestVector.vx, closestVector.vy).normalize().multiply(cannonMag);
 					
-					var testProjectile = new BaseProjectile(T_BG, tower.x,  tower.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, closestEnemy);
+					var testProjectile = new SlowProjectile(T_BG, tower.x,  tower.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, closestEnemy);
 					testProjectile.setVelocity(directVector.vx, directVector.vy);
 					testProjectile.color = 0x00FF00;
 					projectileLayer.addChild(testProjectile);
