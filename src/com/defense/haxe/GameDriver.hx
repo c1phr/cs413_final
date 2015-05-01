@@ -31,13 +31,6 @@ class GameDriver extends Sprite {
 	private var towerGrid:TowerGrid;
 
 	private var menu:GameMenu;
-	
-	private var towers:List<TowerType>;
-	private var enemies:List<EnemyType>;
-
-	private var lives:Int = 10;
-	private var moneyField:TextField;
-	private var lifeField:TextField;
 
 	// Simple constructor
     public function new() {
@@ -68,12 +61,7 @@ class GameDriver extends Sprite {
 		addChild(towerGrid);
 		towerGrid.initializeMenu();
 
-		lifeField = new TextField(300, 100, "","font", 30, 0xFFFFFF);
-		lifeField.text = "Lives: " + towerGrid.lives;
-		lifeField.y = -25;
-		lifeField.x = 300;
-
-		addChild(lifeField);
+		
 	}
 	
 	/** The game is over! */
@@ -90,7 +78,6 @@ class GameDriver extends Sprite {
 	private function onEnterFrame( event:EnterFrameEvent ) {
 		if(!running)
 			return;
-		lifeField.text = "Lives: " + towerGrid.lives;
 		towerGrid.onEnterFrame(event);
 	}
 	

@@ -60,11 +60,6 @@ class BuildMenu extends Sprite {
 		towerDescr.x = 0;
 		addChild(towerDescr);
 
-		moneyField = new TextField(300, 100, "","font", 30, 0xFFFFFF);
-		moneyField.text = "$" + money;
-		moneyField.y = -85;
-		addChild(moneyField);
-
 		redtower.addEventListener(Event.TRIGGERED, function(){addTower("red");});
 		bluetower.addEventListener(Event.TRIGGERED, function(){addTower("blue");});
 		greentower.addEventListener(Event.TRIGGERED, function(){addTower("green");});

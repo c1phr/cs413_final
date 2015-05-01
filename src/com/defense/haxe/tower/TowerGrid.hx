@@ -67,6 +67,8 @@ class TowerGrid extends Sprite{
 	public var lives:Int;
 	private var money:Int;
 	private var isPlaying:Bool;
+
+	private var lifeField:TextField;
 	
 	/* Keep track of projectiles */
 	private var a_Projectile:List<BaseProjectile> = new List<BaseProjectile>();
@@ -472,7 +474,7 @@ class TowerGrid extends Sprite{
 		addChild(sideMenu);
 		var startWaveButton = new Button(Root.assets.getTexture("waveBtn"));
 		startWaveButton.x = 520;
-		startWaveButton.y = 25;
+		startWaveButton.y = 0;
 		startWaveButton.enabled = true;
 		startWaveButton.alphaWhenDisabled = .5;
 		addChild(startWaveButton);
@@ -497,6 +499,19 @@ class TowerGrid extends Sprite{
 			
 		});
 
+		lifeField = new TextField(300, 100, "","Arial", 30, 0x00CCFF);
+		lifeField.text = "Lives: " + lives;
+		lifeField.y = -80;
+		lifeField.x = 100;
+
+		moneyField = new TextField(300, 100, "","Arial", 30, 0x00CCFF);
+		moneyField.text = "$" + money;
+		moneyField.y = -80;
+		moneyField.x = -100;
+		addChild(moneyField);
+
+		addChild(lifeField);
+
 		
 	}
 	
@@ -511,6 +526,7 @@ class TowerGrid extends Sprite{
 		enemyLayer.timeUpdate(time);
 		isPlaying = enemyLayer.getWaveStatus();
 		lives = enemyLayer.getLives();
+		lifeField.text = "Lives: " + lives;
 		
 		for(projectile in a_Projectile){
 			projectile.applyVelocity(modifier);

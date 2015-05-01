@@ -17,7 +17,7 @@ class GameMenu extends Sprite {
 	//Super basic global variables - TODO: Need to change these
 	public var M_BTN:Image = new Image(Root.assets.getTexture("startBtn"));
 	public var background:Quad;
-	public var textField:TextField = new TextField(550, 40, "Nameless Tower Defense!", "Arial", 36, 0xffffff);
+	public var textField:TextField = new TextField(550, 40, "Nameless Tower Defense!", "Arial", 36, 0x00CCFF);
 	private var startButton:Sprite;
 	private var tutorialButton:Sprite;
 	private var backButton:Sprite;
@@ -54,14 +54,14 @@ class GameMenu extends Sprite {
 		var newButton = new Sprite();		
 		var newButtonBackground = new Quad(200, 100, 0x020202);
 		newButton.addChild(newButtonBackground);
-		var newButtonText = new TextField(Std.int(newButton.width), Std.int(newButton.height), buttonText, "font", 36, 0xffffff);
+		var newButtonText = new TextField(Std.int(newButton.width), Std.int(newButton.height), buttonText, "Arial", 36, 0x00CCFF);
 		newButton.addChild(newButtonText);		
 		return newButton;
 	}
 
 	private function createTutorialScene():Sprite {
 		var tutorialScene = new Sprite();
-		var tutorialText = new TextField(500, 400, "Place towers to defeat enemies\nClick the down arrow to end build phase and start play phase", "Arial", 18, 0xffffff);
+		var tutorialText = new TextField(500, 400, "Place towers to defeat enemies\nClick the down arrow to end build phase and start play phase", "Arial", 18, 0x00CCFF);
 		tutorialScene.addChild(tutorialText);
 		tutorialText.x = 325 - (tutorialText.width/2);
 		backButton = createButton("Go Back");
