@@ -50,6 +50,7 @@ class ObjectParser
 	        var data = enemyObject[i];
 			var enemyToAdd = new EnemyType();
 			enemyToAdd.type = data.type;
+			enemyToAdd.health = data.health;
 			enemyToAdd.texture = data.texture;
 			enemyToAdd.speed = data.speed;
 			enemyToAdd.time = data.time;			

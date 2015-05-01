@@ -12,13 +12,16 @@ class Enemy extends Circle{
 	private var currentIndex:Int = 0;
 	private var isDone:Bool = false;
 	private var isDead:Bool = false;
-	private var health:Float = 5;
+	private var health:Float;
+	private var type:String;
 
-	public function new(texture:Texture, x:Float, y:Float, radius:Float, speed:Float){
+	public function new(type:String, texture:Texture, x:Float, y:Float, radius:Float, speed:Float, health:Float){
 		super(texture,x,y,radius);
+		this.type = type;
 		this.speed = speed;
 		this.pivotX = texture.width / 2;
 		this.pivotY = texture.height / 2;
+		this.health = health;
 	}
 	
 	public function modifySpeed(modifier:Float){
@@ -92,6 +95,10 @@ class Enemy extends Circle{
 
 	public function getDead(){
 		return isDead;
+	}
+
+	public function getType(){
+		return type;
 	}
 
 }
