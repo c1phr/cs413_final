@@ -50,21 +50,17 @@ class EnemyGenerator extends Sprite {
 		objectParser = new ObjectParser();
 
 		pullJson();
-
-
 	}
 
 	public function generate(time:Float){
 		if(isPlaying == true){
 			if(currentEnemy == 0){
-				
 			}
 			if(currentPath != null){
 				if(currentEnemy < enemies.length && enemies[currentEnemy].time < realTime){
 					var enemyTexture = Root.assets.getTexture(enemies[currentEnemy].texture);
 					var enemy = new Enemy(enemyTexture, 0, 0, 16, enemies[currentEnemy].speed);
 					enemy.setPoints(currentPath);
-							
 					this.addChild(enemy);
 					a_Enemy.push(enemy);
 					currentEnemy+=1;
@@ -80,24 +76,26 @@ class EnemyGenerator extends Sprite {
 			if(enemy.isComplete()){
 				enemy.removeFromParent(true);
 				a_Enemy.remove(enemy);
+				remaining -=1;
 				lives -= 1;
 			}
 
 			if(enemy.getDead()){
 				enemy.removeFromParent(true);
 				a_Enemy.remove(enemy);
+				remaining -= 1;
 			}
 
 			if(lives <= 0){
 				isPlaying = false;
+				trace("You lose");
 			}
-			remaining = a_Enemy.length;
 
-			if(remaining == 0 && currentEnemy == enemies.length && currentWave < waves.length){
+			if(remaining == 0 && currentWave < waves.length){
 				trace("Wave complete");
+				a_Enemy.clear();
 				currentEnemy = 0;
 				currentWave += 1;
-				resetTime();
 				pullJson();
 				isPlaying = false;
 			}
@@ -124,7 +122,10 @@ class EnemyGenerator extends Sprite {
 	}
 
 	private function pullJson(){
+		enemies = new Array<EnemyType>();
 		enemies = objectParser.parseEnemyJson(waves[currentWave]);
+		trace(enemies.length);
+		remaining = enemies.length;
 	}
 
 	public function startWave(){
