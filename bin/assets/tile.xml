@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:580b7ea93ec90cfef6889e0b926801c2:eeb8e48fe80281bc4aa8c39a5ce73215:d390e6776e9478c8f7194c5237e3f0a9$ -->
+<!-- $TexturePacker:SmartUpdate:c21901971f2d3ef8c3ca2d6f4a586dc5:51ee45a249ba657f8154ff740144412b:d390e6776e9478c8f7194c5237e3f0a9$ -->
 <TextureAtlas imagePath="tile.png">
     <SubTexture name="block" x="176" y="2" width="36" height="36"/>
     <SubTexture name="bluetower" x="214" y="2" width="36" height="36"/>
@@ -19,6 +19,10 @@
     <SubTexture name="greentower" x="170" y="192" width="36" height="36"/>
     <SubTexture name="money" x="132" y="199" width="36" height="36"/>
     <SubTexture name="path" x="208" y="192" width="36" height="36"/>
+    <SubTexture name="proj_blue" x="208" y="230" width="10" height="10"/>
+    <SubTexture name="proj_green" x="220" y="230" width="10" height="10"/>
+    <SubTexture name="proj_red" x="232" y="230" width="10" height="10"/>
+    <SubTexture name="proj_yellow" x="244" y="230" width="10" height="10"/>
     <SubTexture name="purpletower" x="170" y="230" width="36" height="36"/>
     <SubTexture name="redtower" x="132" y="237" width="36" height="36"/>
     <SubTexture name="tile" x="2" y="2" width="128" height="256"/>

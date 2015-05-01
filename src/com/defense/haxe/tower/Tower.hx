@@ -109,17 +109,20 @@ class Tower extends Sprite{
 		
 		switch(projectileType){
 			case "SLOW":
-				projectile = new SlowProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+				projectile = new SlowProjectile(Root.assets.getTexture("proj_blue"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
 				projectile.damage = 0.5;
 			case "DOT":
-				projectile = new DOTProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+				projectile = new DOTProjectile(Root.assets.getTexture("proj_green"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
 			case "DAMAGE":
-				projectile = new BaseProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+				projectile = new BaseProjectile(Root.assets.getTexture("proj_red"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
 			case "RAPID":
-				projectile = new BaseProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 10, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+				projectile = new BaseProjectile(Root.assets.getTexture("proj_yellow"), this.x, this.y, 10, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
 				projectile.damage = 0.5;
 		}
 		
+		if(projectile != null){
+			projectile.height = projectile.width = 15;
+		}
 		return projectile;
 	}
 	

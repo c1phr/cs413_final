@@ -460,7 +460,6 @@ class TowerGrid extends Sprite{
 
 						var projectile = tower.getProjectile(closestEnemy);
 						projectile.setVelocity(directVector.vx, directVector.vy);
-						projectile.color = 0x00FF00;
 						projectileLayer.addChild(projectile);
 						a_Projectile.push(projectile);
 					}
