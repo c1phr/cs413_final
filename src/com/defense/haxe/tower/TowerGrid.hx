@@ -111,7 +111,7 @@ class TowerGrid extends Sprite{
 		// Populate the tower grid()
 		populateGrid();
 		borderGlow();
-		this.towerTouch(0,0);
+		this.towerTouch(0,0,false);
 		
 		this.addEventListener(TouchEvent.TOUCH, onTouch);
 		this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
@@ -198,14 +198,20 @@ class TowerGrid extends Sprite{
 		}
 	}
 	
-	public function towerTouch(x:Int,y:Int){
+	public function towerTouch(x:Int,y:Int,setActive:Bool){
 		bgLayer.unflatten();
 		baseLayer.unflatten();
 		var tower = towerAt(x,y);
 				
 		// Hacky for now, but these are start / end points (for now)
 		if(!(x == 0 && y == 0 || x == numWidth-1 && y == numHeight-1)){			
-			toggleTowerActive(tower);
+			//toggleTowerActive(tower);
+			if(setActive){
+				setTowerActive(tower);
+			} else {
+				setTowerInactive(tower);
+			}
+			
 		}
 		
 		var a_Traverse = pathFind(0,0,numWidth-1,numHeight-1);
@@ -304,9 +310,12 @@ class TowerGrid extends Sprite{
 	
 	
 	public function onKeyUp( event:KeyboardEvent ){
+		//trace(event.keyCode);
 		switch(event.keyCode){
 			case 8: // Backspace
 				clearTowers();
+			case 27:
+				sideMenu.placing = false;
 			case 32:
 				if(lastPath != null){
 					var enemy = new Enemy(Root.assets.getTexture("enemy"), 0, 0, 16, 5);
@@ -320,6 +329,7 @@ class TowerGrid extends Sprite{
 		}
 	}
 	
+	var prevActive = false;
 	var prevX = -1;
 	var prevY = -1;
 	public function onTouch( event:TouchEvent ){
@@ -328,19 +338,26 @@ class TowerGrid extends Sprite{
 		var towerY = Math.floor((touch.globalY - this.y) / (tileSize + tileBorder));
 		if (validLocation(towerX, towerY)) {
 		    if (sideMenu.placing) {
-		        if (!towerAt(towerX, towerY).isActive() && !(towerX == prevX && towerY == prevY)) {
-		            if (prevX != -1 && prevY != -1) {
-		                towerTouch(prevX, prevY);
+		        if ((!towerAt(towerX, towerY).isActive() || (!towerAt(towerX, towerY).hasTurret()) && sideMenu.getTower() != "wall") && !(towerX == prevX && towerY == prevY)) {
+		            
+					if ( prevActive ){
+						towerAt(prevX, prevY).setTurretTexture(null);
+					} else if (prevX != -1 && prevY != -1) {
+		                towerTouch(prevX, prevY, false);
 		            }
+					
 		            prevX = towerX;
 		            prevY = towerY;
-		            towerTouch(towerX, towerY);
+		            prevActive = towerAt(towerX,towerY).isActive();
+					towerTouch(towerX, towerY, true);
 		        }
 		    }
-		    if (touch.phase == "ended") {
-		        sideMenu.placing = false;
+			
+		    if (touch.phase == "ended" && lastPath != null) {
+		        // sideMenu.placing = false;
 		        prevX = -1;
 		        prevY = -1;
+				prevActive = false;
 		    }
 		}
 	}
@@ -372,7 +389,7 @@ class TowerGrid extends Sprite{
 	public function tryFireCannons(time:Float){
 		
 		for(tower in a_Tower){
-			if(tower.isActive()){
+			if(tower.hasTurret() && tower.isActive()){
 				var cannonMag = 10;
 				var closestVector = null;
 				var closestEnemy = null;
