@@ -27,7 +27,7 @@ class BuildMenu extends Sprite {
 
 	private var background = new Quad(550, 400, 0x000000);
 
-	private var selectedTower:String;
+	private var selectedTower:String = "";
 	
 	private var rTexture:Texture = Root.assets.getTexture("redtower");
 	private var bTexture:Texture = Root.assets.getTexture("bluetower");
@@ -35,6 +35,8 @@ class BuildMenu extends Sprite {
 	private var pTexture:Texture = Root.assets.getTexture("purpletower");
 	private var wTexture:Texture = Root.assets.getTexture("wall_button");
 	private var sTexture:Texture = Root.assets.getTexture("money");
+
+	public var placing = false;
 
 	public function new(){
 		super();
@@ -99,6 +101,7 @@ class BuildMenu extends Sprite {
 
 	public function addTower(tower){
 		selectedTower = tower;
+		placing = true;
 	}
 
 	public function getTower():String{

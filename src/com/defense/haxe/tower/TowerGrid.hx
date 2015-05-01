@@ -38,6 +38,14 @@ class TowerGrid extends Sprite{
 	public var T_B4:Texture  = Root.assets.getTexture("border_4");
 	public var T_BG:Texture = Root.assets.getTexture("border_background");
 
+	private var red_tower:Texture = Root.assets.getTexture("redtower");
+	private var blue_tower:Texture = Root.assets.getTexture("bluetower");
+	private var green_tower:Texture = Root.assets.getTexture("greentower");
+	private var purple_tower:Texture = Root.assets.getTexture("purpletower");
+	private var wall:Texture = Root.assets.getTexture("wall_button");
+	//private var :Texture = Root.assets.getTexture("money");
+
+
 	// public var sideMenu:Texture = Root.assets.getTexture("thumb");
 
 	/* Keep track of tile sizing */
@@ -51,6 +59,8 @@ class TowerGrid extends Sprite{
 	private var numHeight:Int;
 	private var a_Tower:Array<Tower>;
 	public var lastPath:Array<Point>;
+
+	public var placeMode:Bool = false;
 
 	private var money:Int;
 	
@@ -154,10 +164,22 @@ class TowerGrid extends Sprite{
 	}
 	
 	public function setTowerActive(tower:Tower){
-		tower.setActive();
+		var check_tower = sideMenu.getTower();
+
+		switch(check_tower){
+			case("red"):
+				tower.setTurretTexture(red_tower);
+			case("green"):
+				tower.setTurretTexture(green_tower);
+			case("purple"):
+				tower.setTurretTexture(purple_tower);
+			case("blue"):
+				tower.setTurretTexture(blue_tower);
+		}
+		tower.setActive();	
+		fixTexture(tower.getGridX(), tower.getGridY(), true);	
 		tower.setBGTexture(T_BG);
-		fixTexture(tower.getGridX(), tower.getGridY(), true);
-		tower.setTurretTexture(Root.assets.getTexture("bluetower"));
+
 	}
 	
 	public function setTowerInactive(tower:Tower){
@@ -305,21 +327,25 @@ class TowerGrid extends Sprite{
 	var prevX = -1;
 	var prevY = -1;
 	public function onTouch( event:TouchEvent ){
-		var touch:Touch = event.touches[0];
-		if(touch.phase == "began"){
-			var towerX = Math.floor((touch.globalX - this.x)/(tileSize+tileBorder));
-			var towerY = Math.floor((touch.globalY - this.y)/(tileSize+tileBorder));
-			
-			if(!(towerX == prevX && towerY == prevY && touch.phase != "began") && validLocation(towerX,towerY)){
-				
-				/* if(prevX != -1 && prevX != -1){
-					towerTouch(prevX, prevY);
-				} */
-				
-				prevX = towerX;
-				prevY = towerY;
-				towerTouch(towerX, towerY);
-			}
+		var touch: Touch = event.touches[0];
+		var towerX = Math.floor((touch.globalX - this.x) / (tileSize + tileBorder));
+		var towerY = Math.floor((touch.globalY - this.y) / (tileSize + tileBorder));
+		if (validLocation(towerX, towerY)) {
+		    if (sideMenu.placing) {
+		        if (!towerAt(towerX, towerY).isActive() && !(towerX == prevX && towerY == prevY)) {
+		            if (prevX != -1 && prevY != -1) {
+		                towerTouch(prevX, prevY);
+		            }
+		            prevX = towerX;
+		            prevY = towerY;
+		            towerTouch(towerX, towerY);
+		        }
+		    }
+		    if (touch.phase == "ended") {
+		        sideMenu.placing = false;
+		        prevX = -1;
+		        prevY = -1;
+		    }
 		}
 	}
 	
