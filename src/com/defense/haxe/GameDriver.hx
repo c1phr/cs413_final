@@ -17,6 +17,7 @@ import com.defense.haxe.enemy.Enemy;
 import com.defense.haxe.tower.Tower;
 import com.defense.haxe.tower.TowerType;
 import com.defense.haxe.enemy.EnemyType;
+import com.defense.haxe.GameMenu;
 
 class GameDriver extends Sprite {
 	/* The 'perfect' update time, used to modify velocities in case
@@ -28,6 +29,8 @@ class GameDriver extends Sprite {
 	
 	/* Keep track of game assets */
 	private var towerGrid:TowerGrid;
+
+	private var menu:GameMenu;
 	
 	private var towers:List<TowerType>;
 	private var enemies:List<EnemyType>;
@@ -47,7 +50,8 @@ class GameDriver extends Sprite {
 	// Called when added to the stage, ready to start everything
 	public function start(){
 		startGame();
-
+		menu = new GameMenu();		
+		this.addChild(menu);
 	}
 	
 	/** Do stuff with the menu screen */
