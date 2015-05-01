@@ -70,6 +70,7 @@ class TowerGrid extends Sprite{
 	private var isPlaying:Bool;
 
 	private var lifeField:TextField;
+	private var enemyField:TextField;
 	
 	/* Keep track of projectiles */
 	private var a_Projectile:List<BaseProjectile> = new List<BaseProjectile>();
@@ -516,6 +517,12 @@ class TowerGrid extends Sprite{
 		moneyField.x = -115;
 		addChild(moneyField);
 
+		enemyField = new TextField(300, 100, "","Arial", 30, 0x00CCFF);
+		enemyField.text = enemyLayer.remaining + "/" + enemyLayer.initialCount;
+		enemyField.y = -80;
+		enemyField.x = 320;
+		addChild(enemyField);
+
 		addChild(lifeField);
 
 		
@@ -552,6 +559,7 @@ class TowerGrid extends Sprite{
 		lives = enemyLayer.getLives();
 		lifeField.text = "Lives: " + lives;
 		moneyField.text = "$" + sideMenu.money;
+		enemyField.text = enemyLayer.remaining + "/" + enemyLayer.initialCount;
 		
 		for(projectile in a_Projectile){
 			projectile.applyVelocity(modifier);

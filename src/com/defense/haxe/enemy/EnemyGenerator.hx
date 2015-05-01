@@ -39,7 +39,8 @@ class EnemyGenerator extends Sprite {
 	private var lives:Int = 10;
 
 	// Remaining enemies
-	private var remaining:Int;
+	public var remaining:Int;
+	public var initialCount:Int;
 
 	// tells whether or not to generate waves
 	private var isPlaying:Bool = false;
@@ -55,6 +56,7 @@ class EnemyGenerator extends Sprite {
 		objectParser = new ObjectParser();
 
 		pullJson();
+
 	}
 
 	public function generate(time:Float){
@@ -75,50 +77,71 @@ class EnemyGenerator extends Sprite {
 	}
 
 	public function applyVelocity(modifier:Float){
-		for(enemy in a_Enemy){
-			enemy.applyVelocity(modifier);
-			
-			if(enemy.isComplete() && !(enemy.getDead())){
-				enemy.removeFromParent(true);
-				a_Enemy.remove(enemy);
-				remaining -=1;
-				lives -= 1;
-			}
-
-			if(enemy.getDead()){
-				enemy.removeFromParent(true);
-				a_Enemy.remove(enemy);
-				remaining -= 1;
-			}
-
-			if(lives <= 0){
-				isPlaying = false;
-			}
-
-			if(remaining == 0 && currentWave < waves.length - 1){
-				var backDropContainer = new Sprite();
-				var backDrop = new Quad(Root.globalStage.stageWidth - 50, Root.globalStage.stageHeight - 50, 0x0);
-				backDrop.alpha = .5;
-				backDropContainer.addChild(backDrop);
-				var waveBanner = new TextField(300,300,"", "Arial",40, 0x00CCFF);
-				waveBanner.text = "Wave " + (currentWave + 1) + " complete!";
-				waveBanner.x = 100;
-				waveBanner.y = 20;
-				backDropContainer.addChild(waveBanner);
-				addChild(backDropContainer);
+		if(isPlaying == true){
+			for(enemy in a_Enemy){
+				enemy.applyVelocity(modifier);
 				
-				var tween = new Tween(backDropContainer, 3.0, Transitions.EASE_OUT);
-				tween.fadeTo(0);
-				Starling.juggler.add(tween);
-				tween.onComplete = function(){
-					removeChild(backDropContainer);
-					};
+				if(enemy.isComplete() && !(enemy.getDead())){
+					enemy.removeFromParent(true);
+					a_Enemy.remove(enemy);
+					remaining -=1;
+					lives -= 1;
+				}
 
-				a_Enemy.clear();
-				currentEnemy = 0;
-				currentWave += 1;
-				pullJson();
-				isPlaying = false;
+				if(enemy.getDead()){
+					enemy.removeFromParent(true);
+					a_Enemy.remove(enemy);
+					remaining -= 1;
+				}
+
+				if(lives <= 0){
+					isPlaying = false;
+					var backDropContainer = new Sprite();
+					var backDrop = new Quad(Root.globalStage.stageWidth - 50, Root.globalStage.stageHeight - 50, 0x0);
+					backDrop.alpha = .5;
+					backDropContainer.addChild(backDrop);
+					var waveBanner = new TextField(300,300,"", "Arial",40, 0x00CCFF);
+					waveBanner.text = "You Lose!";
+					waveBanner.x = 100;
+					waveBanner.y = 20;
+					backDropContainer.addChild(waveBanner);
+					addChild(backDropContainer);
+					var tween = new Tween(backDropContainer, 3.0, Transitions.EASE_OUT);
+					tween.fadeTo(0);
+					Starling.juggler.add(tween);
+					tween.onComplete = function(){
+						removeChild(backDropContainer);
+						this.removeChildren();
+						};
+					
+					break;
+				}
+
+				if(remaining == 0 && currentWave < waves.length - 1){
+					var backDropContainer = new Sprite();
+					var backDrop = new Quad(Root.globalStage.stageWidth - 50, Root.globalStage.stageHeight - 50, 0x0);
+					backDrop.alpha = .5;
+					backDropContainer.addChild(backDrop);
+					var waveBanner = new TextField(300,300,"", "Arial",40, 0x00CCFF);
+					waveBanner.text = "Wave " + (currentWave + 1) + " complete!";
+					waveBanner.x = 100;
+					waveBanner.y = 20;
+					backDropContainer.addChild(waveBanner);
+					addChild(backDropContainer);
+					
+					var tween = new Tween(backDropContainer, 3.0, Transitions.EASE_OUT);
+					tween.fadeTo(0);
+					Starling.juggler.add(tween);
+					tween.onComplete = function(){
+						removeChild(backDropContainer);
+						};
+
+					a_Enemy.clear();
+					currentEnemy = 0;
+					currentWave += 1;
+					pullJson();
+					isPlaying = false;
+				}
 			}
 		}
 	}
@@ -146,6 +169,7 @@ class EnemyGenerator extends Sprite {
 
 		enemies = objectParser.parseEnemyJson(waves[currentWave]);
 		remaining = enemies.length;
+		initialCount = enemies.length;
 	}
 
 	public function startWave(){
