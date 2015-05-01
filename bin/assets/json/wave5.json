@@ -1,0 +1,9 @@
+[
+	{
+		"type": "strong",
+		"time": 1000,
+		"texture": "enemy",
+		"speed": 4,
+		"health": 800			
+	}
+]
