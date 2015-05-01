@@ -84,6 +84,8 @@ class TowerGrid extends Sprite{
 
 	public var sideMenu:BuildMenu;
 
+	private var levelCompleteMoney:Bool = false;
+
 	// Keep track of game state
 	private var playState:Bool;
 
@@ -316,7 +318,7 @@ class TowerGrid extends Sprite{
 				stopPreviewingTower();
 			case 32:
 				if(lastPath != null){
-					var enemy = new Enemy(Root.assets.getTexture("enemy_normal"), 0, 0, 16, 5);
+					var enemy = new Enemy("fast", Root.assets.getTexture("enemy_normal"), 0, 0, 16, 5, 5);
 						enemy.setPoints(lastPath);
 					this.addChild(enemy);
 					
@@ -469,6 +471,8 @@ class TowerGrid extends Sprite{
 			}
 		}
 	}
+
+
 	
 	var startWaveButton:Button;
 	public function initializeMenu(){
@@ -555,6 +559,7 @@ class TowerGrid extends Sprite{
 		enemyLayer.applyVelocity(modifier);
 		enemyLayer.timeUpdate(time);
 		isPlaying = enemyLayer.getWaveStatus();
+
 		lives = enemyLayer.getLives();
 		lifeField.text = "Lives: " + lives;
 		moneyField.text = "$" + sideMenu.money;
@@ -564,11 +569,22 @@ class TowerGrid extends Sprite{
 			stopPreviewingTower();
 			sideMenu.setEnabled(false);
 			startWaveButton.enabled = false;
+			levelCompleteMoney = false;
+
 		} else if (!isPlaying){
 			sideMenu.setEnabled();
 			startWaveButton.enabled = true;
+			if(!levelCompleteMoney){
+				if(enemyLayer.waveComplete()){
+					sideMenu.gainSwagLevelMoney(enemyLayer.getWave());
+					levelCompleteMoney = true;
+				}
+			}
 		}
 		
+
+
+
 		for(projectile in a_Projectile){
 			projectile.applyVelocity(modifier);
 			projectile.trackingEnemyUpdate();
@@ -576,11 +592,23 @@ class TowerGrid extends Sprite{
 			for(enemy in enemyLayer.a_Enemy){
 				if(!enemy.getDead() && projectile.enemyHitCheck(enemy)){
 					if(enemy.getDead()){
-						sideMenu.gainSwagMoney(50);
-						moneyAnimation(enemy.x, enemy.y, 50);
+						if(enemy.getType() == "fast"){
+							sideMenu.gainSwagMoney(10);
+							moneyAnimation(enemy.x, enemy.y, 10);
+						}
+						else if (enemy.getType() == "slow"){
+							sideMenu.gainSwagMoney(25);
+							moneyAnimation(enemy.x, enemy.y, 25);
+						}
+						else{
+							sideMenu.gainSwagMoney(50);
+							moneyAnimation(enemy.x, enemy.y, 50);
+						}
+						
 					}
 					projectile.removeFromParent();
 					projectile.despawnMe = true;
+
 					break;
 				}
 			}
@@ -588,6 +616,7 @@ class TowerGrid extends Sprite{
 			if(projectile.hasDespawned()){
 				a_Projectile.remove(projectile);
 			}
+
 		}
 		
 		tryFireCannons(time);

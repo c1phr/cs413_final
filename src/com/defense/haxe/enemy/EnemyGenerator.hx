@@ -46,6 +46,8 @@ class EnemyGenerator extends Sprite {
 	private var isPlaying:Bool = false;
 	private var youLose:Bool = false;
 
+	private var waveStatus:Bool = false;
+
 	public function new(){
 		super();
 
@@ -67,7 +69,7 @@ class EnemyGenerator extends Sprite {
 			if(currentPath != null){
 				if(currentEnemy < enemies.length && enemies[currentEnemy].time < realTime){
 					var enemyTexture = Root.assets.getTexture(enemies[currentEnemy].texture);
-					var enemy = new Enemy(enemyTexture, 0, 0, 16, enemies[currentEnemy].speed);
+					var enemy = new Enemy(enemies[currentEnemy].type, enemyTexture, 0, 0, 16, enemies[currentEnemy].speed, enemies[currentEnemy].health);
 					enemy.setPoints(currentPath);
 					this.addChild(enemy);
 					a_Enemy.push(enemy);
@@ -120,12 +122,14 @@ class EnemyGenerator extends Sprite {
 				}
 
 				if(remaining == 0 && currentWave < waves.length - 1){
+					
 					var backDropContainer = new Sprite();
 					var backDrop = new Quad(Root.globalStage.stageWidth - 50, Root.globalStage.stageHeight - 50, 0x0);
 					backDrop.alpha = .5;
 					backDropContainer.addChild(backDrop);
 					var waveBanner = new TextField(300,300,"", "Arial",40, 0x00CCFF);
 					waveBanner.text = "Wave " + (currentWave + 1) + " complete!";
+
 					waveBanner.x = 100;
 					waveBanner.y = 20;
 					backDropContainer.addChild(waveBanner);
@@ -143,8 +147,10 @@ class EnemyGenerator extends Sprite {
 					currentWave += 1;
 					pullJson();
 					isPlaying = false;
+					waveStatus = true;
 				}
 				if(remaining == 0 && currentWave == waves.length - 1){
+					
 					isPlaying = false;
 					var backDropContainer = new Sprite();
 					var backDrop = new Quad(Root.globalStage.stageWidth - 50, Root.globalStage.stageHeight - 50, 0x0);
@@ -199,6 +205,11 @@ class EnemyGenerator extends Sprite {
 
 	public function startWave(){
 		isPlaying = true;
+		waveStatus = false;
+	}
+
+	public function waveComplete():Bool{
+		return waveStatus;
 	}
 
 	public function getWaveStatus(){
