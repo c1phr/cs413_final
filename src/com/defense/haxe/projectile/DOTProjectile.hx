@@ -10,7 +10,7 @@ class DOTProjectile extends BaseProjectile{
 	private var hitEnemy:Enemy = null;
 	
 	private var damageAmount:Float = 0.25;
-	private var damageInterval:Float = 250;
+	private var damageInterval:Int = 250;
 	private var damageCount:Int = 4;
 	
 	public override function onEnemyHit(enemy:Enemy){

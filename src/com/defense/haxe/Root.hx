@@ -39,19 +39,20 @@ class Root extends Sprite {
 		assets.enqueue("assets/32px/border_3.png");
 		assets.enqueue("assets/32px/border_4.png");*/
 		
-		assets.enqueue("assets/32px/tile.xml");
-		assets.enqueue("assets/32px/tile.png");
+		assets.enqueue("assets/tile.xml");
+		assets.enqueue("assets/tile.png");
 		
 		assets.enqueue("assets/enemy.png");
 		assets.enqueue("assets/startBtn.png");
 		assets.enqueue("assets/thumb.png");
 
-		assets.enqueue("assets/32px/redtower.png");
-		assets.enqueue("assets/32px/bluetower.png");
-		assets.enqueue("assets/32px/greentower.png");
-		assets.enqueue("assets/32px/purpletower.png");
 		assets.enqueue("assets/wall_button.png");
+
 		assets.enqueue("assets/32px/money.png");
+
+		assets.enqueue("assets/towers.json");
+		assets.enqueue("assets/enemies.json");
+
 
 		assets.enqueue("assets/font.png");
 		assets.enqueue("assets/font.fnt");

@@ -45,10 +45,7 @@ class TowerGrid extends Sprite{
 	private var green_tower:Texture = Root.assets.getTexture("greentower");
 	private var purple_tower:Texture = Root.assets.getTexture("purpletower");
 	private var wall:Texture = Root.assets.getTexture("wall_button");
-	//private var :Texture = Root.assets.getTexture("money");
 
-
-	// public var sideMenu:Texture = Root.assets.getTexture("thumb");
 
 	/* Keep track of tile sizing */
 	private var tileSize:Int;			// How big the tiles will be (excluding border)
@@ -74,7 +71,7 @@ class TowerGrid extends Sprite{
 	public var enemyLayer:EnemyGenerator = new EnemyGenerator();
 	public var projectileLayer:Sprite = new Sprite();
 
-	public var sideMenu:BuildMenu = new BuildMenu();
+	public var sideMenu:BuildMenu;
 
 	// Keep track of game state
 	private var playState:Bool;
@@ -84,6 +81,8 @@ class TowerGrid extends Sprite{
 
 	public function new(tileSize:Int, tileBorder:Int, numWidth:Int, numHeight:Int){
 		super();
+		
+		sideMenu = new BuildMenu(this);
 		
 		this.tileSize = tileSize;
 		this.tileBorder = tileBorder;
@@ -135,12 +134,10 @@ class TowerGrid extends Sprite{
 			}
 			
 			var color = (br << 16) + (bg << 8) + bb;
-			baseLayer.unflatten();
 			for(tower in a_Tower){
 				tower.baseImage.color  = color;
 			}
 			pathLayer.setColor(color);
-			baseLayer.flatten();
 		}
 	}
 	
@@ -164,13 +161,13 @@ class TowerGrid extends Sprite{
 
 		switch(check_tower){
 			case("red"):
-				tower.setTurretTexture(red_tower);
+				tower.setTurretTexture(red_tower, "DAMAGE");
 			case("green"):
-				tower.setTurretTexture(green_tower);
+				tower.setTurretTexture(green_tower, "DOT");
 			case("purple"):
-				tower.setTurretTexture(purple_tower);
+				tower.setTurretTexture(purple_tower, "DAMAGE");
 			case("blue"):
-				tower.setTurretTexture(blue_tower);
+				tower.setTurretTexture(blue_tower, "SLOW");
 		}
 		tower.setActive();	
 		fixTexture(tower.getGridX(), tower.getGridY(), true);	
@@ -199,8 +196,6 @@ class TowerGrid extends Sprite{
 	}
 	
 	public function towerTouch(x:Int,y:Int,setActive:Bool){
-		bgLayer.unflatten();
-		baseLayer.unflatten();
 		var tower = towerAt(x,y);
 				
 		// Hacky for now, but these are start / end points (for now)
@@ -224,9 +219,6 @@ class TowerGrid extends Sprite{
 			lastPath = null;
 			pathLayer.stopShowingPath();
 		}
-		
-		bgLayer.flatten();
-		baseLayer.flatten();
 	}
 	
 	public function validLocation(x:Int,y:Int):Bool{
@@ -297,15 +289,10 @@ class TowerGrid extends Sprite{
 	}
 	
 	public function clearTowers(){
-		bgLayer.unflatten();
-		baseLayer.unflatten();
 		
 		for(tower in a_Tower){
 			setTowerInactive(tower);
 		}
-		
-		bgLayer.flatten();
-		baseLayer.flatten();
 	}
 	
 	
@@ -315,7 +302,7 @@ class TowerGrid extends Sprite{
 			case 8: // Backspace
 				clearTowers();
 			case 27:
-				sideMenu.placing = false;
+				stopPreviewingTower();
 			case 32:
 				if(lastPath != null){
 					var enemy = new Enemy(Root.assets.getTexture("enemy"), 0, 0, 16, 5);
@@ -332,39 +319,74 @@ class TowerGrid extends Sprite{
 		}
 	}
 	
+	public function stopPreviewingTower(){
+		removePreviewTower();
+		sideMenu.placing = false;
+		prevX = -1;
+		prevY = -1;
+		prevActive = false;
+	}
+	
+	public function removePreviewTower(){
+		if(validLocation(prevX,prevY)){
+			if ( prevActive ){
+				towerAt(prevX, prevY).setTurretTexture(null);
+			} else if (prevX != -1 && prevY != -1) {
+				towerTouch(prevX, prevY, false);
+			}			
+		}
+	}
+	
+	var lastClickTime = -999;
 	var prevActive = false;
 	var prevX = -1;
 	var prevY = -1;
 	public function onTouch( event:TouchEvent ){
 		var touch: Touch = event.touches[0];
+		
+		// Get the tower grid we're trying to click
 		var towerX = Math.floor((touch.globalX - this.x) / (tileSize + tileBorder));
 		var towerY = Math.floor((touch.globalY - this.y) / (tileSize + tileBorder));
+		
+		// If it's a valid tower
 		if (validLocation(towerX, towerY)) {
-		    if (sideMenu.placing) {
-		        if ((!towerAt(towerX, towerY).isActive() || (!towerAt(towerX, towerY).hasTurret()) && sideMenu.getTower() != "wall") && !(towerX == prevX && towerY == prevY) && sideMenu.canPurchase()) {
-		            
-					if ( prevActive ){
-						towerAt(prevX, prevY).setTurretTexture(null);
-					} else if (prevX != -1 && prevY != -1) {
-		                towerTouch(prevX, prevY, false);
-
-		            }
-					
+		    var tower = towerAt(towerX,towerY);
+			
+			// If we're in the placing state
+			if (sideMenu.placing) {
+		        
+				// Update the tower preview
+				if ((!tower.isActive() || (!tower.hasTurret()) && sideMenu.getTower() != "wall") && !(towerX == prevX && towerY == prevY) && sideMenu.canPurchase()) {
+		            removePreviewTower();
 		            prevX = towerX;
 		            prevY = towerY;
-		            prevActive = towerAt(towerX,towerY).isActive();
+		            prevActive = tower.isActive();
 					towerTouch(towerX, towerY, true);
 		        }
-		    }
+				
+				// Finish the placing state on click
+				if(touch.phase == "ended" && lastPath != null){
+					prevX = -1;
+					prevY = -1;
+					prevActive = false;
+				}
+		    } else if( touch.phase == "ended" ){
+				
+				// Detect a double click
+				var curTime = flash.Lib.getTimer();
+				if(curTime - lastClickTime < 250){
+					if(tower.hasTurret()){
+						tower.setTurretTexture(null);
+					} else if (tower.isActive()){
+						setTowerInactive(tower);
+					}
+				
+				}
+				lastClickTime = curTime;
+			}
 			
-		    if (touch.phase == "ended" && lastPath != null) {
-
-		        // sideMenu.placing = false;
-		        
-		        prevX = -1;
-		        prevY = -1;
-				prevActive = false;
-		    }
+		} else {
+			removePreviewTower();
 		}
 	}
 	
@@ -424,11 +446,11 @@ class TowerGrid extends Sprite{
 					if(closestDistance.canFire){
 						tower.setLastFireTime(time);
 
-						var testProjectile = new SlowProjectile(T_BG, tower.x,  tower.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, closestEnemy);
-						testProjectile.setVelocity(directVector.vx, directVector.vy);
-						testProjectile.color = 0x00FF00;
-						projectileLayer.addChild(testProjectile);
-						a_Projectile.push(testProjectile);
+						var projectile = tower.getProjectile(closestEnemy);
+						projectile.setVelocity(directVector.vx, directVector.vy);
+						projectile.color = 0x00FF00;
+						projectileLayer.addChild(projectile);
+						a_Projectile.push(projectile);
 					}
 					
 					tower.setTurretAngle(closestVector.getAngle());
