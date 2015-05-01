@@ -84,7 +84,6 @@ class Root extends Sprite {
         try {
 			// Attempt to start the game logic 
 			var starling = new starling.core.Starling(Root, flash.Lib.current.stage);
-			starling.showStats = true;
             globalStage = starling.stage; 
 			starling.start();  
         } catch(e:Dynamic){
