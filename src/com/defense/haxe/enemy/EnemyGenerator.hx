@@ -73,7 +73,7 @@ class EnemyGenerator extends Sprite {
 		for(enemy in a_Enemy){
 			enemy.applyVelocity(modifier);
 			
-			if(enemy.isComplete()){
+			if(enemy.isComplete() && !(enemy.getDead())){
 				enemy.removeFromParent(true);
 				a_Enemy.remove(enemy);
 				remaining -=1;
@@ -122,7 +122,7 @@ class EnemyGenerator extends Sprite {
 	}
 
 	private function pullJson(){
-		enemies = new Array<EnemyType>();
+
 		enemies = objectParser.parseEnemyJson(waves[currentWave]);
 		trace(enemies.length);
 		remaining = enemies.length;
