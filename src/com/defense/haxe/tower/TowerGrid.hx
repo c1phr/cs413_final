@@ -66,6 +66,9 @@ class TowerGrid extends Sprite{
 
 	public var sideMenu:BuildMenu = new BuildMenu();
 
+	// Keep track of game state
+	private var playState:Bool;
+
 	public function new(tileSize:Int, tileBorder:Int, numWidth:Int, numHeight:Int){
 		super();
 		
@@ -86,7 +89,6 @@ class TowerGrid extends Sprite{
 		addChild(pathLayer);
 		addChild(enemyLayer);
 		addChild(projectileLayer);
-
 
 		
 		// Initiate the tower array;
@@ -293,6 +295,8 @@ class TowerGrid extends Sprite{
 					
 					enemyLayer.a_Enemy.push(enemy);
 				}
+			case 38:
+				enemyLayer.resetTime();
 		}
 	}
 	

@@ -22,7 +22,6 @@ class ObjectParser
 		this.dispatcher = new EventDispatcher();
 		this.towerObject = Root.assets.getObject("towers");
 		this.enemyObject = Root.assets.getObject("enemies");
-		trace(enemyObject.length);	
 	}
 
 	public function parseTowerJson():Array<TowerType>

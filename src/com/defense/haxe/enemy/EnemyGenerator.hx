@@ -19,6 +19,8 @@ class EnemyGenerator extends Sprite {
 	private var towers:Array<TowerType>;
 	private var enemies:Array<EnemyType>;
 
+	private var startTime:Float;
+	private var realTime:Float;
 	private var time:Float;
 
 	public function new(){
@@ -31,7 +33,7 @@ class EnemyGenerator extends Sprite {
 
 	public function generate(time:Float){
 		if(currentPath != null){
-			if(currentEnemy < enemies.length && enemies[currentEnemy].time < time){
+			if(currentEnemy < enemies.length && enemies[currentEnemy].time < realTime){
 				var enemyTexture = Root.assets.getTexture(enemies[currentEnemy].texture);
 				var enemy = new Enemy(enemyTexture, 0, 0, 16, enemies[currentEnemy].speed);
 				enemy.setPoints(currentPath);
@@ -60,6 +62,12 @@ class EnemyGenerator extends Sprite {
 
 	public function timeUpdate(time:Float){
 		this.time = time;
-		generate(time);
+		realTime = time-startTime;
+		generate(realTime);
+	}
+
+	public function resetTime(){
+		startTime = time;
+		currentEnemy = 0;
 	}
 }
