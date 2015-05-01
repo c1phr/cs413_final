@@ -52,9 +52,9 @@ class GameMenu extends Sprite {
 
 	private function createButton(buttonText:String):Sprite {
 		var newButton = new Sprite();		
-		var newButtonBackground = new Quad(200, 100, 0x919191);
+		var newButtonBackground = new Quad(200, 100, 0x020202);
 		newButton.addChild(newButtonBackground);
-		var newButtonText = new TextField(Std.int(newButton.width), Std.int(newButton.height), buttonText, "Arial", 36, 0xffffff);
+		var newButtonText = new TextField(Std.int(newButton.width), Std.int(newButton.height), buttonText, "font", 36, 0xffffff);
 		newButton.addChild(newButtonText);		
 		return newButton;
 	}
