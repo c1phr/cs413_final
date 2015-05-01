@@ -12,59 +12,47 @@ class ObjectParser
 	public var towers:Array<TowerType>;	
 	public var enemies:Array<EnemyType>;
 	public var dispatcher:EventDispatcher;
+	private var towerObject:Dynamic;
+	private var enemyObject:Dynamic;
 
 	public function new()
 	{		
 		this.towers = new Array<TowerType>();
 		this.enemies = new Array<EnemyType>();
 		this.dispatcher = new EventDispatcher();
-		this.parseTowerJson("assets/towers.json");
-		this.parseEnemyJson("assets/enemies.json");		
+		this.towerObject = Root.assets.getObject("towers");
+		this.enemyObject = Root.assets.getObject("enemies");
+		trace(enemyObject.length);	
 	}
 
-	private function parseTowerJson(towerJsonLoc:String)
+	public function parseTowerJson():Array<TowerType>
 	{
-		var towerJsonFile:URLRequest = new URLRequest(towerJsonLoc);
-		var towerJsonLoader:URLLoader = new URLLoader();
-		towerJsonLoader.load(towerJsonFile);
-		towerJsonLoader.addEventListener(Event.COMPLETE, function(e:Event)
-			{								
-				var jsonTowers = haxe.Json.parse(towerJsonLoader.data);				
-				for (towerIter in Reflect.fields(jsonTowers))
-				{
-					var anonTower = Reflect.field(jsonTowers, towerIter);
-					var towerToAdd = new TowerType();
-					towerToAdd.type = anonTower.type;					
-					towerToAdd.texture = anonTower.texture;
-					towerToAdd.damage = anonTower.damage;
-					towerToAdd.bullet = anonTower.bullet_name;
-					towerToAdd.speed = anonTower.speed;
-					towerToAdd.range = anonTower.range;					
-					this.towers.push(towerToAdd);					
-				}				
-				dispatcher.dispatchEventWith("TowerJsonReady", true, {value: this.towers});			
-			});
+		for(i in 0...towerObject.length){
+	        var data = towerObject[i];
+	        var towerToAdd = new TowerType();
+			towerToAdd.type = data.type;					
+			towerToAdd.texture = data.texture;
+			towerToAdd.damage = data.damage;
+			towerToAdd.bullet = data.bullet_name;
+			towerToAdd.speed = data.speed;
+			towerToAdd.range = data.range;					
+			this.towers.push(towerToAdd);	
+        }
+        return towers;
+						
 	}
 
-	private function parseEnemyJson(enemyJsonLoc:String)
+	public function parseEnemyJson():Array<EnemyType>
 	{
-		var enemyJsonFile:URLRequest = new URLRequest(enemyJsonLoc);
-		var enemyJsonLoader:URLLoader = new URLLoader();
-		enemyJsonLoader.load(enemyJsonFile);
-		enemyJsonLoader.addEventListener(Event.COMPLETE, function(e:Event)
-			{				
-				var jsonEnemies = haxe.Json.parse(enemyJsonLoader.data);				
-				for (enemyIter in Reflect.fields(jsonEnemies))
-				{					
-					var anonEnemy = Reflect.field(jsonEnemies, enemyIter);
-					var enemyToAdd = new EnemyType();
-					enemyToAdd.type = anonEnemy.type;
-					enemyToAdd.texture = anonEnemy.texture;
-					enemyToAdd.speed = anonEnemy.speed;
-					enemyToAdd.time = anonEnemy.time;			
-					this.enemies.push(enemyToAdd);
-				}						
-				dispatcher.dispatchEventWith("EnemyJsonReady", true, {value: this.enemies});
-			});
+		for(i in 0...enemyObject.length){
+	        var data = enemyObject[i];
+			var enemyToAdd = new EnemyType();
+			enemyToAdd.type = data.type;
+			enemyToAdd.texture = data.texture;
+			enemyToAdd.speed = data.speed;
+			enemyToAdd.time = data.time;			
+			this.enemies.push(enemyToAdd);
+		}
+		return enemies;
 	}	
 }

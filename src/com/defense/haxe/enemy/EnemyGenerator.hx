@@ -26,19 +26,12 @@ class EnemyGenerator extends Sprite {
 		Root.globalStage.addEventListener(KeyboardEvent.KEY_DOWN, generate);
 
 		var objectParser = new ObjectParser();
-		// Events because Flash IO is async
-		objectParser.dispatcher.addEventListener("TowerJsonReady", function(e:Event){
-				this.towers = e.data.value;							
-			});
-		objectParser.dispatcher.addEventListener("EnemyJsonReady", function(e:Event){
-				this.enemies = e.data.value;				
-			});
+		enemies = objectParser.parseEnemyJson();
 	}
 
 	public function generate(time:Float){
 		if(currentPath != null){
 			if(currentEnemy < enemies.length && enemies[currentEnemy].time < time){
-				trace(time);
 				var enemyTexture = Root.assets.getTexture(enemies[currentEnemy].texture);
 				var enemy = new Enemy(enemyTexture, 0, 0, 16, enemies[currentEnemy].speed);
 				enemy.setPoints(currentPath);

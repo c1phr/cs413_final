@@ -1,37 +1,36 @@
-{
-	"enemy_1": 
-		{
-			"type": "fast",
-			"time": 1000,
-			"texture": "enemy",
-			"speed": 4			
-		},
-	"enemy_2": 
-		{
-			"type": "slow",
-			"time": 2000,
-			"texture": "enemy",			
-			"speed": 4
-		},
-	"enemy_3": 
-		{
-			"type": "fast",
-			"time": 3000,
-			"texture": "enemy",			
-			"speed": 4		
-		},
-	"enemy_4": 
-		{
-			"type": "fast",
-			"time": 4000,
-			"texture": "enemy",			
-			"speed": 4		
-		},
-	"enemy_5": 
-		{
-			"type": "fast",
-			"time": 5000,
-			"texture": "enemy",			
-			"speed": 4	
-		}
-}
+[
+	{
+		"type": "fast",
+		"time": 1000,
+		"texture": "enemy",
+		"speed": 4			
+	},
+
+	{
+		"type": "slow",
+		"time": 2000,
+		"texture": "enemy",			
+		"speed": 4
+	},
+
+	{
+		"type": "fast",
+		"time": 3000,
+		"texture": "enemy",			
+		"speed": 8		
+	},
+
+	{
+		"type": "fast",
+		"time": 4000,
+		"texture": "enemy",			
+		"speed": 4		
+	},
+
+	{
+		"type": "fast",
+		"time": 5000,
+		"texture": "enemy",			
+		"speed": 4	
+	}
+]
