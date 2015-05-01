@@ -7,7 +7,7 @@ import com.defense.haxe.enemy.Enemy;
 class BaseProjectile extends TrackingCircle{
 	
 	private var trackEnemy : Enemy;
-	private var damage = 1;
+	public var damage:Float = 1;
 	
 	public function new(texture:Texture, x:Float, y:Float, radius:Float, stageWidth:Float, stageHeight:Float, enemy:Enemy){
 		super(texture, x, y, radius, stageWidth, stageHeight, enemy);

@@ -13,7 +13,6 @@ import com.defense.haxe.enemy.Enemy;
 class Tower extends Sprite{
 	private static var TWO_PI:Float = 6.283185;
 	
-	
 	public var baseImage:Image;
 	public var bgImage:Image; // This will be attached to a different sprite.
 	private var turretImage:Image;
@@ -86,22 +85,42 @@ class Tower extends Sprite{
 			turretImage.x = this.width/2;
 			turretImage.y = this.height/2;
 			addChild(turretImage);
+			updateStats();
 		} else {
 			turretImage.texture = texture;
+			updateStats();
+		}
+	}
+	
+	private function updateStats(){
+		switch(projectileType){
+			case "SLOW":
+				cooldown = 500;
+			case "DOT":
+			case "DAMAGE":
+			case "RAPID":
+				firingDistance = 150;
+				cooldown = 250;
 		}
 	}
 	
 	public function getProjectile(target:Enemy):BaseProjectile {
+		var projectile:BaseProjectile = null;
+		
 		switch(projectileType){
 			case "SLOW":
-				return new SlowProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+				projectile = new SlowProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+				projectile.damage = 0.5;
 			case "DOT":
-				return new DOTProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+				projectile = new DOTProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
 			case "DAMAGE":
-				return new BaseProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+				projectile = new BaseProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+			case "RAPID":
+				projectile = new BaseProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 10, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
+				projectile.damage = 0.339;
 		}
 		
-		return null;
+		return projectile;
 	}
 	
 	public function getPrice():Int{
@@ -111,6 +130,8 @@ class Tower extends Sprite{
 			case "DOT":
 				return 150;
 			case "DAMAGE":
+				return 100;
+			case "RAPID":
 				return 100;
 			default:
 				return 5;

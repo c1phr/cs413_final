@@ -176,7 +176,7 @@ class TowerGrid extends Sprite{
 			case("green"):
 				tower.setTurretTexture(green_tower, "DOT");
 			case("purple"):
-				tower.setTurretTexture(purple_tower, "DAMAGE");
+				tower.setTurretTexture(purple_tower, "RAPID");
 			case("blue"):
 				tower.setTurretTexture(blue_tower, "SLOW");
 		}
@@ -529,7 +529,7 @@ class TowerGrid extends Sprite{
 	}
 	
 	public function moneyAnimation(x:Float, y:Float, money:Int){
-		var textField = new TextField(100, 100, "$" + money, "Arial", 14, 0x00FF00);
+		var textField = new TextField(100, 100, "+" + money, "Arial", 14, 0xCCCCFF);
 		textField.x = x;
 		textField.y = y;
 		textField.pivotX = textField.pivotY = 50;
@@ -566,10 +566,10 @@ class TowerGrid extends Sprite{
 			projectile.trackingEnemyUpdate();
 			
 			for(enemy in enemyLayer.a_Enemy){
-				if(projectile.enemyHitCheck(enemy)){
+				if(!enemy.getDead() && projectile.enemyHitCheck(enemy)){
 					if(enemy.getDead()){
-						sideMenu.gainSwagMoney(20);
-						moneyAnimation(enemy.x, enemy.y, 20);
+						sideMenu.gainSwagMoney(50);
+						moneyAnimation(enemy.x, enemy.y, 50);
 					}
 					projectile.removeFromParent();
 					projectile.despawnMe = true;
