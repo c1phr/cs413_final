@@ -26,6 +26,7 @@ class BuildMenu extends Sprite {
 	private var towerGrid:TowerGrid;
 	public var placing = false;
 	public var money = 500;
+	private var a_Button:Array<Button>;
 
 	public function new(towerGrid:TowerGrid){
 		super();
@@ -37,7 +38,7 @@ class BuildMenu extends Sprite {
 		var wall = 			new Button(Root.assets.getTexture("wall_button"));
 		var cancel = 		new Button(Root.assets.getTexture("cancel"));
 				
-		var a_Button = [wall, redtower, greentower, bluetower, purpletower, cancel];
+		a_Button = [wall, redtower, greentower, bluetower, purpletower, cancel];
 		
 		
 		for(i in 0...a_Button.length){
@@ -68,6 +69,11 @@ class BuildMenu extends Sprite {
 		cancel.addEventListener(Event.TRIGGERED, towerGrid.stopPreviewingTower);
 	}
 
+	public function setEnabled(enabled:Bool=true){
+		for(button in a_Button){
+			button.enabled = enabled;
+		}
+	}
 	public function addTower(tower){
 		selectedTower = tower;
 		/*switch(tower){

@@ -21,7 +21,7 @@ class GameMenu extends Sprite {
 	private var startButton:Sprite;
 	private var tutorialButton:Sprite;
 	private var backButton:Sprite;
-
+	
 	public function new(){
 		super();
 		this.width = 540;

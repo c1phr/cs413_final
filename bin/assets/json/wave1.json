@@ -2,63 +2,63 @@
 	{
 		"type": "fast",
 		"time": 1000,
-		"texture": "enemy",
+		"texture": "enemy_normal",
 		"speed": 2			
 	},
 
 	{
 		"type": "slow",
 		"time": 1500,
-		"texture": "enemy",			
+		"texture": "enemy_normal",			
 		"speed": 2
 	},
 
 	{
 		"type": "fast",
 		"time": 2000,
-		"texture": "enemy",			
+		"texture": "enemy_normal",			
 		"speed": 2		
 	},
 
 	{
 		"type": "fast",
 		"time": 2500,
-		"texture": "enemy",			
+		"texture": "enemy_normal",			
 		"speed": 2		
 	},
 
 	{
 		"type": "fast",
 		"time": 3000,
-		"texture": "enemy",			
+		"texture": "enemy_normal",			
 		"speed": 2	
 	},
 
 	{
 		"type": "fast",
 		"time": 3500,
-		"texture": "enemy",
+		"texture": "enemy_normal",
 		"speed": 2			
 	},
 
 	{
 		"type": "slow",
 		"time": 4000,
-		"texture": "enemy",			
+		"texture": "enemy_normal",			
 		"speed": 2
 	},
 
 	{
 		"type": "fast",
 		"time": 4500,
-		"texture": "enemy",			
+		"texture": "enemy_normal",			
 		"speed": 2		
 	},
 
 	{
 		"type": "fast",
 		"time": 5000,
-		"texture": "enemy",			
+		"texture": "enemy_normal",			
 		"speed": 2		
 	}
 ]

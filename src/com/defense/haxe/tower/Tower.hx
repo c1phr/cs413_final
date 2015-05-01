@@ -117,7 +117,7 @@ class Tower extends Sprite{
 				projectile = new BaseProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 5, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
 			case "RAPID":
 				projectile = new BaseProjectile(Root.assets.getTexture("border_background"), this.x, this.y, 10, Root.globalStage.stageWidth, Root.globalStage.stageHeight, target);
-				projectile.damage = 0.339;
+				projectile.damage = 0.5;
 		}
 		
 		return projectile;

@@ -316,7 +316,7 @@ class TowerGrid extends Sprite{
 				stopPreviewingTower();
 			case 32:
 				if(lastPath != null){
-					var enemy = new Enemy(Root.assets.getTexture("enemy"), 0, 0, 16, 5);
+					var enemy = new Enemy(Root.assets.getTexture("enemy_normal"), 0, 0, 16, 5);
 						enemy.setPoints(lastPath);
 					this.addChild(enemy);
 					
@@ -413,7 +413,6 @@ class TowerGrid extends Sprite{
 			
 			var towerMask = (t0 << 3) + (t1 << 2) + (t2 << 1) + t3;
 			thisTower.fixTexture(towerMask, this);
-
 		}
 		
 		if(fixOthers) {
@@ -472,9 +471,10 @@ class TowerGrid extends Sprite{
 		}
 	}
 	
+	var startWaveButton:Button;
 	public function initializeMenu(){
 		addChild(sideMenu);
-		var startWaveButton = new Button(Root.assets.getTexture("waveBtn"));
+		startWaveButton = new Button(Root.assets.getTexture("waveBtn"));
 		startWaveButton.x = 520;
 		startWaveButton.y = 0;
 		startWaveButton.enabled = true;
@@ -560,6 +560,15 @@ class TowerGrid extends Sprite{
 		lifeField.text = "Lives: " + lives;
 		moneyField.text = "$" + sideMenu.money;
 		enemyField.text = enemyLayer.remaining + "/" + enemyLayer.initialCount;
+		
+		if(prevX != -1 && isPlaying){
+			stopPreviewingTower();
+			sideMenu.setEnabled(false);
+			startWaveButton.enabled = false;
+		} else if (!isPlaying){
+			sideMenu.setEnabled();
+			startWaveButton.enabled = true;
+		}
 		
 		for(projectile in a_Projectile){
 			projectile.applyVelocity(modifier);
