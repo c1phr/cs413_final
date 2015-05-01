@@ -3,62 +3,79 @@
 		"type": "fast",
 		"time": 1000,
 		"texture": "enemy_normal",
-		"speed": 2			
+		"speed": 4,
+		"health": 2			
 	},
 
 	{
 		"type": "slow",
 		"time": 1500,
 		"texture": "enemy_normal",			
-		"speed": 2
+		"speed": 2,
+		"health": 3
 	},
 
 	{
 		"type": "fast",
 		"time": 2000,
 		"texture": "enemy_normal",			
-		"speed": 2		
+		"speed": 4,
+		"health": 2		
 	},
 
 	{
 		"type": "fast",
 		"time": 2500,
 		"texture": "enemy_normal",			
-		"speed": 2		
+		"speed": 4,
+		"health": 2		
 	},
 
 	{
 		"type": "fast",
 		"time": 3000,
 		"texture": "enemy_normal",			
-		"speed": 2	
+		"speed": 4,
+		"health": 2	
 	},
 
 	{
 		"type": "fast",
 		"time": 3500,
 		"texture": "enemy_normal",
-		"speed": 2			
+		"speed": 4,
+		"health": 2			
 	},
 
 	{
 		"type": "slow",
 		"time": 4000,
 		"texture": "enemy_normal",			
-		"speed": 2
+		"speed": 2,
+		"health": 3
 	},
+
 
 	{
 		"type": "fast",
 		"time": 4500,
 		"texture": "enemy_normal",			
-		"speed": 2		
+		"speed": 4,
+		"health": 2	
 	},
-
 	{
 		"type": "fast",
 		"time": 5000,
 		"texture": "enemy_normal",			
-		"speed": 2		
+		"speed": 4,
+		"health": 2		
+	},
+
+	{
+		"type": "strong",
+		"time": 5000,
+		"texture": "enemy_normal",			
+		"speed": 1,
+		"health":20		
 	}
 ]
