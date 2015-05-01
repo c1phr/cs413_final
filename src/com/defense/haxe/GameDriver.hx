@@ -69,10 +69,7 @@ class GameDriver extends Sprite {
 		addChild(towerGrid);
 		towerGrid.initializeMenu();
 
-		moneyField = new TextField(300, 100, "","font", 30, 0xFFFFFF);
-		moneyField.text = "$" + money;
-		moneyField.y = -25;
-		addChild(moneyField);
+
 
 		lifeField = new TextField(300, 100, "","font", 30, 0xFFFFFF);
 		lifeField.text = "Lives: " + lives;

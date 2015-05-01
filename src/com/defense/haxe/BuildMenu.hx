@@ -25,13 +25,22 @@ class BuildMenu extends Sprite {
 	private var purpletower:Button;
 	private var wall:Button;
 	private var sell:Button;
+	private var moneyField:TextField;
 
 	private var towerDescr:TextField;
 
 	private var background = new Quad(550, 400, 0x000000);
 
 	private var selectedTower:String = "";
-	
+
+	public var money:Int = 500;
+
+	public var redCost:Int = 30;
+	public var blueCost:Int = 10;
+	public var greenCost:Int = 15;
+	public var purpleCost:Int = 10;
+	public var wallCost:Int = 5;
+
 	private var rTexture:Texture = Root.assets.getTexture("redtower");
 	private var bTexture:Texture = Root.assets.getTexture("bluetower");
 	private var gTexture:Texture = Root.assets.getTexture("greentower");
@@ -40,6 +49,7 @@ class BuildMenu extends Sprite {
 	private var sTexture:Texture = Root.assets.getTexture("money");
 
 	public var placing = false;
+
 
 	public function new(){
 		super();
@@ -99,6 +109,10 @@ class BuildMenu extends Sprite {
 
 		addChild(towerDescr);
 
+		moneyField = new TextField(300, 100, "","font", 30, 0xFFFFFF);
+		moneyField.text = "$" + money;
+		moneyField.y = -85;
+		addChild(moneyField);
 
 		redtower.addEventListener(Event.TRIGGERED, function(){addTower("red");});
 		bluetower.addEventListener(Event.TRIGGERED, function(){addTower("blue");});
@@ -114,15 +128,15 @@ class BuildMenu extends Sprite {
 		selectedTower = tower;
 		switch(tower){
 			case("red"):
-				towerDescr.text = "Speed Tower";
+				(money < redCost) ? towerDescr.text = "Not Enough Money!": towerDescr.text = "Speed Tower";
 			case("blue"):
-				towerDescr.text = "Ice Tower";
+				(money < blueCost) ? towerDescr.text = "Not Enough Money!" : towerDescr.text = "Ice Tower";
 			case("green"):
-				towerDescr.text = "Bio Tower";
+				(money < greenCost) ? towerDescr.text = "Not Enough Money!": towerDescr.text = "Bio Tower";
 			case("purple"):
-				towerDescr.text = "Splash Tower";
+				(money < purpleCost) ? towerDescr.text = "Not Enough Money!" : towerDescr.text = "Splash Tower";
 			case("wall"):
-				towerDescr.text = "Wall";	
+				(money < wallCost) ? towerDescr.text = "Not Enough Money!" : towerDescr.text = "Wall";	
 			case("sell"):
 				towerDescr.text = "Sell Tower";
 
@@ -133,6 +147,30 @@ class BuildMenu extends Sprite {
 	public function getTower():String{
 		return selectedTower;
 	}
+
+	public function subtractMoney(tower:String){
+		money -= 30;
+		moneyField.text = "$" + money;
+	}
+
+	public function canPurchase():Bool{
+		var this_tower = getTower();
+
+		switch(this_tower){
+			case("red"):
+				(money < redCost) ? return false: return true;
+			case("blue"):
+				(money < blueCost) ? return false: return true;
+			case("green"):
+				(money < greenCost) ? return false: return true;
+			case("purple"):
+				(money < purpleCost) ? return false: return true;
+			case("wall"):
+				(money < wallCost) ? return false: return true;
+		}
+				return false;
+
+	}	
 
 	public function showMenu(towerX:Int, towerY:Int, money:Int, occupied:Bool, grid:TowerGrid){
 

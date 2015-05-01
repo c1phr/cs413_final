@@ -61,7 +61,6 @@ class TowerGrid extends Sprite{
 	private var a_Tower:Array<Tower>;
 	public var lastPath:Array<Point>;
 
-	private var money:Int = 500;
 	private var lives:Int = 10;
 	
 	/* Keep track of projectiles */
@@ -338,12 +337,13 @@ class TowerGrid extends Sprite{
 		var towerY = Math.floor((touch.globalY - this.y) / (tileSize + tileBorder));
 		if (validLocation(towerX, towerY)) {
 		    if (sideMenu.placing) {
-		        if ((!towerAt(towerX, towerY).isActive() || (!towerAt(towerX, towerY).hasTurret()) && sideMenu.getTower() != "wall") && !(towerX == prevX && towerY == prevY)) {
+		        if ((!towerAt(towerX, towerY).isActive() || (!towerAt(towerX, towerY).hasTurret()) && sideMenu.getTower() != "wall") && !(towerX == prevX && towerY == prevY) && sideMenu.canPurchase()) {
 		            
 					if ( prevActive ){
 						towerAt(prevX, prevY).setTurretTexture(null);
 					} else if (prevX != -1 && prevY != -1) {
 		                towerTouch(prevX, prevY, false);
+
 		            }
 					
 		            prevX = towerX;
@@ -354,7 +354,9 @@ class TowerGrid extends Sprite{
 		    }
 			
 		    if (touch.phase == "ended" && lastPath != null) {
+
 		        // sideMenu.placing = false;
+		        
 		        prevX = -1;
 		        prevY = -1;
 				prevActive = false;
@@ -372,6 +374,7 @@ class TowerGrid extends Sprite{
 			
 			var towerMask = (t0 << 3) + (t1 << 2) + (t2 << 1) + t3;
 			thisTower.fixTexture(towerMask, this);
+
 		}
 		
 		if(fixOthers) {
