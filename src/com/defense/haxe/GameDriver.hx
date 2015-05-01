@@ -60,6 +60,7 @@ class GameDriver extends Sprite {
 		towerGrid.y = Math.round(this.stage.stageHeight/2 - towerGrid.height/2);
 		addChild(towerGrid);
 		towerGrid.initializeMenu();
+		Root.assets.playSound("song", 0, 100000);
 
 		
 	}

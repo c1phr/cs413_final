@@ -64,7 +64,8 @@ class Root extends Sprite {
 		assets.enqueue("assets/Json/wave3.json");
 		assets.enqueue("assets/Json/wave4.json");
 		assets.enqueue("assets/Json/wave5.json");
-
+		assets.enqueue("assets/song.mp3");
+		assets.enqueue("assets/song2.mp3");
 
 		assets.loadQueue(function onProgress(ratio:Float) {
 			if (ratio == 1) {
