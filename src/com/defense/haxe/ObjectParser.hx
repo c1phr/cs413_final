@@ -9,14 +9,14 @@ import com.defense.haxe.enemy.EnemyType;
 
 class ObjectParser
 {
-	public var towers:List<TowerType>;	
-	public var enemies:List<EnemyType>;
+	public var towers:Array<TowerType>;	
+	public var enemies:Array<EnemyType>;
 	public var dispatcher:EventDispatcher;
 
 	public function new()
 	{		
-		this.towers = new List<TowerType>();
-		this.enemies = new List<EnemyType>();
+		this.towers = new Array<TowerType>();
+		this.enemies = new Array<EnemyType>();
 		this.dispatcher = new EventDispatcher();
 		this.parseTowerJson("assets/towers.json");
 		this.parseEnemyJson("assets/enemies.json");		
@@ -40,7 +40,7 @@ class ObjectParser
 					towerToAdd.bullet = anonTower.bullet_name;
 					towerToAdd.speed = anonTower.speed;
 					towerToAdd.range = anonTower.range;					
-					this.towers.add(towerToAdd);					
+					this.towers.push(towerToAdd);					
 				}				
 				dispatcher.dispatchEventWith("TowerJsonReady", true, {value: this.towers});			
 			});
@@ -62,7 +62,7 @@ class ObjectParser
 					enemyToAdd.texture = anonEnemy.texture;
 					enemyToAdd.speed = anonEnemy.speed;
 					enemyToAdd.time = anonEnemy.time;			
-					this.enemies.add(enemyToAdd);
+					this.enemies.push(enemyToAdd);
 				}						
 				dispatcher.dispatchEventWith("EnemyJsonReady", true, {value: this.enemies});
 			});

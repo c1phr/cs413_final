@@ -392,8 +392,10 @@ class TowerGrid extends Sprite{
 		// Create a modifier based on time passed / expected time
 		var modifier = event.passedTime / GameDriver.perfectDeltaTime;
 		var time = flash.Lib.getTimer();
+
 		
 		enemyLayer.applyVelocity(modifier);
+		enemyLayer.timeUpdate(time);
 		
 		
 		for(projectile in a_Projectile){
