@@ -1,0 +1,126 @@
+[
+	{
+		"type": "fast",
+		"time": 1000,
+		"texture": "enemy_normal",
+		"speed": 2			
+	},
+
+	{
+		"type": "slow",
+		"time": 1500,
+		"texture": "enemy_normal",			
+		"speed": 2
+	},
+
+	{
+		"type": "fast",
+		"time": 2000,
+		"texture": "enemy_normal",			
+		"speed": 2		
+	},
+
+	{
+		"type": "fast",
+		"time": 2500,
+		"texture": "enemy_normal",			
+		"speed": 2		
+	},
+
+	{
+		"type": "fast",
+		"time": 3000,
+		"texture": "enemy_normal",			
+		"speed": 2	
+	},
+
+	{
+		"type": "fast",
+		"time": 3500,
+		"texture": "enemy_normal",
+		"speed": 2			
+	},
+
+	{
+		"type": "slow",
+		"time": 4000,
+		"texture": "enemy_normal",			
+		"speed": 2
+	},
+
+	{
+		"type": "fast",
+		"time": 4500,
+		"texture": "enemy_normal",			
+		"speed": 2		
+	},
+
+	{
+		"type": "fast",
+		"time": 5000,
+		"texture": "enemy_normal",			
+		"speed": 2		
+	},
+	{
+		"type": "fast",
+		"time": 5500,
+		"texture": "enemy_normal",
+		"speed": 2			
+	},
+
+	{
+		"type": "slow",
+		"time": 6000,
+		"texture": "enemy_normal",			
+		"speed": 2
+	},
+
+	{
+		"type": "fast",
+		"time": 6500,
+		"texture": "enemy_normal",			
+		"speed": 2		
+	},
+
+	{
+		"type": "fast",
+		"time": 7000,
+		"texture": "enemy_normal",			
+		"speed": 2		
+	},
+
+	{
+		"type": "fast",
+		"time": 7500,
+		"texture": "enemy_normal",			
+		"speed": 2	
+	},
+
+	{
+		"type": "fast",
+		"time": 8000,
+		"texture": "enemy_normal",
+		"speed": 2			
+	},
+
+	{
+		"type": "slow",
+		"time": 9000,
+		"texture": "enemy_normal",			
+		"speed": 2
+	},
+
+	{
+		"type": "fast",
+		"time": 10000,
+		"texture": "enemy_normal",			
+		"speed": 2		
+	},
+
+	{
+		"type": "fast",
+		"time": 11000,
+		"texture": "enemy_normal",			
+		"speed": 2		
+	}
+]
