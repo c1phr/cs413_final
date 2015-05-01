@@ -54,9 +54,6 @@ class TowerGrid extends Sprite{
 
 	private var money:Int;
 	
-	/* Keep track of the enemies */
-	private var enemyGen:EnemyGenerator;
-	
 	/* Keep track of projectiles */
 	private var a_Projectile:List<BaseProjectile> = new List<BaseProjectile>();
 	
@@ -288,7 +285,14 @@ class TowerGrid extends Sprite{
 		switch(event.keyCode){
 			case 8: // Backspace
 				clearTowers();
-
+			case 32:
+				if(lastPath != null){
+					var enemy = new Enemy(Root.assets.getTexture("enemy"), 0, 0, 16, 5);
+						enemy.setPoints(lastPath);
+					this.addChild(enemy);
+					
+					enemyLayer.a_Enemy.push(enemy);
+				}
 		}
 	}
 	
@@ -301,6 +305,11 @@ class TowerGrid extends Sprite{
 			var towerY = Math.floor((touch.globalY - this.y)/(tileSize+tileBorder));
 			
 			if(!(towerX == prevX && towerY == prevY && touch.phase != "began") && validLocation(towerX,towerY)){
+				
+				/* if(prevX != -1 && prevX != -1){
+					towerTouch(prevX, prevY);
+				} */
+				
 				prevX = towerX;
 				prevY = towerY;
 				towerTouch(towerX, towerY);
