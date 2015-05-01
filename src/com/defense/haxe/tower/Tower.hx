@@ -59,6 +59,10 @@ class Tower extends Sprite{
 		return active;
 	}
 	
+	public function hasTurret():Bool{
+		return (turretImage != null);
+	}
+	
 	public function setTurretAngle(angle:Float){
 		if(turretImage != null){
 			turretImage.rotation = angle;
@@ -125,12 +129,7 @@ class Tower extends Sprite{
 		
 		// If we're in range...
 		if(directVector.getMag() <= firingDistance){
-			
-			if(time - lastFireTime >= cooldown){
-				return {'canFire':true, 'distance':directVector.getMag()};
-			}
-				
-			return {'canFire':false, 'distance':directVector.getMag()};
+			return {'canFire':(time - lastFireTime >= cooldown), 'distance':directVector.getMag()};
 		}
 		
 		return {'canFire':false, 'distance':-1};
