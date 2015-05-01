@@ -328,7 +328,7 @@ class TowerGrid extends Sprite{
 		var towerY = Math.floor((touch.globalY - this.y) / (tileSize + tileBorder));
 		if (validLocation(towerX, towerY)) {
 		    if (sideMenu.placing) {
-		        if (!towerAt(towerX, towerY).isActive() && !(towerX == prevX && towerY == prevY)) {
+		        if ((!towerAt(towerX, towerY).isActive() || !towerAt(towerX, towerY).hasTurret()) && !(towerX == prevX && towerY == prevY)) {
 		            if (prevX != -1 && prevY != -1) {
 		                towerTouch(prevX, prevY);
 		            }
