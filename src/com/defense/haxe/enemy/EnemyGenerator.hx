@@ -144,6 +144,29 @@ class EnemyGenerator extends Sprite {
 					pullJson();
 					isPlaying = false;
 				}
+				if(remaining == 0 && currentWave == waves.length - 1){
+					isPlaying = false;
+					var backDropContainer = new Sprite();
+					var backDrop = new Quad(Root.globalStage.stageWidth - 50, Root.globalStage.stageHeight - 50, 0x0);
+					backDrop.alpha = .5;
+					backDropContainer.addChild(backDrop);
+					var waveBanner = new TextField(300,300,"", "Arial",40, 0x00CCFF);
+					waveBanner.text = "You Win!";
+					waveBanner.x = 100;
+					waveBanner.y = 20;
+					backDropContainer.addChild(waveBanner);
+					addChild(backDropContainer);
+					var tween = new Tween(backDropContainer, 4.0, Transitions.EASE_OUT);
+					tween.fadeTo(0);
+					Starling.juggler.add(tween);
+					tween.onComplete = function(){
+						removeChild(backDropContainer);
+						this.removeChildren();
+						youLose = true;
+						};
+					
+					break;
+				}
 			}
 		}
 	}
