@@ -80,6 +80,15 @@ class GameDriver extends Sprite {
 		if(!running)
 			return;
 		towerGrid.onEnterFrame(event);
+		if(towerGrid.enemyLayer.isOver()){
+			this.removeChildren();
+			this.dispose();
+			this.removeEventListeners();
+			Root.assets.removeSound("song");
+			startGame();
+			menu = new GameMenu();		
+			this.addChild(menu);
+		}
 	}
 	
 	/** Used to detect clicks */

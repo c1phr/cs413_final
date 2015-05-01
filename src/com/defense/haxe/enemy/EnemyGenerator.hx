@@ -44,6 +44,7 @@ class EnemyGenerator extends Sprite {
 
 	// tells whether or not to generate waves
 	private var isPlaying:Bool = false;
+	private var youLose:Bool = false;
 
 	public function new(){
 		super();
@@ -106,12 +107,13 @@ class EnemyGenerator extends Sprite {
 					waveBanner.y = 20;
 					backDropContainer.addChild(waveBanner);
 					addChild(backDropContainer);
-					var tween = new Tween(backDropContainer, 3.0, Transitions.EASE_OUT);
+					var tween = new Tween(backDropContainer, 4.0, Transitions.EASE_OUT);
 					tween.fadeTo(0);
 					Starling.juggler.add(tween);
 					tween.onComplete = function(){
 						removeChild(backDropContainer);
 						this.removeChildren();
+						youLose = true;
 						};
 					
 					break;
@@ -182,5 +184,9 @@ class EnemyGenerator extends Sprite {
 
 	public function getWave():Int{
 		return currentWave;
+	}
+
+	public function isOver():Bool{
+		return youLose;
 	}
 }
