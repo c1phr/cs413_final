@@ -6,6 +6,7 @@ import starling.events.KeyboardEvent;
 import starling.events.TouchEvent;
 import starling.events.Event;
 import starling.display.Sprite;
+import starling.text.TextField;
 import flash.system.System;
 
 import com.defense.haxe.Root;
@@ -30,6 +31,11 @@ class GameDriver extends Sprite {
 	
 	private var towers:List<TowerType>;
 	private var enemies:List<EnemyType>;
+
+	private var money:Int = 500;
+	private var lives:Int = 10;
+	private var moneyField:TextField;
+	private var lifeField:TextField;
 
 	// Simple constructor
     public function new() {
@@ -58,6 +64,18 @@ class GameDriver extends Sprite {
 		towerGrid.y = Math.round(this.stage.stageHeight/2 - towerGrid.height/2);
 		addChild(towerGrid);
 		towerGrid.initializeMenu();
+
+		moneyField = new TextField(300, 100, "","font", 30, 0xFFFFFF);
+		moneyField.text = "$" + money;
+		moneyField.y = -25;
+		addChild(moneyField);
+
+		lifeField = new TextField(300, 100, "","font", 30, 0xFFFFFF);
+		lifeField.text = "Lives: " + lives;
+		lifeField.y = -25;
+		lifeField.x = 300;
+
+		addChild(lifeField);
 	}
 	
 	/** The game is over! */
