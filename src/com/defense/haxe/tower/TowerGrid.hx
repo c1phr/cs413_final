@@ -6,6 +6,7 @@ import starling.events.EnterFrameEvent;
 import starling.events.TouchEvent;
 import starling.events.KeyboardEvent;
 import starling.events.Touch;
+import starling.text.TextField;
 
 import com.cykon.haxe.cmath.Vector;
 import com.cykon.haxe.movable.Point;
@@ -60,9 +61,8 @@ class TowerGrid extends Sprite{
 	private var a_Tower:Array<Tower>;
 	public var lastPath:Array<Point>;
 
-	public var placeMode:Bool = false;
-
-	private var money:Int;
+	private var money:Int = 500;
+	private var lives:Int = 10;
 	
 	/* Keep track of projectiles */
 	private var a_Projectile:List<BaseProjectile> = new List<BaseProjectile>();
@@ -78,6 +78,9 @@ class TowerGrid extends Sprite{
 
 	// Keep track of game state
 	private var playState:Bool;
+
+	// Data textfields
+	private var moneyField:TextField;
 
 	public function new(tileSize:Int, tileBorder:Int, numWidth:Int, numHeight:Int){
 		super();
@@ -99,7 +102,6 @@ class TowerGrid extends Sprite{
 		addChild(pathLayer);
 		addChild(enemyLayer);
 		addChild(projectileLayer);
-
 		
 		// Initiate the tower array;
 		a_Tower = new Array<Tower>();
@@ -110,12 +112,6 @@ class TowerGrid extends Sprite{
 		populateGrid();
 		borderGlow();
 		this.towerTouch(0,0);
-		
-
-		/* var menu = new GameLoader();
-		addChild(menu.start());
-		addChild(menu.text());
-		addChild(menu.button()); */
 		
 		this.addEventListener(TouchEvent.TOUCH, onTouch);
 		this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
