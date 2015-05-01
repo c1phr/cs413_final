@@ -131,4 +131,8 @@ class EnemyGenerator extends Sprite {
 	public function startWave(){
 		isPlaying = true;
 	}
+
+	public function getWaveStatus(){
+		return isPlaying;	
+	}
 }

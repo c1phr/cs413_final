@@ -8,6 +8,7 @@ import starling.events.KeyboardEvent;
 import starling.events.Touch;
 import starling.text.TextField;
 import starling.display.Button;
+import starling.events.Event;
 
 import com.cykon.haxe.cmath.Vector;
 import com.cykon.haxe.movable.Point;
@@ -61,6 +62,7 @@ class TowerGrid extends Sprite{
 
 	public var lives:Int;
 	private var money:Int;
+	private var isPlaying:Bool;
 	
 	/* Keep track of projectiles */
 	private var a_Projectile:List<BaseProjectile> = new List<BaseProjectile>();
@@ -464,6 +466,20 @@ class TowerGrid extends Sprite{
 	
 	public function initializeMenu(){
 		addChild(sideMenu);
+		var startWaveButton = new Button(Root.assets.getTexture("waveBtn"));
+		startWaveButton.x = 520;
+		startWaveButton.y = 25;
+		startWaveButton.enabled = true;
+		startWaveButton.alphaWhenDisabled = .5;
+		addChild(startWaveButton);
+
+		startWaveButton.addEventListener(Event.TRIGGERED, function(){
+			if(!(isPlaying)){
+				enemyLayer.startWave();
+				enemyLayer.resetTime();
+			}
+			
+		});
 	}
 	
 	/** Function called every frame update, main game logic loop */
@@ -475,6 +491,7 @@ class TowerGrid extends Sprite{
 		
 		enemyLayer.applyVelocity(modifier);
 		enemyLayer.timeUpdate(time);
+		isPlaying = enemyLayer.getWaveStatus();
 		lives = enemyLayer.getLives();
 		
 		for(projectile in a_Projectile){
