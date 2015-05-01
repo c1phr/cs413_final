@@ -18,18 +18,8 @@ import com.defense.haxe.tower.TowerGrid;
 class BuildMenu extends Sprite {
 
 	//images
-	private var overlay:Image;
-	private var redtower:Button;
-	private var bluetower:Button;
-	private var greentower:Button;
-	private var purpletower:Button;
-	private var wall:Button;
-	private var sell:Button;
 	private var moneyField:TextField;
-
 	private var towerDescr:TextField;
-
-	private var background = new Quad(550, 400, 0x000000);
 
 	private var selectedTower:String = "";
 
@@ -41,28 +31,26 @@ class BuildMenu extends Sprite {
 	public var purpleCost:Int = 10;
 	public var wallCost:Int = 5;
 
-	private var rTexture:Texture = Root.assets.getTexture("redtower");
-	private var bTexture:Texture = Root.assets.getTexture("bluetower");
-	private var gTexture:Texture = Root.assets.getTexture("greentower");
-	private var pTexture:Texture = Root.assets.getTexture("purpletower");
-	private var wTexture:Texture = Root.assets.getTexture("wall_button");
-
+	private var towerGrid:TowerGrid;
 	public var placing = false;
 
 
-	public function new(){
+	public function new(towerGrid:TowerGrid){
 		super();
-		redtower = new Button(rTexture);
-		greentower = new Button(gTexture);
-		bluetower = new Button(bTexture);
-		purpletower = new Button(pTexture);
-		wall = new Button(wTexture);
-		var a_Button = [wall, redtower, greentower, bluetower, purpletower];
+		this.towerGrid = towerGrid;
+		var redtower = 		new Button(Root.assets.getTexture("redtower"));
+		var greentower = 	new Button(Root.assets.getTexture("bluetower"));
+		var bluetower = 	new Button(Root.assets.getTexture("greentower"));
+		var purpletower = 	new Button(Root.assets.getTexture("purpletower"));
+		var wall = 			new Button(Root.assets.getTexture("wall_button"));
+		var cancel = 		new Button(Root.assets.getTexture("cancel"));
+				
+		var a_Button = [wall, redtower, greentower, bluetower, purpletower, cancel];
 		
 		for(i in 0...a_Button.length){
 			var button = a_Button[i];
-			button.x = -30;
-			button.y = 18 + 45*i;
+			button.x = -36;
+			button.y = 20 + 44*i;
 			button.pivotX = button.width/2;
 			button.pivotY = button.height/2;
 			button.visible = true;
@@ -70,6 +58,8 @@ class BuildMenu extends Sprite {
 			button.alphaWhenDisabled = .5;
 			addChild(button);	
 		}
+		
+		cancel.y += 20;
 
 		towerDescr = new TextField(300, 100, "","Arial", 16, 0xFFFFFF);
 		towerDescr.text = "";
@@ -87,6 +77,7 @@ class BuildMenu extends Sprite {
 		greentower.addEventListener(Event.TRIGGERED, function(){addTower("green");});
 		purpletower.addEventListener(Event.TRIGGERED, function(){addTower("purple");});
 		wall.addEventListener(Event.TRIGGERED, function(){addTower("wall");});
+		cancel.addEventListener(Event.TRIGGERED, towerGrid.stopPreviewingTower);
 	}
 
 	public function addTower(tower){
@@ -136,85 +127,4 @@ class BuildMenu extends Sprite {
 				return false;
 
 	}	
-
-	public function showMenu(towerX:Int, towerY:Int, money:Int, occupied:Bool, grid:TowerGrid){
-
-		overlay.visible = true;
-		
-		redtower.x = towerX;
-		redtower.y = towerY + 50;
-		redtower.visible = true;
-		//if enough money and can build activate button
-		if(money > 10 && occupied == true){
-
-			redtower.enabled = true;
-
-		}
-		//add tower when clicked
-		/* redtower.addEventListener(Event.TRIGGERED, function(){
-			grid.towerTouch(towerX,towerY);
-			hideMenu();
-		}); */
-		
-		bluetower.x = towerX + 50;
-		bluetower.y = towerY;
-		bluetower.visible = true;
-		//if enough money and can build activate button
-		if(money > 20 && occupied == true){
-
-			bluetower.enabled = true;
-
-		}
-		//add tower when clicked
-		/* bluetower.addEventListener(Event.TRIGGERED, function(){
-			grid.towerTouch(towerX,towerY);
-			hideMenu();
-		}); */
-
-		greentower.x = towerX;
-		greentower.y = towerY - 50;
-		greentower.visible = true;
-		//if enough money and can build activate button
-		if(money > 30 && occupied == true){
-
-			greentower.enabled = true;
-
-		}
-		//add tower when clicked
-		/* greentower.addEventListener(Event.TRIGGERED, function(){
-			grid.towerTouch(towerX,towerY);
-			hideMenu();
-		}); */
-
-		purpletower.x = towerX - 50;
-		purpletower.y = towerY;
-		purpletower.visible = true;
-		//if enough money and can build activate button
-		if(money > 10 && occupied == true){
-
-			purpletower.enabled = true;
-
-		}
-		//add tower when clicked
-		/* purpletower.addEventListener(Event.TRIGGERED, function(){
-			grid.towerTouch(towerX,towerY);
-			hideMenu();
-		}); */
-
-	}
-
-	public function hideMenu(){
-
-		overlay.visible = false;
-
-		redtower.visible = false;
-
-		bluetower.visible = false;
-
-		greentower.visible = false;
-
-		purpletower.visible = false;
-
-	}
-
 }

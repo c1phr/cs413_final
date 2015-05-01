@@ -69,8 +69,6 @@ class GameDriver extends Sprite {
 		addChild(towerGrid);
 		towerGrid.initializeMenu();
 
-
-
 		lifeField = new TextField(300, 100, "","font", 30, 0xFFFFFF);
 		lifeField.text = "Lives: " + lives;
 		lifeField.y = -25;

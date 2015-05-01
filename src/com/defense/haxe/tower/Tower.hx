@@ -52,7 +52,6 @@ class Tower extends Sprite{
 		
 		baseImage.pivotX = baseImage.pivotY = size / 2; // TIL pivots are about the texture's size, not the image's
 		baseImage.x = baseImage.y = size / 2;
-		
 	}
 	
 	public function getGridX():Int		{ return gridX; }

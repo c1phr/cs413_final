@@ -44,10 +44,7 @@ class TowerGrid extends Sprite{
 	private var green_tower:Texture = Root.assets.getTexture("greentower");
 	private var purple_tower:Texture = Root.assets.getTexture("purpletower");
 	private var wall:Texture = Root.assets.getTexture("wall_button");
-	//private var :Texture = Root.assets.getTexture("money");
 
-
-	// public var sideMenu:Texture = Root.assets.getTexture("thumb");
 
 	/* Keep track of tile sizing */
 	private var tileSize:Int;			// How big the tiles will be (excluding border)
@@ -73,7 +70,7 @@ class TowerGrid extends Sprite{
 	public var enemyLayer:EnemyGenerator = new EnemyGenerator();
 	public var projectileLayer:Sprite = new Sprite();
 
-	public var sideMenu:BuildMenu = new BuildMenu();
+	public var sideMenu:BuildMenu;
 
 	// Keep track of game state
 	private var playState:Bool;
@@ -83,6 +80,8 @@ class TowerGrid extends Sprite{
 
 	public function new(tileSize:Int, tileBorder:Int, numWidth:Int, numHeight:Int){
 		super();
+		
+		sideMenu = new BuildMenu(this);
 		
 		this.tileSize = tileSize;
 		this.tileBorder = tileBorder;
